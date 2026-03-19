@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -27,7 +29,7 @@ body {
 header {
   background: var(--surface2);
   padding: 1rem 2rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 header h1 {
@@ -73,13 +75,13 @@ main.layout {
   border-right: 14px solid transparent;
   border-top: 30px solid var(--accent);
   z-index: 10;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
 }
 
 #wheel {
   display: block;
   border-radius: 50%;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
 .spin-button {
@@ -92,7 +94,10 @@ main.layout {
   border: none;
   border-radius: 2rem;
   cursor: pointer;
-  transition: transform 0.1s, box-shadow 0.1s, opacity 0.2s;
+  transition:
+    transform 0.1s,
+    box-shadow 0.1s,
+    opacity 0.2s;
   box-shadow: 0 4px 16px rgba(233, 69, 96, 0.4);
 }
 
@@ -122,7 +127,7 @@ main.layout {
   background: var(--surface);
   border-radius: var(--radius);
   padding: 1.25rem;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
 }
 
 .partners-section h2,
@@ -153,7 +158,9 @@ main.layout {
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
 .tab-btn:hover:not(.active) {
@@ -261,7 +268,7 @@ dialog {
   border: none;
   border-radius: var(--radius);
   padding: 0;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
   max-width: 360px;
   width: 90%;
 }
@@ -322,11 +329,14 @@ dialog::backdrop {
   border-radius: 10px;
   cursor: pointer;
   text-align: left;
-  transition: border-color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
   width: 100%;
 }
 
-.slot-btn:hover, .slot-btn:focus {
+.slot-btn:hover,
+.slot-btn:focus {
   border-color: var(--accent);
   background: #1a2a50;
   outline: none;
@@ -367,7 +377,9 @@ dialog::backdrop {
   border-radius: 8px;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
 }
 
 .clear-button:hover {

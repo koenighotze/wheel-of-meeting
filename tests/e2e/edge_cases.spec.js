@@ -40,7 +40,9 @@ test('idle spin resumes after closing dialog with Escape', async ({ page }) => {
 // Verified by confirming the name exceeds the segment's max label width,
 // meaning the rendering code will truncate it (canvas logic is deterministic).
 // ---------------------------------------------------------------------------
-test('long name exceeds segment width so is truncated on the canvas', async ({ page }) => {
+test('long name exceeds segment width so is truncated on the canvas', async ({
+  page,
+}) => {
   const longName = 'A Remarkably Long Partner Name That Will Not Fit';
   await stubPartners(page, { partners: [longName] });
   await page.goto('/');
@@ -60,7 +62,9 @@ test('long name exceeds segment width so is truncated on the canvas', async ({ p
 // ---------------------------------------------------------------------------
 // Scenario: Full name is shown in the partner list regardless of length
 // ---------------------------------------------------------------------------
-test('full name is shown in the partner list regardless of length', async ({ page }) => {
+test('full name is shown in the partner list regardless of length', async ({
+  page,
+}) => {
   const longName = 'A Remarkably Long Partner Name That Will Not Fit';
   await stubPartners(page, { partners: [longName] });
   await page.goto('/');
@@ -87,8 +91,10 @@ test('rapid tab switching keeps the wheel responsive', async ({ page }) => {
 // Scenario: Unreachable JSON file results in a disabled Spin button
 // ---------------------------------------------------------------------------
 test('unreachable JSON results in a disabled Spin button', async ({ page }) => {
-  await page.route('**/data/partners.json', r => r.fulfill({ status: 500 }));
-  await page.route('**/data/lead-developers.json', r => r.fulfill({ status: 500 }));
+  await page.route('**/data/partners.json', (r) => r.fulfill({ status: 500 }));
+  await page.route('**/data/lead-developers.json', (r) =>
+    r.fulfill({ status: 500 })
+  );
   await page.goto('/');
   await expect(page.locator('#spin-btn')).toBeDisabled();
 });
@@ -96,9 +102,13 @@ test('unreachable JSON results in a disabled Spin button', async ({ page }) => {
 // ---------------------------------------------------------------------------
 // Scenario: Unreachable JSON file shows a placeholder on the wheel
 // ---------------------------------------------------------------------------
-test('unreachable JSON shows a placeholder in the partner list', async ({ page }) => {
-  await page.route('**/data/partners.json', r => r.fulfill({ status: 500 }));
-  await page.route('**/data/lead-developers.json', r => r.fulfill({ status: 500 }));
+test('unreachable JSON shows a placeholder in the partner list', async ({
+  page,
+}) => {
+  await page.route('**/data/partners.json', (r) => r.fulfill({ status: 500 }));
+  await page.route('**/data/lead-developers.json', (r) =>
+    r.fulfill({ status: 500 })
+  );
   await page.goto('/');
   await expect(page.locator('#partner-list .empty-state')).toBeVisible();
 });

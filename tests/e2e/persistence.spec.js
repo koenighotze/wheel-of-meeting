@@ -17,13 +17,17 @@ test('meeting history is restored after page refresh', async ({ page }) => {
   await page.locator('#dialog-close').click();
   // Reload and verify Alice is still in the history list
   await page.reload();
-  await expect(page.locator('#history-list li').filter({ hasText: 'Alice' })).toBeVisible();
+  await expect(
+    page.locator('#history-list li').filter({ hasText: 'Alice' })
+  ).toBeVisible();
 });
 
 // ---------------------------------------------------------------------------
 // Scenario: Met segment graying is restored after refresh
 // ---------------------------------------------------------------------------
-test('met segment graying (history data) is restored after page refresh', async ({ page }) => {
+test('met segment graying (history data) is restored after page refresh', async ({
+  page,
+}) => {
   await stubPartners(page, { partners: ['Alice'] });
   await page.goto('/');
   await page.locator('#spin-btn').click();
@@ -32,7 +36,7 @@ test('met segment graying (history data) is restored after page refresh', async 
   await page.reload();
   await page.waitForFunction(() => !!window.__wheel);
   const history = await page.evaluate(() => window.__wheel.getHistory());
-  expect(history.some(h => h.id === 'Alice')).toBe(true);
+  expect(history.some((h) => h.id === 'Alice')).toBe(true);
 });
 
 // ---------------------------------------------------------------------------
@@ -49,7 +53,7 @@ test('active dataset tab is restored after page refresh', async ({ page }) => {
       version: 3,
       activeDataset: 'lead-developers',
       datasets: {
-        'partners': { history: [] },
+        partners: { history: [] },
         'lead-developers': { history: [] },
       },
     };
@@ -64,14 +68,16 @@ test('active dataset tab is restored after page refresh', async ({ page }) => {
 // ---------------------------------------------------------------------------
 // Scenario: Stale history entry is removed when a name is deleted from JSON
 // ---------------------------------------------------------------------------
-test('stale history entry is pruned when name is removed from JSON', async ({ page }) => {
+test('stale history entry is pruned when name is removed from JSON', async ({
+  page,
+}) => {
   // Seed Alice in history via localStorage before load
   await page.addInitScript(() => {
     const state = {
       version: 3,
       activeDataset: 'partners',
       datasets: {
-        'partners': { history: [{ id: 'Alice', ts: Date.now() }] },
+        partners: { history: [{ id: 'Alice', ts: Date.now() }] },
         'lead-developers': { history: [] },
       },
     };

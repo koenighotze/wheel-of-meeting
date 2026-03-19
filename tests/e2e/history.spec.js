@@ -1,11 +1,17 @@
 import { test, expect } from '@playwright/test';
-import { stubPartners, seedHistory, seedFullState, waitForDialog } from '../support/helpers.js';
+import {
+  stubPartners,
+  seedHistory,
+  waitForDialog,
+} from '../support/helpers.js';
 
 // ---------------------------------------------------------------------------
 // Scenario: Winner appears at the top of the history list after a spin
 // Setup: Alice is eligible (Bob was the only previously met partner)
 // ---------------------------------------------------------------------------
-test('winner appears at the top of the history list after a spin', async ({ page }) => {
+test('winner appears at the top of the history list after a spin', async ({
+  page,
+}) => {
   await stubPartners(page, { partners: ['Alice', 'Bob'] });
   await seedHistory(page, ['Bob']); // Bob met before; Alice is eligible and will be selected
   await page.goto('/');
@@ -60,14 +66,16 @@ test('recent entry shows "just now" timestamp', async ({ page }) => {
       version: 3,
       activeDataset: 'partners',
       datasets: {
-        'partners': { history: [{ id: 'Alice', ts: Date.now() }] },
+        partners: { history: [{ id: 'Alice', ts: Date.now() }] },
         'lead-developers': { history: [] },
       },
     };
     localStorage.setItem('wheel-of-meeting', JSON.stringify(state));
   });
   await page.goto('/');
-  const aliceEntry = page.locator('#history-list li').filter({ hasText: 'Alice' });
+  const aliceEntry = page
+    .locator('#history-list li')
+    .filter({ hasText: 'Alice' });
   await expect(aliceEntry.locator('.history-time')).toHaveText('just now');
 });
 
@@ -82,14 +90,16 @@ test('entry from 90 minutes ago shows "1h ago"', async ({ page }) => {
       version: 3,
       activeDataset: 'partners',
       datasets: {
-        'partners': { history: [{ id: 'Alice', ts }] },
+        partners: { history: [{ id: 'Alice', ts }] },
         'lead-developers': { history: [] },
       },
     };
     localStorage.setItem('wheel-of-meeting', JSON.stringify(state));
   }, ts);
   await page.goto('/');
-  const aliceEntry = page.locator('#history-list li').filter({ hasText: 'Alice' });
+  const aliceEntry = page
+    .locator('#history-list li')
+    .filter({ hasText: 'Alice' });
   await expect(aliceEntry.locator('.history-time')).toHaveText('1h ago');
 });
 

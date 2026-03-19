@@ -4,9 +4,7 @@
 
 function segmentColor(index, total, dimmed = false) {
   const hue = (index * (360 / total)) % 360;
-  return dimmed
-    ? `hsl(${hue}, 15%, 40%)`
-    : `hsl(${hue}, 65%, 55%)`;
+  return dimmed ? `hsl(${hue}, 15%, 40%)` : `hsl(${hue}, 65%, 55%)`;
 }
 
 function easeOutQuart(t) {
@@ -53,8 +51,9 @@ function generateTimeSlots(count = 3) {
   const validStarts = [];
   for (let m = 11 * 60; m <= maxStart; m += 30) validStarts.push(m);
 
-  return picked.map(day => {
-    const startMins = validStarts[Math.floor(Math.random() * validStarts.length)];
+  return picked.map((day) => {
+    const startMins =
+      validStarts[Math.floor(Math.random() * validStarts.length)];
     const start = new Date(day);
     start.setHours(Math.floor(startMins / 60), startMins % 60, 0, 0);
     const end = new Date(start);
@@ -63,11 +62,15 @@ function generateTimeSlots(count = 3) {
   });
 }
 
-function pad2(n) { return String(n).padStart(2, '0'); }
+function pad2(n) {
+  return String(n).padStart(2, '0');
+}
 
 function icsDate(d) {
-  return `${d.getFullYear()}${pad2(d.getMonth() + 1)}${pad2(d.getDate())}` +
-         `T${pad2(d.getHours())}${pad2(d.getMinutes())}00`;
+  return (
+    `${d.getFullYear()}${pad2(d.getMonth() + 1)}${pad2(d.getDate())}` +
+    `T${pad2(d.getHours())}${pad2(d.getMinutes())}00`
+  );
 }
 
 function generateICS(partnerName, start, end) {
@@ -102,19 +105,34 @@ function downloadICS(partnerName, start, end) {
 }
 
 function formatSlotDay(d) {
-  return d.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' });
+  return d.toLocaleDateString(undefined, {
+    weekday: 'long',
+    month: 'short',
+    day: 'numeric',
+  });
 }
 
 function formatSlotTime(start, end) {
-  const fmt = t => t.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+  const fmt = (t) =>
+    t.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
   return `${fmt(start)} – ${fmt(end)}`;
 }
 
 // ─── Dataset config ──────────────────────────────────────────────────────────
 
 const DATASETS = [
-  { key: 'partners',        label: 'Partners',        file: 'data/partners.json',        emptyText: 'No partners loaded.' },
-  { key: 'lead-developers', label: 'Lead Developers', file: 'data/lead-developers.json', emptyText: 'No leads loaded.' },
+  {
+    key: 'partners',
+    label: 'Partners',
+    file: 'data/partners.json',
+    emptyText: 'No partners loaded.',
+  },
+  {
+    key: 'lead-developers',
+    label: 'Lead Developers',
+    file: 'data/lead-developers.json',
+    emptyText: 'No leads loaded.',
+  },
 ];
 
 // ─── StateManager ─────────────────────────────────────────────────────────────
@@ -129,7 +147,9 @@ const StateManager = (() => {
 
   function defaultRoot() {
     const datasets = {};
-    DATASETS.forEach(d => { datasets[d.key] = emptyDataset(); });
+    DATASETS.forEach((d) => {
+      datasets[d.key] = emptyDataset();
+    });
     return { version: 3, activeDataset: DATASETS[0].key, datasets };
   }
 
@@ -145,7 +165,7 @@ const StateManager = (() => {
       }
 
       // Ensure all dataset keys exist
-      DATASETS.forEach(d => {
+      DATASETS.forEach((d) => {
         if (!parsed.datasets[d.key]) parsed.datasets[d.key] = emptyDataset();
       });
       return parsed;
@@ -178,7 +198,7 @@ const StateManager = (() => {
     // Remove history entries for IDs no longer present in the JSON
     const set = new Set(validIds);
     const ds = activeData(root);
-    ds.history = ds.history.filter(h => set.has(h.id));
+    ds.history = ds.history.filter((h) => set.has(h.id));
   }
 
   function clearActive(root) {
@@ -186,7 +206,15 @@ const StateManager = (() => {
     save(root);
   }
 
-  return { load, save, activeData, switchDataset, recordMeeting, pruneHistory, clearActive };
+  return {
+    load,
+    save,
+    activeData,
+    switchDataset,
+    recordMeeting,
+    pruneHistory,
+    clearActive,
+  };
 })();
 
 // ─── JSON loader ─────────────────────────────────────────────────────────────
@@ -196,18 +224,17 @@ async function fetchPartners(file) {
   if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
   const names = await resp.json();
   // Use the name itself as a stable ID so history survives reloads
-  return names.map(name => ({ id: String(name), name: String(name) }));
+  return names.map((name) => ({ id: String(name), name: String(name) }));
 }
 
 // ─── Selection Algorithm ─────────────────────────────────────────────────────
 
 function selectWinner(partners, history) {
-  const recentIds = history.map(h => h.id);
-  let eligible = partners.filter(p => !recentIds.includes(p.id));
+  const recentIds = history.map((h) => h.id);
+  let eligible = partners.filter((p) => !recentIds.includes(p.id));
   if (eligible.length === 0)
-    eligible = partners.filter(p => p.id !== recentIds[0]);
-  if (eligible.length === 0)
-    eligible = partners;
+    eligible = partners.filter((p) => p.id !== recentIds[0]);
+  if (eligible.length === 0) eligible = partners;
   return eligible[Math.floor(Math.random() * eligible.length)];
 }
 
@@ -224,7 +251,12 @@ const WheelRenderer = (() => {
     ctx = canvas.getContext('2d');
   }
 
-  function drawWheel(partners, historyIds, angle, emptyMsg = 'Add partners to spin!') {
+  function drawWheel(
+    partners,
+    historyIds,
+    angle,
+    emptyMsg = 'Add partners to spin!'
+  ) {
     const size = canvas.width;
     const cx = size / 2;
     const cy = size / 2;
@@ -279,10 +311,14 @@ const WheelRenderer = (() => {
       ctx.shadowBlur = 3;
 
       let displayLabel = label;
-      while (ctx.measureText(displayLabel).width > maxWidth && displayLabel.length > 3) {
+      while (
+        ctx.measureText(displayLabel).width > maxWidth &&
+        displayLabel.length > 3
+      ) {
         displayLabel = displayLabel.slice(0, -1);
       }
-      if (displayLabel !== label) displayLabel = displayLabel.slice(0, -1) + '…';
+      if (displayLabel !== label)
+        displayLabel = displayLabel.slice(0, -1) + '…';
 
       ctx.fillText(displayLabel, r - 10, 0);
       ctx.restore();
@@ -329,7 +365,7 @@ const WheelRenderer = (() => {
 
     const n = partners.length;
     const arc = (Math.PI * 2) / n;
-    const winnerIndex = partners.findIndex(p => p.id === winnerId);
+    const winnerIndex = partners.findIndex((p) => p.id === winnerId);
 
     const targetBase = -winnerIndex * arc - arc / 2;
     const extraSpins = (5 + Math.random() * 2) * Math.PI * 2;
@@ -377,7 +413,7 @@ function renderPartnerList(partners, history, emptyText) {
     return;
   }
 
-  const historyIds = new Set(history.map(h => h.id));
+  const historyIds = new Set(history.map((h) => h.id));
   const n = partners.length;
 
   partners.forEach((partner, i) => {
@@ -416,9 +452,9 @@ function renderHistory(partners, history) {
     return;
   }
 
-  const partnerMap = new Map(partners.map(p => [p.id, p.name]));
+  const partnerMap = new Map(partners.map((p) => [p.id, p.name]));
 
-  history.forEach(entry => {
+  history.forEach((entry) => {
     const li = document.createElement('li');
 
     const nameSpan = document.createElement('span');
@@ -438,41 +474,46 @@ function renderHistory(partners, history) {
 // ─── Bootstrap ───────────────────────────────────────────────────────────────
 
 async function boot() {
-  const canvas       = document.getElementById('wheel');
-  const spinBtn      = document.getElementById('spin-btn');
-  const dialog       = document.getElementById('winner-dialog');
+  const canvas = document.getElementById('wheel');
+  const spinBtn = document.getElementById('spin-btn');
+  const dialog = document.getElementById('winner-dialog');
   const winnerNameEl = document.getElementById('winner-name');
-  const dialogClose  = document.getElementById('dialog-close');
-  const clearBtn     = document.getElementById('clear-btn');
-  const tabsEl       = document.getElementById('dataset-tabs');
+  const dialogClose = document.getElementById('dialog-close');
+  const clearBtn = document.getElementById('clear-btn');
+  const tabsEl = document.getElementById('dataset-tabs');
   const sectionHeading = document.getElementById('section-heading');
 
   WheelRenderer.init(canvas);
 
   // Load all JSON datasets up front
   const partnersByKey = {};
-  await Promise.all(DATASETS.map(async d => {
-    try {
-      partnersByKey[d.key] = await fetchPartners(d.file);
-    } catch (e) {
-      console.warn(`Could not load ${d.file}:`, e);
-      partnersByKey[d.key] = [];
-    }
-  }));
+  await Promise.all(
+    DATASETS.map(async (d) => {
+      try {
+        partnersByKey[d.key] = await fetchPartners(d.file);
+      } catch (e) {
+        console.warn(`Could not load ${d.file}:`, e);
+        partnersByKey[d.key] = [];
+      }
+    })
+  );
 
   let root = StateManager.load();
 
   // Prune stale history for every dataset after loading fresh JSON
-  DATASETS.forEach(d => {
+  DATASETS.forEach((d) => {
     const origActive = root.activeDataset;
     root.activeDataset = d.key;
-    StateManager.pruneHistory(root, partnersByKey[d.key].map(p => p.id));
+    StateManager.pruneHistory(
+      root,
+      partnersByKey[d.key].map((p) => p.id)
+    );
     root.activeDataset = origActive;
   });
   StateManager.save(root);
 
   function activeConfig() {
-    return DATASETS.find(d => d.key === root.activeDataset);
+    return DATASETS.find((d) => d.key === root.activeDataset);
   }
   function activePartners() {
     return partnersByKey[root.activeDataset];
@@ -490,7 +531,11 @@ async function boot() {
     const partners = activePartners();
     const { history } = ds();
     const cfg = activeConfig();
-    WheelRenderer.render(partners, history.map(h => h.id), cfg.emptyText);
+    WheelRenderer.render(
+      partners,
+      history.map((h) => h.id),
+      cfg.emptyText
+    );
     renderPartnerList(partners, history, cfg.emptyText);
     renderHistory(partners, history);
     spinBtn.disabled = partners.length < 1;
@@ -499,21 +544,24 @@ async function boot() {
   function maybeStartIdle() {
     const partners = activePartners();
     if (partners.length > 0) {
-      WheelRenderer.startIdleSpin(partners, ds().history.map(h => h.id));
+      WheelRenderer.startIdleSpin(
+        partners,
+        ds().history.map((h) => h.id)
+      );
     }
   }
 
   // Dataset tabs
-  tabsEl.addEventListener('click', e => {
+  tabsEl.addEventListener('click', (e) => {
     const btn = e.target.closest('.tab-btn');
     if (!btn) return;
     const key = btn.dataset.dataset;
     if (key === root.activeDataset) return;
 
     StateManager.switchDataset(root, key);
-    tabsEl.querySelectorAll('.tab-btn').forEach(b =>
-      b.classList.toggle('active', b.dataset.dataset === key)
-    );
+    tabsEl
+      .querySelectorAll('.tab-btn')
+      .forEach((b) => b.classList.toggle('active', b.dataset.dataset === key));
 
     WheelRenderer.stopIdleSpin();
     WheelRenderer.resetAngle();
@@ -568,15 +616,24 @@ async function boot() {
     spinBtn.disabled = true;
     WheelRenderer.stopIdleSpin();
 
-    WheelRenderer.spin(partners, history.map(h => h.id), winner.id, (winnerId) => {
-      StateManager.recordMeeting(root, winnerId);
-      const updated = ds();
-      renderPartnerList(activePartners(), updated.history, activeConfig().emptyText);
-      renderHistory(activePartners(), updated.history);
-      spinBtn.disabled = false;
+    WheelRenderer.spin(
+      partners,
+      history.map((h) => h.id),
+      winner.id,
+      (winnerId) => {
+        StateManager.recordMeeting(root, winnerId);
+        const updated = ds();
+        renderPartnerList(
+          activePartners(),
+          updated.history,
+          activeConfig().emptyText
+        );
+        renderHistory(activePartners(), updated.history);
+        spinBtn.disabled = false;
 
-      openWinnerDialog(winner.name);
-    });
+        openWinnerDialog(winner.name);
+      }
+    );
   });
 
   // Dialog close (Skip)
@@ -589,7 +646,10 @@ async function boot() {
   // Clear history for active dataset
   clearBtn.addEventListener('click', () => {
     const label = activeConfig().label;
-    if (!confirm(`Clear meeting history for "${label}"? This cannot be undone.`)) return;
+    if (
+      !confirm(`Clear meeting history for "${label}"? This cannot be undone.`)
+    )
+      return;
     WheelRenderer.stopIdleSpin();
     StateManager.clearActive(root);
     WheelRenderer.resetAngle();
@@ -598,9 +658,11 @@ async function boot() {
   });
 
   // Sync tab UI to persisted active dataset on load
-  tabsEl.querySelectorAll('.tab-btn').forEach(b =>
-    b.classList.toggle('active', b.dataset.dataset === root.activeDataset)
-  );
+  tabsEl
+    .querySelectorAll('.tab-btn')
+    .forEach((b) =>
+      b.classList.toggle('active', b.dataset.dataset === root.activeDataset)
+    );
   updateScopeText();
 
   renderAll();
@@ -610,9 +672,13 @@ async function boot() {
   window.__wheel = {
     getHistory: () => StateManager.activeData(root).history,
     getPartners: () => activePartners(),
-    getLastSlots: () => lastGeneratedSlots
-      ? lastGeneratedSlots.map(s => ({ start: s.start.toISOString(), end: s.end.toISOString() }))
-      : null,
+    getLastSlots: () =>
+      lastGeneratedSlots
+        ? lastGeneratedSlots.map((s) => ({
+            start: s.start.toISOString(),
+            end: s.end.toISOString(),
+          }))
+        : null,
   };
 }
 

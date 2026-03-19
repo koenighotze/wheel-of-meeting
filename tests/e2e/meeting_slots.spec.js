@@ -5,9 +5,11 @@ import { stubPartners, waitForDialog } from '../support/helpers.js';
 // Convert an ISO date string to the ICS date format used by app.js (local time)
 function isoToIcsDate(isoString) {
   const d = new Date(isoString);
-  const pad = n => String(n).padStart(2, '0');
-  return `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}` +
-         `T${pad(d.getHours())}${pad(d.getMinutes())}00`;
+  const pad = (n) => String(n).padStart(2, '0');
+  return (
+    `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}` +
+    `T${pad(d.getHours())}${pad(d.getMinutes())}00`
+  );
 }
 
 // Background: stub Alice, spin, wait for dialog
@@ -63,7 +65,9 @@ test('none of the proposed slots fall on a weekend', async ({ page }) => {
 // ---------------------------------------------------------------------------
 // Scenario: All proposed slots fall within the next 14 days
 // ---------------------------------------------------------------------------
-test('each proposed slot is within the next 14 calendar days', async ({ page }) => {
+test('each proposed slot is within the next 14 calendar days', async ({
+  page,
+}) => {
   const slots = await page.evaluate(() => window.__wheel.getLastSlots());
   const now = Date.now();
   const msIn14Days = 14 * 24 * 60 * 60 * 1000;
@@ -79,7 +83,7 @@ test('each proposed slot is within the next 14 calendar days', async ({ page }) 
 // ---------------------------------------------------------------------------
 test('no two proposed slots share the same calendar date', async ({ page }) => {
   const slots = await page.evaluate(() => window.__wheel.getLastSlots());
-  const days = slots.map(s => {
+  const days = slots.map((s) => {
     const d = new Date(s.start);
     return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
   });
@@ -89,7 +93,9 @@ test('no two proposed slots share the same calendar date', async ({ page }) => {
 // ---------------------------------------------------------------------------
 // Scenario: Selecting a slot downloads an ICS file
 // ---------------------------------------------------------------------------
-test('clicking a slot downloads an ICS file named 1on1-Alice.ics', async ({ page }) => {
+test('clicking a slot downloads an ICS file named 1on1-Alice.ics', async ({
+  page,
+}) => {
   const [download] = await Promise.all([
     page.waitForEvent('download'),
     page.locator('.slot-btn').first().click(),
@@ -123,7 +129,9 @@ test('downloaded ICS contains the correct SUMMARY line', async ({ page }) => {
 // ---------------------------------------------------------------------------
 // Scenario: Downloaded ICS contains the correct start time
 // ---------------------------------------------------------------------------
-test('downloaded ICS DTSTART matches the displayed start time of the first slot', async ({ page }) => {
+test('downloaded ICS DTSTART matches the displayed start time of the first slot', async ({
+  page,
+}) => {
   const slots = await page.evaluate(() => window.__wheel.getLastSlots());
   const [download] = await Promise.all([
     page.waitForEvent('download'),
@@ -137,7 +145,9 @@ test('downloaded ICS DTSTART matches the displayed start time of the first slot'
 // ---------------------------------------------------------------------------
 // Scenario: Downloaded ICS contains the correct end time
 // ---------------------------------------------------------------------------
-test('downloaded ICS DTEND is 30 minutes after the displayed start time', async ({ page }) => {
+test('downloaded ICS DTEND is 30 minutes after the displayed start time', async ({
+  page,
+}) => {
   const slots = await page.evaluate(() => window.__wheel.getLastSlots());
   const [download] = await Promise.all([
     page.waitForEvent('download'),
@@ -161,7 +171,9 @@ test('clicking Skip closes the dialog', async ({ page }) => {
 // ---------------------------------------------------------------------------
 test('clicking Skip does not download a file', async ({ page }) => {
   let downloaded = false;
-  page.on('download', () => { downloaded = true; });
+  page.on('download', () => {
+    downloaded = true;
+  });
   await page.locator('#dialog-close').click();
   await expect(page.locator('#winner-dialog')).not.toHaveAttribute('open');
   expect(downloaded).toBe(false);
@@ -172,7 +184,9 @@ test('clicking Skip does not download a file', async ({ page }) => {
 // recordMeeting() is called before the dialog opens, so history already has
 // Alice when the dialog is visible.
 // ---------------------------------------------------------------------------
-test('clicking Skip still records the meeting in the history list', async ({ page }) => {
+test('clicking Skip still records the meeting in the history list', async ({
+  page,
+}) => {
   await page.locator('#dialog-close').click();
   await expect(
     page.locator('#history-list li').filter({ hasText: 'Alice' })

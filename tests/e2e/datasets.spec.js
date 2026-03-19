@@ -4,7 +4,9 @@ import { stubPartners } from '../support/helpers.js';
 // ---------------------------------------------------------------------------
 // Scenario: Switching tabs updates the section heading
 // ---------------------------------------------------------------------------
-test('switching to Lead Developers tab updates section heading', async ({ page }) => {
+test('switching to Lead Developers tab updates section heading', async ({
+  page,
+}) => {
   await stubPartners(page, { partners: ['Alice'], leads: ['Lead1'] });
   await page.goto('/');
   await page.locator('.tab-btn[data-dataset="lead-developers"]').click();
@@ -14,7 +16,9 @@ test('switching to Lead Developers tab updates section heading', async ({ page }
 // ---------------------------------------------------------------------------
 // Scenario: Switching tabs updates the wheel content
 // ---------------------------------------------------------------------------
-test('switching to Lead Developers tab shows lead developer names in list', async ({ page }) => {
+test('switching to Lead Developers tab shows lead developer names in list', async ({
+  page,
+}) => {
   await stubPartners(page, { partners: ['Alice'], leads: ['Lead1'] });
   await page.goto('/');
   await page.locator('.tab-btn[data-dataset="lead-developers"]').click();

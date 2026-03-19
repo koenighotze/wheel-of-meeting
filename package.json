@@ -3,10 +3,20 @@
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
-    "@playwright/test": "^1.44.0"
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.44.0",
+    "eslint": "^10.0.3",
+    "globals": "^17.4.0",
+    "prettier": "^3.8.1"
   },
   "scripts": {
     "test": "playwright test",
-    "test:ui": "playwright test --ui"
+    "test:ui": "playwright test --ui",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
+    "audit": "npm audit --audit-level=moderate",
+    "check": "npm run lint && npm run format:check && npm run audit"
   }
 }

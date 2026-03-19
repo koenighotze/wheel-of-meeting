@@ -8,10 +8,12 @@
  * @param {{ partners?: string[], leads?: string[] }} data
  */
 export async function stubPartners(page, { partners = [], leads = [] } = {}) {
-  await page.route('**/data/partners.json', r =>
-    r.fulfill({ json: partners }));
-  await page.route('**/data/lead-developers.json', r =>
-    r.fulfill({ json: leads }));
+  await page.route('**/data/partners.json', (r) =>
+    r.fulfill({ json: partners })
+  );
+  await page.route('**/data/lead-developers.json', (r) =>
+    r.fulfill({ json: leads })
+  );
 }
 
 /**
@@ -21,18 +23,28 @@ export async function stubPartners(page, { partners = [], leads = [] } = {}) {
  * @param {import('@playwright/test').Page} page
  * @param {{ partnerIds?: string[], leadIds?: string[], activeDataset?: string }} opts
  */
-export async function seedFullState(page, { partnerIds = [], leadIds = [], activeDataset = 'partners' } = {}) {
-  await page.addInitScript(({ partnerIds, leadIds, activeDataset }) => {
-    const state = {
-      version: 3,
-      activeDataset,
-      datasets: {
-        'partners': { history: partnerIds.map(id => ({ id, ts: Date.now() })) },
-        'lead-developers': { history: leadIds.map(id => ({ id, ts: Date.now() })) },
-      },
-    };
-    localStorage.setItem('wheel-of-meeting', JSON.stringify(state));
-  }, { partnerIds, leadIds, activeDataset });
+export async function seedFullState(
+  page,
+  { partnerIds = [], leadIds = [], activeDataset = 'partners' } = {}
+) {
+  await page.addInitScript(
+    ({ partnerIds, leadIds, activeDataset }) => {
+      const state = {
+        version: 3,
+        activeDataset,
+        datasets: {
+          partners: {
+            history: partnerIds.map((id) => ({ id, ts: Date.now() })),
+          },
+          'lead-developers': {
+            history: leadIds.map((id) => ({ id, ts: Date.now() })),
+          },
+        },
+      };
+      localStorage.setItem('wheel-of-meeting', JSON.stringify(state));
+    },
+    { partnerIds, leadIds, activeDataset }
+  );
 }
 
 /**
