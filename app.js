@@ -117,6 +117,15 @@ function formatSlotTime(start, end) {
     t.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
   return `${fmt(start)} – ${fmt(end)}`;
 }
+// ─── Email helpers ────────────────────────────────────────────────────────────
+
+function emailToDisplayName(email) {
+  const local = email.split('@')[0];
+  return local
+    .split(/[._-]/)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
 
 // ─── Dataset config ──────────────────────────────────────────────────────────
 
@@ -224,7 +233,10 @@ async function fetchPartners(file) {
   if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
   const names = await resp.json();
   // Use the name itself as a stable ID so history survives reloads
-  return names.map((name) => ({ id: String(name), name: String(name) }));
+  return names.map((email) => ({
+    id: String(email),
+    name: emailToDisplayName(String(email)),
+  }));
 }
 
 // ─── Selection Algorithm ─────────────────────────────────────────────────────
