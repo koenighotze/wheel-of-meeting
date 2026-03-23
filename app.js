@@ -118,6 +118,7 @@ function formatSlotTime(start, end) {
     t.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
   return `${fmt(start)} – ${fmt(end)}`;
 }
+
 // ─── Email helpers ───────────────────────────────────────────────────────────
 
 function emailToDisplayName(email) {
@@ -510,10 +511,12 @@ async function boot() {
 
   // Load all JSON datasets up front
   const partnersByKey = {};
+  const loadedOk = new Set();
   await Promise.all(
     DATASETS.map(async (d) => {
       try {
         partnersByKey[d.key] = await fetchPartners(d.file);
+        loadedOk.add(d.key);
       } catch (e) {
         console.warn(`Could not load ${d.file}:`, e);
         partnersByKey[d.key] = [];
@@ -523,8 +526,10 @@ async function boot() {
 
   let root = StateManager.load();
 
-  // Prune stale history for every dataset after loading fresh JSON
+  // Prune stale history only for datasets that loaded successfully.
+  // Skipping failed datasets prevents wiping history when the server is offline.
   DATASETS.forEach((d) => {
+    if (!loadedOk.has(d.key)) return;
     const origActive = root.activeDataset;
     root.activeDataset = d.key;
     StateManager.pruneHistory(
