@@ -73,19 +73,20 @@ function icsDate(d) {
   );
 }
 
-function generateICS(partnerName, start, end) {
+function generateICS(displayName, email, start, end) {
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
     'PRODID:-//Wheel of Meeting//EN',
     'CALSCALE:GREGORIAN',
-    'METHOD:PUBLISH',
+    'METHOD:REQUEST',
     'BEGIN:VEVENT',
     `UID:${Date.now()}@wheel-of-meeting`,
     `DTSTAMP:${icsDate(new Date())}`,
     `DTSTART:${icsDate(start)}`,
     `DTEND:${icsDate(end)}`,
-    `SUMMARY:1:1 with ${partnerName}`,
+    `SUMMARY:1:1 with ${displayName}`,
+    `ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION:mailto:${email}`,
     'DESCRIPTION:Scheduled via Wheel of Meeting',
     'END:VEVENT',
     'END:VCALENDAR',
@@ -93,13 +94,13 @@ function generateICS(partnerName, start, end) {
   return lines.join('\r\n');
 }
 
-function downloadICS(partnerName, start, end) {
-  const content = generateICS(partnerName, start, end);
+function downloadICS(displayName, email, start, end) {
+  const content = generateICS(displayName, email, start, end);
   const blob = new Blob([content], { type: 'text/calendar;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `1on1-${partnerName.replace(/\s+/g, '-')}.ics`;
+  a.download = `1on1-${displayName.replace(/\s+/g, '-')}.ics`;
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -584,7 +585,7 @@ async function boot() {
 
   let lastGeneratedSlots = null;
 
-  function openWinnerDialog(winnerName) {
+  function openWinnerDialog(winnerName, winnerEmail) {
     winnerNameEl.textContent = winnerName;
 
     const slotsEl = document.getElementById('time-slots');
@@ -608,7 +609,7 @@ async function boot() {
       btn.appendChild(dayEl);
       btn.appendChild(timeEl);
       btn.addEventListener('click', () => {
-        downloadICS(winnerName, slot.start, slot.end);
+        downloadICS(winnerName, winnerEmail, slot.start, slot.end);
         dialog.close();
         maybeStartIdle();
       });
@@ -643,7 +644,7 @@ async function boot() {
         renderHistory(activePartners(), updated.history);
         spinBtn.disabled = false;
 
-        openWinnerDialog(winner.name);
+        openWinnerDialog(winner.name, winner.id);
       }
     );
   });
