@@ -30,8 +30,13 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+      - name: Seed stub data
+        run: |
+          mkdir -p data
+          cp tests/fixtures/partners.json data/partners.json
+          cp tests/fixtures/lead-developers.json data/lead-developers.json
       - run: npm test
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@v6
         if: failure()
         with:
           name: playwright-report

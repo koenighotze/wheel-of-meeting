@@ -6,7 +6,8 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:docs.cloud.google.com)",
       "WebFetch(domain:registry.terraform.io)",
-      "mcp__github__get_file_contents"
+      "mcp__github__get_file_contents",
+      "mcp__context7__query-docs"
     ]
   },
   "sandbox": {
