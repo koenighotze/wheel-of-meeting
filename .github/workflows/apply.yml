@@ -1,0 +1,69 @@
+name: Apply
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: tf
+  cancel-in-progress: true
+
+env:
+  TF_LOG: ${{ secrets.TF_LOG || 'INFO' }}
+  TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
+  TF_VAR_authorized_user_email: ${{ secrets.AUTHORIZED_USER_EMAIL }}
+  TF_IN_AUTOMATION: true
+  TF_INPUT: false
+
+permissions:
+  contents: read
+  id-token: write
+
+defaults:
+  run:
+    working-directory: infra
+
+jobs:
+  compliance-scan:
+    runs-on: ubuntu-24.04
+
+    defaults:
+      run:
+        working-directory: "."
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run Checkov
+        id: checkov
+        uses: bridgecrewio/checkov-action@v12.3080.0
+
+  apply:
+    runs-on: ubuntu-24.04
+
+    needs:
+      - compliance-scan
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Authenticating
+        uses: google-github-actions/auth@v3.0.0
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_NAME }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+      - name: Setting up GCP environment
+        uses: google-github-actions/setup-gcloud@v3.0.1
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+      - name: Init
+        run: terraform init -backend-config="bucket=${{ secrets.TF_STATE_BUCKET }}"
+      - name: Apply
+        run: terraform apply -auto-approve
+      - name: Show Terraform Output as Summary
+        run: |
+          {
+            echo "### Terraform Apply Output";
+            echo "\`\`\`";
+            terraform output -no-color;
+            echo "\`\`\`";
+          } > "${GITHUB_STEP_SUMMARY}"

@@ -1,0 +1,8 @@
+output:
+  - cli
+framework: "terraform"
+directory:
+  - "./infra"
+quiet: True
+download-external-modules: True
+evaluate-variables: True

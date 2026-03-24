@@ -1,5 +1,9 @@
 test-results
 node_modules
 .claude/settings.local.json
-scripts/
 data/
+
+infra/.terraform/
+infra/terraform.tfvars
+infra/terraform.tfstate
+infra/terraform.tfstate.backup
