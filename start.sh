@@ -2,7 +2,7 @@
 set -euo pipefail
 
 PORT=${1:-8080}
-URL="http://localhost:$PORT/src"
+URL="http://localhost:$PORT"
 
 cd "$(dirname "$0")"
 
