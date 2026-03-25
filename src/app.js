@@ -143,13 +143,13 @@ const DATASETS = [
   {
     key: 'partners',
     label: 'Partners',
-    file: 'data/partners.json',
+    file: '/data/partners.json',
     emptyText: 'No partners loaded.',
   },
   {
     key: 'lead-developers',
     label: 'Lead Developers',
-    file: 'data/lead-developers.json',
+    file: '/data/lead-developers.json',
     emptyText: 'No leads loaded.',
   },
 ];

@@ -8,7 +8,7 @@ export default [
 
   // Browser app — plain script, no ESM
   {
-    files: ['app.js'],
+    files: ['src/app.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'script',

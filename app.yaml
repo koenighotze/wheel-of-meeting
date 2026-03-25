@@ -6,13 +6,13 @@ handlers:
     upload: data/.*
 
   - url: /(app\.js|style\.css)
-    static_files: \1
-    upload: (app\.js|style\.css)
+    static_files: src/\1
+    upload: src/(app\.js|style\.css)
 
   - url: /
-    static_files: index.html
-    upload: index\.html
+    static_files: src/index.html
+    upload: src/index\.html
 
   - url: /.*
-    static_files: index.html
-    upload: index\.html
+    static_files: src/index.html
+    upload: src/index\.html
