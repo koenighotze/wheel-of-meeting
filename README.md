@@ -45,4 +45,7 @@ gcloud app logs tail --project=wheel-of-meeting-13bf3f03
 
 # Open the app in the browser
 gcloud app browse --project=wheel-of-meeting-13bf3f03
+
+# Print the app URL
+echo "https://$(gcloud app describe --project=wheel-of-meeting-13bf3f03 --format='value(defaultHostname)')"
 ```
