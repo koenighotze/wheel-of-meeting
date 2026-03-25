@@ -1,0 +1,18 @@
+runtime: python39
+
+handlers:
+  - url: /data/(.+)
+    static_files: data/\1
+    upload: data/.*
+
+  - url: /(app\.js|style\.css)
+    static_files: \1
+    upload: (app\.js|style\.css)
+
+  - url: /
+    static_files: index.html
+    upload: index\.html
+
+  - url: /.*
+    static_files: index.html
+    upload: index\.html
