@@ -36,7 +36,7 @@ jobs:
           cp tests/fixtures/partners.json data/partners.json
           cp tests/fixtures/lead-developers.json data/lead-developers.json
       - run: npm test
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: playwright-report

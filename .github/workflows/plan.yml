@@ -40,7 +40,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Run Checkov
         id: checkov
         uses: bridgecrewio/checkov-action@v12.3080.0
@@ -49,8 +49,8 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: terraform-linters/setup-tflint@v4
+      - uses: actions/checkout@v6
+      - uses: terraform-linters/setup-tflint@v6
         name: Setting up TFLint
         with:
           tflint_version: v0.56.0
@@ -64,7 +64,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Authenticating
         uses: google-github-actions/auth@v3.0.0
         with:
@@ -91,7 +91,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Authenticating
         uses: google-github-actions/auth@v3.0.0
         with:
