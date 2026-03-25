@@ -25,6 +25,19 @@ Deploys to Google App Engine. Requires the `data/` files to be present locally b
 ./deploy.sh             # validate data files and run gcloud app deploy
 ```
 
+### Emergency stop (break-glass)
+
+```bash
+./break-glass.sh    # blocks all inbound traffic and stops all serving versions
+```
+
+To restore after a break-glass:
+
+```bash
+gcloud app firewall-rules delete 1 --project=wheel-of-meeting-13bf3f03 --quiet
+./deploy.sh
+```
+
 ### Check deployment status
 
 ```bash
