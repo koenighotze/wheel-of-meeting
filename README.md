@@ -22,21 +22,29 @@ npm run check           # lint + format + audit
 Deploys to Google App Engine. Requires the `data/` files to be present locally before deploying.
 
 ```bash
-./deploy.sh             # validate data files and run gcloud app deploy
+./scripts/deploy.sh             # validate data files and run gcloud app deploy
 ```
 
 ### Emergency stop (break-glass)
 
 ```bash
-./break-glass.sh    # blocks all inbound traffic and stops all serving versions
+./scripts/break-glass.sh    # blocks all inbound traffic and stops all serving versions
 ```
 
 To restore after a break-glass:
 
 ```bash
 gcloud app firewall-rules delete 1 --project=wheel-of-meeting-13bf3f03 --quiet
-./deploy.sh
+./scripts/deploy.sh
 ```
+
+### Undeploy (remove all traces)
+
+```bash
+./scripts/undeploy.sh   # removes all versions, services, and custom firewall rules
+```
+
+> **Note:** The App Engine application shell cannot be deleted by GCP design. To fully remove everything, delete the GCP project: `gcloud projects delete wheel-of-meeting-13bf3f03`
 
 ### Check deployment status
 
