@@ -3,12 +3,12 @@ name: Plan
 on:
   push:
     paths:
-      - "infra/**"
-      - ".github/workflows/plan.yml"
-      - ".checkov.yaml"
-      - ".tflint.hcl"
-    branches: ["main"]
-    tags-ignore: ["**"]
+      - 'infra/**'
+      - '.github/workflows/plan.yml'
+      - '.checkov.yaml'
+      - '.tflint.hcl'
+    branches: ['main']
+    tags-ignore: ['**']
   workflow_dispatch:
 
 concurrency:
@@ -36,7 +36,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: "."
+        working-directory: '.'
 
     steps:
       - name: Checkout

@@ -12,7 +12,9 @@ test('history is preserved when partners JSON is unreachable', async ({
     leadIds: [],
   });
   await page.route('**/data/partners.json', (r) => r.abort());
-  await page.route('**/data/lead-developers.json', (r) => r.fulfill({ json: [] }));
+  await page.route('**/data/lead-developers.json', (r) =>
+    r.fulfill({ json: [] })
+  );
 
   await page.goto('/');
 

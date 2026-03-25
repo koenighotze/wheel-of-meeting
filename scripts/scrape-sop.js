@@ -8,10 +8,10 @@
  * the run — failed URLs are printed at the end for manual follow-up.
  */
 (async () => {
-  const BATCH_SIZE = 5;          // profiles per batch
-  const DELAY_BETWEEN_MS = 800;  // pause between profiles (within a batch)
-  const DELAY_BATCH_MS = 3000;   // longer pause between batches
-  const TIMEOUT_MS = 12000;      // max wait per profile for the email button
+  const BATCH_SIZE = 5; // profiles per batch
+  const DELAY_BETWEEN_MS = 800; // pause between profiles (within a batch)
+  const DELAY_BATCH_MS = 3000; // longer pause between batches
+  const TIMEOUT_MS = 12000; // max wait per profile for the email button
 
   // ── helpers ──────────────────────────────────────────────────────────────
 
@@ -24,16 +24,28 @@
       const deadline = Date.now() + timeoutMs;
       const id = setInterval(() => {
         const el = document.querySelector(selector);
-        if (el) { clearInterval(id); resolve(el); return; }
-        if (Date.now() > deadline) { clearInterval(id); resolve(null); }
+        if (el) {
+          clearInterval(id);
+          resolve(el);
+          return;
+        }
+        if (Date.now() > deadline) {
+          clearInterval(id);
+          resolve(null);
+        }
       }, 250);
     });
   }
 
   function navigateTo(url) {
     const pathname = new URL(url).pathname;
-    const existing = document.querySelector(`a[href="${pathname}"], a[href="${url}"]`);
-    if (existing) { existing.click(); return; }
+    const existing = document.querySelector(
+      `a[href="${pathname}"], a[href="${url}"]`
+    );
+    if (existing) {
+      existing.click();
+      return;
+    }
     const a = document.createElement('a');
     a.href = url;
     document.body.appendChild(a);
@@ -55,17 +67,25 @@
 
   const profileUrls = [
     ...new Set(
-      [...document.querySelectorAll('a[href*="/employees/profile/"]')].map((a) => a.href)
+      [...document.querySelectorAll('a[href*="/employees/profile/"]')].map(
+        (a) => a.href
+      )
     ),
   ];
-  console.log(`Found ${profileUrls.length} profiles — batch size ${BATCH_SIZE}.\n`);
+  console.log(
+    `Found ${profileUrls.length} profiles — batch size ${BATCH_SIZE}.\n`
+  );
 
   // ── Step 2: process in batches ────────────────────────────────────────────
 
   const emails = [];
   const failed = [];
 
-  for (let batchStart = 0; batchStart < profileUrls.length; batchStart += BATCH_SIZE) {
+  for (
+    let batchStart = 0;
+    batchStart < profileUrls.length;
+    batchStart += BATCH_SIZE
+  ) {
     const batch = profileUrls.slice(batchStart, batchStart + BATCH_SIZE);
     const batchNum = Math.floor(batchStart / BATCH_SIZE) + 1;
     const totalBatches = Math.ceil(profileUrls.length / BATCH_SIZE);
@@ -81,7 +101,9 @@
         console.log(`  [${idx}/${profileUrls.length}] ✅ ${email}`);
       } catch (err) {
         failed.push(url);
-        console.warn(`  [${idx}/${profileUrls.length}] ❌ ${url} — ${err.message}`);
+        console.warn(
+          `  [${idx}/${profileUrls.length}] ❌ ${url} — ${err.message}`
+        );
       }
 
       history.back();
@@ -90,7 +112,9 @@
     }
 
     if (batchStart + BATCH_SIZE < profileUrls.length) {
-      console.log(`  ⏸  Batch ${batchNum} done — pausing ${DELAY_BATCH_MS / 1000}s…`);
+      console.log(
+        `  ⏸  Batch ${batchNum} done — pausing ${DELAY_BATCH_MS / 1000}s…`
+      );
       await sleep(DELAY_BATCH_MS);
     }
   }
@@ -98,9 +122,13 @@
   // ── Step 3: output ────────────────────────────────────────────────────────
 
   if (failed.length) {
-    console.warn(`\n⚠️  ${failed.length} profile(s) failed:\n${failed.join('\n')}`);
+    console.warn(
+      `\n⚠️  ${failed.length} profile(s) failed:\n${failed.join('\n')}`
+    );
   }
 
-  console.log(`\n✅ Collected ${emails.length} email(s). Paste into data/partners.json:\n`);
+  console.log(
+    `\n✅ Collected ${emails.length} email(s). Paste into data/partners.json:\n`
+  );
   console.log(JSON.stringify(emails, null, 2));
 })();

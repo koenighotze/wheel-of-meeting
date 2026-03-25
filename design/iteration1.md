@@ -10,13 +10,13 @@ A zero-build, zero-framework browser app that spins a wheel to pick a meeting pa
 
 ### Core Files
 
-| File | Role |
-|---|---|
-| `app.js` | Single production JS file — all logic, no modules |
-| `index.html` | Entry point, loads `app.js` as plain `<script>` |
-| `style.css` | CSS custom properties, no frameworks |
-| `data/partners.json` | Partner email addresses |
-| `data/lead-developers.json` | Lead developer email addresses |
+| File                        | Role                                              |
+| --------------------------- | ------------------------------------------------- |
+| `app.js`                    | Single production JS file — all logic, no modules |
+| `index.html`                | Entry point, loads `app.js` as plain `<script>`   |
+| `style.css`                 | CSS custom properties, no frameworks              |
+| `data/partners.json`        | Partner email addresses                           |
+| `data/lead-developers.json` | Lead developer email addresses                    |
 
 ### `app.js` Structure
 
@@ -38,7 +38,9 @@ A zero-build, zero-framework browser app that spins a wheel to pick a meeting pa
   "version": 3,
   "activeDataset": "partners",
   "datasets": {
-    "partners":        { "history": [{ "id": "alice@example.com", "ts": 1234567890 }] },
+    "partners": {
+      "history": [{ "id": "alice@example.com", "ts": 1234567890 }]
+    },
     "lead-developers": { "history": [] }
   }
 }
@@ -62,17 +64,17 @@ A zero-build, zero-framework browser app that spins a wheel to pick a meeting pa
 
 ### Spec Files (run `npm test` for current count)
 
-| File | Scenarios |
-|---|---|
-| `tests/e2e/wheel_selection.spec.js` | 11 — selection logic, visual state, button behaviour |
-| `tests/e2e/datasets.spec.js` | 2 — tab switching |
-| `tests/e2e/history.spec.js` | 6 — ordering, cap, relative timestamps, dataset isolation |
-| `tests/e2e/clear.spec.js` | 5 — clear confirmation, badge removal, cross-dataset safety |
-| `tests/e2e/persistence.spec.js` | 4 — reload, graying, active tab, stale entry pruning |
-| `tests/e2e/edge_cases.spec.js` | 7 — Escape, idle resume, long names, rapid switching, unreachable JSON |
-| `tests/e2e/meeting_slots.spec.js` | 14 — slot count, time constraints, ICS content, Skip behaviour |
-| `tests/e2e/email_partners.spec.js` | 3 — email format in list, dialog, production data |
-| `tests/e2e/ics_attendee.spec.js` | 2 — ATTENDEE in ICS, METHOD:REQUEST |
+| File                                | Scenarios                                                              |
+| ----------------------------------- | ---------------------------------------------------------------------- |
+| `tests/e2e/wheel_selection.spec.js` | 11 — selection logic, visual state, button behaviour                   |
+| `tests/e2e/datasets.spec.js`        | 2 — tab switching                                                      |
+| `tests/e2e/history.spec.js`         | 6 — ordering, cap, relative timestamps, dataset isolation              |
+| `tests/e2e/clear.spec.js`           | 5 — clear confirmation, badge removal, cross-dataset safety            |
+| `tests/e2e/persistence.spec.js`     | 4 — reload, graying, active tab, stale entry pruning                   |
+| `tests/e2e/edge_cases.spec.js`      | 7 — Escape, idle resume, long names, rapid switching, unreachable JSON |
+| `tests/e2e/meeting_slots.spec.js`   | 14 — slot count, time constraints, ICS content, Skip behaviour         |
+| `tests/e2e/email_partners.spec.js`  | 3 — email format in list, dialog, production data                      |
+| `tests/e2e/ics_attendee.spec.js`    | 2 — ATTENDEE in ICS, METHOD:REQUEST                                    |
 
 ### Key Testing Patterns
 
@@ -85,13 +87,13 @@ A zero-build, zero-framework browser app that spins a wheel to pick a meeting pa
 
 ## Tooling
 
-| Tool | Purpose |
-|---|---|
-| ESLint 9 (flat config) | Linting — two environments: `app.js` (browser script) and `tests/**` (Node module) |
-| Prettier | Formatting — single quotes, semicolons, ES5 trailing commas |
-| `npm audit` | Dependency vulnerability scanning |
-| `npm run check` | Combined gate: lint + format:check + audit |
-| `python3 -m http.server 8081` | Dev server (no build required) |
+| Tool                          | Purpose                                                                            |
+| ----------------------------- | ---------------------------------------------------------------------------------- |
+| ESLint 9 (flat config)        | Linting — two environments: `app.js` (browser script) and `tests/**` (Node module) |
+| Prettier                      | Formatting — single quotes, semicolons, ES5 trailing commas                        |
+| `npm audit`                   | Dependency vulnerability scanning                                                  |
+| `npm run check`               | Combined gate: lint + format:check + audit                                         |
+| `python3 -m http.server 8081` | Dev server (no build required)                                                     |
 
 ---
 
