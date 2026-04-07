@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# shellcheck disable=SC1091
 # when a command fails, bash exits instead of continuing with the rest of the script
 set -o errexit
 # make the script fail, when accessing an unset variable

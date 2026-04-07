@@ -9,8 +9,6 @@ set -o pipefail
 # enable debug mode, by running your script as TRACE=1
 if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
 
-# TF_STATE_BUCKET
-
 POSTFIX=$(op read "op://kh-development/kh-gcp-bootstrap/gcp_resource_postfix")
 GCP_PROJECT="wheel-of-meeting-${POSTFIX}"
 TF_STATE_BUCKET_NAME="wheel-of-meeting-${POSTFIX}-tf-state"
