@@ -4,8 +4,7 @@ set -euo pipefail
 PORT=${1:-8080}
 URL="http://localhost:$PORT"
 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/.."
 
-echo "Serving at $URL  (press Ctrl+C to stop)"
 open "$URL"
-python3 -m http.server "$PORT"
+python3 "$(dirname "$0")/server.py" "$PORT"

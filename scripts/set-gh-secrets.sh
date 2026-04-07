@@ -10,6 +10,7 @@ set -o pipefail
 if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
 
 source "$(dirname "$0")/common.sh"
+cd "$(dirname "$0")/.."
 
 REPO="koenighotze/wheel-of-meeting"
 

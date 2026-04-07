@@ -10,6 +10,7 @@ set -o pipefail
 if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
 
 source "$(dirname "$0")/common.sh"
+cd "$(dirname "$0")/.."
 
 if [[ ! -f data/partners.json || ! -f data/lead-developers.json ]]; then
   echo "ERROR: data/ files are missing. Export them from your secure store first."

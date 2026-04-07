@@ -20,6 +20,7 @@ set -o pipefail
 if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
 
 source "$(dirname "$0")/common.sh"
+cd "$(dirname "$0")/.."
 
 echo "WARNING: This will immediately cut all traffic to ${GCP_PROJECT}."
 read -r -p "Type 'yes' to confirm: " CONFIRM

@@ -19,6 +19,7 @@ set -o pipefail
 if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
 
 source "$(dirname "$0")/common.sh"
+cd "$(dirname "$0")/.."
 
 echo "WARNING: This will remove all App Engine deployments from ${GCP_PROJECT}."
 echo "The App Engine application itself cannot be deleted (GCP limitation)."
