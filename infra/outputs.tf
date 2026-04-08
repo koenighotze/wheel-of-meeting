@@ -1,1 +1,3 @@
-# app_url will be added in the Cloud Run step
+output "app_url" {
+  value = google_cloud_run_v2_service.app.uri
+}
