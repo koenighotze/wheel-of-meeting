@@ -1,3 +1,1 @@
-output "app_url" {
-  value = "https://${google_app_engine_application.app.default_hostname}"
-}
+# app_url will be added in the Cloud Run step
