@@ -1,0 +1,9 @@
+node_modules/
+tests/
+infra/
+scripts/
+test-results/
+.github/
+.claude/
+*.md
+.gcloudignore

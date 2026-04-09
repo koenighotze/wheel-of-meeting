@@ -6,8 +6,17 @@ resource "google_cloud_run_v2_service" "app" {
 
   template {
     service_account = var.cloud_run_sa_email
+    scaling {
+      max_instance_count = 1
+    }
     containers {
       image = var.container_image
+      resources {
+        limits = {
+          cpu    = "1000m"
+          memory = "128Mi"
+        }
+      }
     }
   }
 

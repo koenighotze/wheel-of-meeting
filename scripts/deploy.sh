@@ -16,6 +16,23 @@ if [[ ! -f data/partners.json || ! -f data/lead-developers.json ]]; then
   echo "ERROR: data/ files are missing. Export them from your secure store first."
   exit 1
 fi
-echo "Deploying to App Engine (project: ${GCP_PROJECT})..."
-gcloud app deploy --quiet --project="${GCP_PROJECT}"
-echo "Done: https://$(gcloud app describe --project="${GCP_PROJECT}" --format='value(defaultHostname)')"
+
+echo "Building and pushing image to Artifact Registry..."
+gcloud builds submit \
+  --tag "${AR_IMAGE}" \
+  --project "${GCP_PROJECT}"
+
+echo "Deploying to Cloud Run (project: ${GCP_PROJECT}, region: ${REGION})..."
+gcloud run deploy wheel-of-meeting \
+  --image "${AR_IMAGE}" \
+  --region "${REGION}" \
+  --project "${GCP_PROJECT}" \
+  --no-allow-unauthenticated \
+  --quiet
+
+echo "Done: $(gcloud run services describe wheel-of-meeting \
+  --region "${REGION}" --project "${GCP_PROJECT}" \
+  --format='value(status.url)')"
+echo ""
+echo "To open in browser run:"
+echo "  gcloud run services proxy wheel-of-meeting --region ${REGION} --project ${GCP_PROJECT}"

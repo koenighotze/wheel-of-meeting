@@ -12,3 +12,6 @@ if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
 POSTFIX=$(op read "op://kh-development/kh-gcp-bootstrap/gcp_resource_postfix")
 GCP_PROJECT="wheel-of-meeting-${POSTFIX}"
 TF_STATE_BUCKET_NAME="wheel-of-meeting-${POSTFIX}-tf-state"
+REGION="europe-west3"
+AR_REPO="${REGION}-docker.pkg.dev/platform-${POSTFIX}/docker-${POSTFIX}"
+AR_IMAGE="${AR_REPO}/wheel-of-meeting:latest"
