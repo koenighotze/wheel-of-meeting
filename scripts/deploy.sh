@@ -18,9 +18,9 @@ if [[ ! -f data/partners.json || ! -f data/lead-developers.json ]]; then
 fi
 
 echo "Building and pushing image to Artifact Registry..."
-gcloud builds submit \
-  --tag "${AR_IMAGE}" \
-  --project "${GCP_PROJECT}"
+gcloud auth configure-docker "${REGION}-docker.pkg.dev" --quiet
+docker build -t "${AR_IMAGE}" .
+docker push "${AR_IMAGE}"
 
 echo "Deploying to Cloud Run (project: ${GCP_PROJECT}, region: ${REGION})..."
 gcloud run deploy wheel-of-meeting \

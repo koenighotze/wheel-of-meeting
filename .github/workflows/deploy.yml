@@ -1,0 +1,65 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Restore data files
+        run: |
+          mkdir -p data
+          echo "${{ secrets.PARTNERS_JSON_B64 }}" | base64 -d > data/partners.json
+          echo "${{ secrets.LEAD_DEVELOPERS_JSON_B64 }}" | base64 -d > data/lead-developers.json
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v3.0.0
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_NAME }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v3.0.1
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker europe-west3-docker.pkg.dev --quiet
+
+      - name: Build image
+        run: docker build -t "${{ secrets.GCP_AR_IMAGE }}" .
+
+      - name: Push image
+        run: docker push "${{ secrets.GCP_AR_IMAGE }}"
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy wheel-of-meeting \
+            --image "${{ secrets.GCP_AR_IMAGE }}" \
+            --region europe-west3 \
+            --project "${{ secrets.GCP_PROJECT_ID }}" \
+            --no-allow-unauthenticated \
+            --quiet
+
+      - name: Show service URL
+        run: |
+          url=$(gcloud run services describe wheel-of-meeting \
+            --region europe-west3 \
+            --project "${{ secrets.GCP_PROJECT_ID }}" \
+            --format='value(status.url)')
+          {
+            echo "### Deployment complete"
+            echo ""
+            echo "**Service URL:** [${url}](${url})"
+          } >> "${GITHUB_STEP_SUMMARY}"
