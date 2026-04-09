@@ -15,8 +15,9 @@ variable "authorized_user_email" {
 }
 
 variable "container_image" {
-  description = "Platform AR image URI, e.g. europe-west3-docker.pkg.dev/platform-POSTFIX/docker-POSTFIX/wheel-of-meeting:latest"
+  description = "Bootstrap image used only on first apply. Subsequent image updates are handled by deploy.sh via gcloud run deploy."
   type        = string
+  default     = "nginx:alpine"
 }
 
 variable "cloud_run_sa_email" {

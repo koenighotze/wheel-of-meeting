@@ -20,6 +20,10 @@ resource "google_cloud_run_v2_service" "app" {
     }
   }
 
+  lifecycle {
+    ignore_changes = [template[0].containers[0].image]
+  }
+
 }
 
 # Only the authorized user may invoke the service
