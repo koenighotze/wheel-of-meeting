@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: tf
-  cancel-in-progress: true
+  group: tf-apply
+  cancel-in-progress: false
 
 env:
   TF_LOG: ${{ secrets.TF_LOG || 'INFO' }}

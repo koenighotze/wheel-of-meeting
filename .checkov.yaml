@@ -6,3 +6,5 @@ directory:
 quiet: True
 download-external-modules: True
 evaluate-variables: True
+skip-check:
+  - CKV_GCP_250  # INGRESS_TRAFFIC_ALL is intentional: access is controlled by Cloud Run IAM (roles/run.invoker), not network ingress
