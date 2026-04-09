@@ -4,6 +4,7 @@ node_modules
 data/
 
 infra/.terraform/
+infra/defaults.auto.tfvars
 infra/terraform.tfvars
 infra/terraform.tfstate
 infra/terraform.tfstate.backup
