@@ -62,9 +62,14 @@ jobs:
         run: terraform apply -auto-approve
       - name: Show Terraform Output as Summary
         run: |
+          app_url=$(terraform output -raw app_url)
           {
-            echo "### Terraform Apply Output";
+            echo "### Deployment complete";
+            echo "";
+            echo "**Service URL:** [${app_url}](${app_url})";
+            echo "";
+            echo "To open via local proxy:";
             echo "\`\`\`";
-            terraform output -no-color;
+            echo "gcloud run services proxy wheel-of-meeting --region europe-west3";
             echo "\`\`\`";
-          } > "${GITHUB_STEP_SUMMARY}"
+          } >> "${GITHUB_STEP_SUMMARY}"
