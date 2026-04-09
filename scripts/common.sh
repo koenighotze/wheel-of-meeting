@@ -14,4 +14,5 @@ GCP_PROJECT="wheel-of-meeting-${POSTFIX}"
 TF_STATE_BUCKET_NAME="wheel-of-meeting-${POSTFIX}-tf-state"
 REGION="europe-west3"
 AR_REPO="${REGION}-docker.pkg.dev/platform-${POSTFIX}/docker-${POSTFIX}"
-AR_IMAGE="${AR_REPO}/wheel-of-meeting:latest"
+GIT_SHA=$(git rev-parse --short HEAD)
+AR_IMAGE="${AR_REPO}/wheel-of-meeting:${GIT_SHA}"

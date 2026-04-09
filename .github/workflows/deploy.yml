@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Restore data files
         run: |
@@ -37,16 +39,19 @@ jobs:
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker europe-west3-docker.pkg.dev --quiet
 
-      - name: Build image
-        run: docker build -t "${{ secrets.GCP_AR_IMAGE }}" .
-
-      - name: Push image
-        run: docker push "${{ secrets.GCP_AR_IMAGE }}"
+      - name: Build and push image
+        env:
+          IMAGE: ${{ secrets.GCP_AR_REPO }}:${{ github.event.workflow_run.head_sha }}
+        run: |
+          docker build -t "${IMAGE}" .
+          docker push "${IMAGE}"
 
       - name: Deploy to Cloud Run
+        env:
+          IMAGE: ${{ secrets.GCP_AR_REPO }}:${{ github.event.workflow_run.head_sha }}
         run: |
           gcloud run deploy wheel-of-meeting \
-            --image "${{ secrets.GCP_AR_IMAGE }}" \
+            --image "${IMAGE}" \
             --region europe-west3 \
             --project "${{ secrets.GCP_PROJECT_ID }}" \
             --no-allow-unauthenticated \
