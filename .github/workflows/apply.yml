@@ -11,7 +11,7 @@ env:
   TF_LOG: ${{ secrets.TF_LOG || 'INFO' }}
   TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
   TF_VAR_authorized_user_email: ${{ secrets.AUTHORIZED_USER_EMAIL }}
-  TF_VAR_cloud_run_sa_email: ${{ secrets.CLOUD_RUN_SA_EMAIL }}
+  TF_VAR_cloud_run_sa_email: ${{ secrets.CLOUD_RUN_SERVICE_ACCOUNT }}
   TF_IN_AUTOMATION: true
   TF_INPUT: false
 
