@@ -8,3 +8,4 @@ infra/defaults.auto.tfvars
 infra/terraform.tfvars
 infra/terraform.tfstate
 infra/terraform.tfstate.backup
+.claude/settings.local.json

@@ -1,10 +1,10 @@
 name: Deploy
 
 on:
-  workflow_run:
-    workflows: [CI]
-    types: [completed]
-    branches: [main]
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -13,13 +13,11 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-24.04
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+          ref: ${{ github.sha }}
 
       - name: Restore data files
         run: |
@@ -41,14 +39,14 @@ jobs:
 
       - name: Build and push image
         env:
-          IMAGE: ${{ secrets.GCP_AR_REPO }}:${{ github.event.workflow_run.head_sha }}
+          IMAGE: ${{ secrets.GCP_AR_REPO }}:${{ github.sha }}
         run: |
           docker build -t "${IMAGE}" .
           docker push "${IMAGE}"
 
       - name: Deploy to Cloud Run
         env:
-          IMAGE: ${{ secrets.GCP_AR_REPO }}:${{ github.event.workflow_run.head_sha }}
+          IMAGE: ${{ secrets.GCP_AR_REPO }}:${{ github.sha }}
         run: |
           gcloud run deploy wheel-of-meeting \
             --image "${IMAGE}" \
