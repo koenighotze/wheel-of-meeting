@@ -58,6 +58,15 @@ resource "google_cloud_run_v2_service" "app" {
     ignore_changes = [template[0].containers[0].image]
   }
 
+  # Ensure the runtime SA has secretAccessor on both secrets before Cloud Run
+  # tries to resolve versions/latest. Without this, Terraform may update the
+  # service in parallel with creating the IAM bindings, causing a "not found"
+  # error from Cloud Run even when the secret versions exist.
+  depends_on = [
+    google_secret_manager_secret_iam_member.runtime_reads_partners,
+    google_secret_manager_secret_iam_member.runtime_reads_leads,
+  ]
+
 }
 
 # Only the authorized user may invoke the service
