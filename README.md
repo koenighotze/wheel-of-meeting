@@ -25,10 +25,16 @@ Deploys to Cloud Run via GitHub Actions. Trigger by pushing a `v*` tag or via ma
 git tag v1.2.3 && git push origin v1.2.3   # triggers deploy workflow
 ```
 
-Data files (`partners.json`, `lead-developers.json`) are **not** part of the image. They are stored in GCP Secret Manager and mounted into the container at runtime. Update them with:
+Data files (`partners.json`, `lead-developers.json`) are **not** part of the image. They are stored in GCP Secret Manager and mounted into the container at runtime.
+
+### Updating partner data
 
 ```bash
-scripts/push-data-secrets.sh   # pushes local data/ files to Secret Manager
+# 1. Scrape current emails from the internal directory (run in DevTools on the SOP page)
+scripts/scrape-sop.js
+
+# 2. Paste the output into data/partners.json, then push to Secret Manager
+scripts/push-data-secrets.sh
 ```
 
 ### Access

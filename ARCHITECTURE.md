@@ -13,7 +13,7 @@ Browser
 
 Data (fetched via HTTP, stubbed in tests)
   ├── data/partners.json          (local scratch only — served from Secret Manager at runtime)
-  └── data/lead-developers.json
+  └── data/lead-developers.json  (local scratch only — served from Secret Manager at runtime)
 
 State (client-side only)
   └── localStorage["wheel-of-meeting"]  (JSON, version 3 schema)
