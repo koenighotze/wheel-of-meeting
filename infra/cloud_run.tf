@@ -18,6 +18,7 @@ resource "google_cloud_run_v2_service" "app" {
         limits = {
           memory = "128Mi"
         }
+        cpu_idle = true
       }
     }
   }
