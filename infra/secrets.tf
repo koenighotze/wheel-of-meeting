@@ -1,7 +1,9 @@
 resource "google_secret_manager_secret" "partners" {
   project   = var.project_id
   secret_id = "wom-partners-json"
-  replication { auto {} }
+  replication {
+    auto {}
+  }
   # Disabled versions are permanently destroyed after 24 h (minimum allowed TTL).
   # The push-data-secrets.sh script disables superseded versions immediately on
   # each upload, so at most one enabled version exists at any time.
@@ -11,7 +13,9 @@ resource "google_secret_manager_secret" "partners" {
 resource "google_secret_manager_secret" "leads" {
   project             = var.project_id
   secret_id           = "wom-leads-json"
-  replication { auto {} }
+  replication {
+    auto {}
+  }
   version_destroy_ttl = "86400s"
 }
 
