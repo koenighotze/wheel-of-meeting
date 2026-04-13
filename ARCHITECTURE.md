@@ -12,8 +12,8 @@ Browser
               └── boot()       (single entry point, runs on load)
 
 Data (fetched via HTTP, stubbed in tests)
-  ├── data/partners.json
-  └── data/lead-developers.json
+  ├── data/partners.json          (local scratch only — served from Secret Manager at runtime)
+  └── data/lead-developers.json  (local scratch only — served from Secret Manager at runtime)
 
 State (client-side only)
   └── localStorage["wheel-of-meeting"]  (JSON, version 3 schema)
@@ -28,8 +28,8 @@ wheel-of-meeting/
 ├── index.html                    HTML shell — no logic
 ├── app.js                        All production JavaScript
 ├── style.css                     All styles, CSS custom properties
-├── data/
-│   ├── partners.json             ["Alice", "Bob", ...]
+├── data/                         local scratch only — gitignored, not in Docker image
+│   ├── partners.json             ["Alice", "Bob", ...]  (source for push-data-secrets.sh)
 │   └── lead-developers.json      ["Lead1", "Lead2", ...]
 ├── tests/
 │   ├── features/                 Gherkin .feature files (source of truth for requirements)
@@ -111,7 +111,9 @@ This object is the single in-memory state. It is loaded from `localStorage` on b
 
 ### Partners data (not in localStorage)
 
-Partner lists come from JSON files fetched at startup. They are stored in the closure variable `partnersByKey` (a `{datasetKey → [{id, name}]}` map). IDs are the name strings themselves, making them stable across reloads.
+Partner lists come from JSON files fetched at startup via `fetch('/data/partners.json')` etc. At runtime these are served by nginx from GCP Secret Manager volumes mounted into the container at `/run/secrets/partners/` and `/run/secrets/leads/` — they are never baked into the Docker image. In tests the endpoints are stubbed via `page.route()`.
+
+The fetched data is stored in the closure variable `partnersByKey` (a `{datasetKey → [{id, name}]}` map). IDs are the name strings themselves, making them stable across reloads.
 
 ---
 
