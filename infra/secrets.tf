@@ -11,8 +11,8 @@ resource "google_secret_manager_secret" "partners" {
 }
 
 resource "google_secret_manager_secret" "leads" {
-  project             = var.project_id
-  secret_id           = "wom-leads-json"
+  project   = var.project_id
+  secret_id = "wom-leads-json"
   replication {
     auto {}
   }
