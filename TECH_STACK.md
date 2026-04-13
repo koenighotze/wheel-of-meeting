@@ -44,7 +44,9 @@ This project is intentionally minimal. Every technology choice has a specific re
 
 - `data/partners.json` and `data/lead-developers.json` — plain arrays of name strings.
 - Fetched at startup via `fetch()`. Names double as stable IDs.
-- Adding a dataset requires only a new JSON file and an entry in the `DATASETS` array.
+- At runtime, files are served by nginx from GCP Secret Manager volumes; they are **not** baked into the Docker image. The `data/` directory is local scratch only (gitignored).
+- Use `scripts/push-data-secrets.sh` to update the live data. Use `scripts/scrape-sop.js` to regenerate `data/partners.json` from the internal directory.
+- Adding a dataset requires a new JSON file, an entry in the `DATASETS` array, a new secret in `infra/secrets.tf`, and a corresponding volume mount in `infra/cloud_run.tf`.
 
 ---
 

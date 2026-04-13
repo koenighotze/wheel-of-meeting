@@ -19,10 +19,16 @@ npm run check           # lint + format + audit
 
 ## Deployment
 
-Deploys to Cloud Run via Cloud Build. Requires the `data/` files to be present locally before deploying.
+Deploys to Cloud Run via GitHub Actions. Trigger by pushing a `v*` tag or via manual `workflow_dispatch`. The pipeline builds the Docker image, pushes it to Artifact Registry, and deploys to Cloud Run.
 
 ```bash
-scripts/deploy.sh       # build container, push to Artifact Registry, deploy to Cloud Run
+git tag v1.2.3 && git push origin v1.2.3   # triggers deploy workflow
+```
+
+Data files (`partners.json`, `lead-developers.json`) are **not** part of the image. They are stored in GCP Secret Manager and mounted into the container at runtime. Update them with:
+
+```bash
+scripts/push-data-secrets.sh   # pushes local data/ files to Secret Manager
 ```
 
 ### Access
