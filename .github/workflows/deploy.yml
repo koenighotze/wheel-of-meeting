@@ -19,12 +19,6 @@ jobs:
         with:
           ref: ${{ github.sha }}
 
-      - name: Restore data files
-        run: |
-          mkdir -p data
-          echo "${{ secrets.PARTNERS_JSON_B64 }}" | base64 -d > data/partners.json
-          echo "${{ secrets.LEAD_DEVELOPERS_JSON_B64 }}" | base64 -d > data/lead-developers.json
-
       - name: Authenticate to GCP
         uses: google-github-actions/auth@v3.0.0
         with:

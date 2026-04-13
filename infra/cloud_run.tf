@@ -9,6 +9,29 @@ resource "google_cloud_run_v2_service" "app" {
     scaling {
       max_instance_count = 1
     }
+
+    volumes {
+      name = "partners-data"
+      secret {
+        secret = google_secret_manager_secret.partners.secret_id
+        items {
+          version = "latest"
+          path    = "partners.json"
+        }
+      }
+    }
+
+    volumes {
+      name = "leads-data"
+      secret {
+        secret = google_secret_manager_secret.leads.secret_id
+        items {
+          version = "latest"
+          path    = "lead-developers.json"
+        }
+      }
+    }
+
     containers {
       image = var.container_image
       ports {
@@ -19,6 +42,14 @@ resource "google_cloud_run_v2_service" "app" {
           memory = "128Mi"
         }
         cpu_idle = true
+      }
+      volume_mounts {
+        name       = "partners-data"
+        mount_path = "/run/secrets/partners"
+      }
+      volume_mounts {
+        name       = "leads-data"
+        mount_path = "/run/secrets/leads"
       }
     }
   }
