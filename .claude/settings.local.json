@@ -1,22 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "WebSearch",
-      "WebFetch(domain:cloud.google.com)",
-      "WebFetch(domain:github.com)",
-      "WebFetch(domain:docs.cloud.google.com)",
-      "WebFetch(domain:registry.terraform.io)",
-      "mcp__github__get_file_contents",
-      "mcp__context7__query-docs",
-      "mcp__github__list_commits",
-      "mcp__github__search_issues",
-      "mcp__github__search_code",
-      "WebFetch(domain:raw.githubusercontent.com)",
-      "WebFetch(domain:api.github.com)"
+      "Skill(commit-commands:commit-push-pr)"
     ]
-  },
-  "sandbox": {
-    "enabled": false,
-    "autoAllowBashIfSandboxed": false
   }
 }
