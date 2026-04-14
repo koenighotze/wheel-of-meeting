@@ -49,6 +49,7 @@ jobs:
           service: wheel-of-meeting
           image: ${{ env.IMAGE }}
           region: europe-west3
+          service_account: ${{ secrets.CLOUD_RUN_SERVICE_ACCOUNT }}
           flags: '--no-allow-unauthenticated'
 
       - name: Show service URL
