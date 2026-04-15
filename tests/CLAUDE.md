@@ -19,7 +19,7 @@ Feature files and spec files are **paired by name** (`wheel_selection.feature` �
 1. Write the Gherkin scenario in `features/<name>.feature`
 2. Write the failing Playwright spec in `e2e/<name>.spec.js`
 3. Run `npm test` — confirm it fails before writing any production code
-4. Implement in `app.js` until the test passes
+4. Implement in `src/app.js` until the test passes
 5. Run `npm test` — confirm the full suite still passes
 
 Never write a spec without a corresponding feature file.

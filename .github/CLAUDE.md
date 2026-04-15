@@ -45,7 +45,7 @@ All sensitive values come from GitHub Actions secrets — never hardcode them in
 
 - Node: `22` (CI)
 - OS: `ubuntu-24.04` (infra jobs), `ubuntu-latest` (app jobs)
-- Terraform: managed by `hashicorp/setup-terraform@v4` (no pinned version)
+- Terraform: installed via `hashicorp/setup-terraform@v4` using the version in `infra/.terraform-version`; this must stay aligned with `infra/providers.tf` `required_version`
 - TFLint: `v0.56.0` (pinned in `plan.yml`)
 
 ---

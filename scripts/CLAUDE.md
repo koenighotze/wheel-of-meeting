@@ -1,6 +1,6 @@
 # scripts/ — Operational Scripts
 
-All scripts are local-only — they are never run by CI. They require `gcloud`, `gh`, and `op` (1Password CLI) to be installed and authenticated.
+All scripts are local-only — they are never run by CI. Some scripts require `gcloud`, `gh`, and `op` (1Password CLI) to be installed and authenticated; see [Prerequisites](#prerequisites) below for script-specific requirements.
 
 ---
 
