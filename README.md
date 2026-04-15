@@ -30,10 +30,11 @@ Data files (`partners.json`, `lead-developers.json`) are **not** part of the ima
 ### Updating partner data
 
 ```bash
-# 1. Scrape current emails from the internal directory (run in DevTools on the SOP page)
-scripts/scrape-sop.js
+# 1. Open the SOP partner search results page in your browser,
+#    open DevTools, paste the contents of scripts/scrape-sop.js into the console, and run it.
+#    Copy the printed JSON output into data/partners.json.
 
-# 2. Paste the output into data/partners.json, then push to Secret Manager
+# 2. Push the updated file to Secret Manager
 scripts/push-data-secrets.sh
 ```
 
@@ -45,7 +46,7 @@ The service requires authentication. Only the configured `authorized_user_email`
 # Open in browser via local proxy (handles auth transparently)
 gcloud run services proxy wheel-of-meeting \
   --region europe-west3 \
-  --project wheel-of-meeting-13bf3f03
+  --project <your-project-id>
 ```
 
 ### Check deployment status
@@ -54,16 +55,16 @@ gcloud run services proxy wheel-of-meeting \
 # Describe the Cloud Run service
 gcloud run services describe wheel-of-meeting \
   --region europe-west3 \
-  --project wheel-of-meeting-13bf3f03
+  --project <your-project-id>
 
 # Tail live request logs
 gcloud logging read "resource.type=cloud_run_revision" \
-  --project wheel-of-meeting-13bf3f03 \
+  --project <your-project-id> \
   --limit 50
 
 # Print the service URL
 gcloud run services describe wheel-of-meeting \
   --region europe-west3 \
-  --project wheel-of-meeting-13bf3f03 \
+  --project <your-project-id> \
   --format='value(status.url)'
 ```

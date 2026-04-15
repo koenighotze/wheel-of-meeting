@@ -1,5 +1,14 @@
 # Wheel of Meeting — Claude Code Guidelines
 
+## Repository Ownership
+
+- **[koenighotze/kh-gcp-seed](https://github.com/koenighotze/kh-gcp-seed)** — all IAM and service account management
+- **[koenighotze/wheel-of-meeting](https://github.com/koenighotze/wheel-of-meeting)** — application code and infrastructure (Cloud Run, secrets, etc.)
+
+Never add IAM bindings or service account changes here; those belong in kh-gcp-seed.
+
+---
+
 ## Project in One Sentence
 
 A zero-build, zero-framework browser app that spins a wheel to pick a meeting partner from a JSON-backed list, tracks history in localStorage, and proposes calendar slots.
@@ -22,6 +31,12 @@ All new features must follow this order — no exceptions:
 5. **Confirm the full suite still passes** (`npm test`)
 
 Never implement a feature before its test exists and has been seen to fail.
+
+---
+
+## Dependencies and Complexity
+
+Do not introduce new dependencies, tools, or abstractions without asking first. Prefer the simplest working solution.
 
 ---
 
@@ -79,9 +94,27 @@ Helpers live in `tests/support/helpers.js`. Add shared utilities there, not inli
 
 A task is complete only when:
 
+**Application changes (`src/` or `app.js`):**
 ```bash
-npm test      # all 49+ tests green
-npm run check # lint + format + audit all pass
+npm run check  # lint + format + audit
+npm test       # full Playwright suite
+```
+
+**Infrastructure changes (`infra/`):**
+```bash
+terraform fmt -recursive   # format
+terraform validate         # validate config
+terraform plan             # confirm no unintended changes
+```
+
+---
+
+## Useful Scripts
+
+```bash
+npm run lint:fix   # auto-fix ESLint violations
+npm run format     # auto-format with Prettier
+npm run test:ui    # interactive Playwright UI — useful for debugging failures
 ```
 
 ---

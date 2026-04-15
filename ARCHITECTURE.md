@@ -25,9 +25,10 @@ State (client-side only)
 
 ```
 wheel-of-meeting/
-├── index.html                    HTML shell — no logic
-├── app.js                        All production JavaScript
-├── style.css                     All styles, CSS custom properties
+├── src/                          Production app — served by Cloud Run
+│   ├── index.html                HTML shell — no logic
+│   ├── app.js                    All production JavaScript
+│   └── style.css                 All styles, CSS custom properties
 ├── data/                         local scratch only — gitignored, not in Docker image
 │   ├── partners.json             ["Alice", "Bob", ...]  (source for push-data-secrets.sh)
 │   └── lead-developers.json      ["Lead1", "Lead2", ...]

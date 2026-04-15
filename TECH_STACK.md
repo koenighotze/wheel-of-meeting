@@ -115,7 +115,7 @@ This project is intentionally minimal. Every technology choice has a specific re
 
 ```bash
 npm run check   # lint + format:check + audit — run before every commit
-npm test        # full Playwright suite (49 tests)
+npm test        # full Playwright suite
 ```
 
 ---
@@ -124,7 +124,7 @@ npm test        # full Playwright suite (49 tests)
 
 | Script                 | Command                            | Use                         |
 | ---------------------- | ---------------------------------- | --------------------------- |
-| `npm test`             | `playwright test`                  | Run all 49 E2E tests        |
+| `npm test`             | `playwright test`                  | Run all E2E tests           |
 | `npm run test:ui`      | `playwright test --ui`             | Interactive visual debugger |
 | `npm run lint`         | `eslint .`                         | Check JS quality            |
 | `npm run lint:fix`     | `eslint . --fix`                   | Auto-fix JS issues          |
