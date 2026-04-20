@@ -22,7 +22,7 @@ All scripts are local-only — they are never run by CI. Some scripts require `g
 
 ## common.sh — Shared Variables
 
-All scripts `source common.sh`. It reads the GCP resource postfix from 1Password and derives:
+All bash scripts should `source common.sh` (non-bash scripts such as `scrape-sop.js` are excluded). It reads the GCP resource postfix from 1Password and derives:
 
 | Variable | Value pattern |
 |---|---|
