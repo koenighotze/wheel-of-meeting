@@ -30,7 +30,7 @@ All sensitive variables (`project_id`, `authorized_user_email`, `cloud_run_sa_em
 ## Key Patterns
 
 - **Secret-to-Cloud-Run dependency:** Always add `depends_on` pointing at the `google_secret_manager_secret_iam_member` resources when a Cloud Run service mounts secrets. Without it, Terraform may create the service in parallel with the IAM binding, causing a `not found` race condition at deploy time.
-- **No SHA pinning** for trusted providers (`actions/*`, `google-github-actions/*`, `hashicorp/*`).
+- **No SHA pinning** for trusted Terraform providers (for example, `hashicorp/google`).
 
 ---
 

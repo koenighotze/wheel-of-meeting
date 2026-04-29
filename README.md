@@ -29,13 +29,12 @@ Data files (`partners.json`, `lead-developers.json`) are **not** part of the ima
 
 ### Updating partner data
 
-```bash
-# 1. Open the SOP partner search results page in your browser,
-#    open DevTools, paste the contents of scripts/scrape-sop.js into the console, and run it.
-#    Copy the printed JSON output into data/partners.json.
+1. Open the SOP partner search results page in your browser, open DevTools, paste the contents of `scripts/scrape-sop.js` into the console, and run it. Copy the printed JSON output into `data/partners.json`.
 
-# 2. Push the updated file to Secret Manager
-scripts/push-data-secrets.sh
+2. Push the updated file to Secret Manager:
+
+```bash
+./scripts/push-data-secrets.sh
 ```
 
 ### Access
