@@ -31,15 +31,20 @@ Never write a spec without a corresponding feature file.
 Import helpers at the top of every spec:
 
 ```js
-import { stubPartners, seedHistory, seedFullState, waitForDialog } from '../support/helpers.js';
+import {
+  stubPartners,
+  seedHistory,
+  seedFullState,
+  waitForDialog,
+} from '../support/helpers.js';
 ```
 
-| Helper | When to use |
-|---|---|
-| `stubPartners(page, { partners, leads })` | Intercept JSON fetches — call **before** `page.goto()` |
-| `seedHistory(page, ids, dataset?)` | Pre-seed history for one dataset — call **before** `page.goto()` |
-| `seedFullState(page, { partnerIds, leadIds, activeDataset? })` | Pre-seed both datasets — call **before** `page.goto()` |
-| `waitForDialog(page)` | Wait for winner dialog (8 s timeout, accounts for 4.5 s spin animation) |
+| Helper                                                         | When to use                                                             |
+| -------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `stubPartners(page, { partners, leads })`                      | Intercept JSON fetches — call **before** `page.goto()`                  |
+| `seedHistory(page, ids, dataset?)`                             | Pre-seed history for one dataset — call **before** `page.goto()`        |
+| `seedFullState(page, { partnerIds, leadIds, activeDataset? })` | Pre-seed both datasets — call **before** `page.goto()`                  |
+| `waitForDialog(page)`                                          | Wait for winner dialog (8 s timeout, accounts for 4.5 s spin animation) |
 
 Add new shared utilities to `helpers.js` — not inline in spec files.
 

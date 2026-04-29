@@ -27,14 +27,14 @@ The entire browser application: `app.js` (all logic), `index.html` (markup), `st
 
 ## Architecture Quick Reference
 
-| Concern | Where |
-|---|---|
-| Pure utility functions | Top of `app.js`, near related helpers |
-| Stateful behaviour | Inside `boot()` as closures or inner functions |
-| Per-dataset data | Routed through `StateManager` — never `localStorage` directly |
-| Rendering | `renderAll()`, or one of `renderPartnerList` / `renderHistory` / `WheelRenderer.render` |
-| New dataset | Add entry to `DATASETS` array at top of `app.js` |
-| State exposed to tests | Read-only accessors on `window.__wheel` at bottom of `boot()` |
+| Concern                | Where                                                                                   |
+| ---------------------- | --------------------------------------------------------------------------------------- |
+| Pure utility functions | Top of `app.js`, near related helpers                                                   |
+| Stateful behaviour     | Inside `boot()` as closures or inner functions                                          |
+| Per-dataset data       | Routed through `StateManager` — never `localStorage` directly                           |
+| Rendering              | `renderAll()`, or one of `renderPartnerList` / `renderHistory` / `WheelRenderer.render` |
+| New dataset            | Add entry to `DATASETS` array at top of `app.js`                                        |
+| State exposed to tests | Read-only accessors on `window.__wheel` at bottom of `boot()`                           |
 
 ---
 

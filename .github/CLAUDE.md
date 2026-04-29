@@ -2,13 +2,13 @@
 
 ## Workflow Map
 
-| File | Trigger | Purpose |
-|---|---|---|
-| `ci.yml` | Push/PR to `main` | Quality (lint, format, audit) + Playwright E2E tests |
-| `deploy.yml` | Tag `v*` or `workflow_dispatch` | Build image, push to Artifact Registry, deploy to Cloud Run |
-| `plan.yml` | Push to `main` touching `infra/**` | Checkov + TFLint + fmt + validate + plan |
-| `apply.yml` | `workflow_dispatch` only | Terraform apply |
-| `codeql.yml` | Schedule / PR | SAST scanning |
+| File         | Trigger                            | Purpose                                                     |
+| ------------ | ---------------------------------- | ----------------------------------------------------------- |
+| `ci.yml`     | Push/PR to `main`                  | Quality (lint, format, audit) + Playwright E2E tests        |
+| `deploy.yml` | Tag `v*` or `workflow_dispatch`    | Build image, push to Artifact Registry, deploy to Cloud Run |
+| `plan.yml`   | Push to `main` touching `infra/**` | Checkov + TFLint + fmt + validate + plan                    |
+| `apply.yml`  | `workflow_dispatch` only           | Terraform apply                                             |
+| `codeql.yml` | Schedule / PR                      | SAST scanning                                               |
 
 ---
 
@@ -29,15 +29,15 @@
 
 All sensitive values come from GitHub Actions secrets — never hardcode them in workflow files.
 
-| Secret | Used by |
-|---|---|
-| `WORKLOAD_IDENTITY_PROVIDER_NAME` | All GCP-authenticated jobs |
-| `GCP_SERVICE_ACCOUNT` | All GCP-authenticated jobs |
-| `GCP_PROJECT_ID` | Terraform (`TF_VAR_project_id`) |
-| `TF_STATE_BUCKET` | Terraform backend init |
-| `AUTHORIZED_USER_EMAIL` | Terraform (`TF_VAR_authorized_user_email`) |
-| `CLOUD_RUN_SERVICE_ACCOUNT` | Terraform (`TF_VAR_cloud_run_sa_email`) |
-| `GCP_AR_REPO` | Deploy (image tag) |
+| Secret                            | Used by                                    |
+| --------------------------------- | ------------------------------------------ |
+| `WORKLOAD_IDENTITY_PROVIDER_NAME` | All GCP-authenticated jobs                 |
+| `GCP_SERVICE_ACCOUNT`             | All GCP-authenticated jobs                 |
+| `GCP_PROJECT_ID`                  | Terraform (`TF_VAR_project_id`)            |
+| `TF_STATE_BUCKET`                 | Terraform backend init                     |
+| `AUTHORIZED_USER_EMAIL`           | Terraform (`TF_VAR_authorized_user_email`) |
+| `CLOUD_RUN_SERVICE_ACCOUNT`       | Terraform (`TF_VAR_cloud_run_sa_email`)    |
+| `GCP_AR_REPO`                     | Deploy (image tag)                         |
 
 ---
 

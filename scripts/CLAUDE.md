@@ -6,17 +6,17 @@ All scripts are local-only — they are never run by CI. Some scripts require `g
 
 ## Script Reference
 
-| Script | Purpose |
-|---|---|
-| `start.sh [port]` | Serve the app locally via `server.py` and open the browser (default port 8080) |
-| `deploy.sh` | Build Docker image, push to Artifact Registry, deploy to Cloud Run |
-| `push-data-secrets.sh` | Push `data/partners.json` and `data/lead-developers.json` to GCP Secret Manager |
-| `tf-local-init.sh` | Initialize Terraform locally with the GCS backend bucket |
-| `check.sh` | Run TFLint, `terraform validate`, `terraform fmt`, and Checkov locally |
-| `set-gh-secrets.sh` | Push GitHub Actions secrets from 1Password to the repo |
-| `scrape-sop.js` | DevTools console snippet — paste into browser on the SOP partner search page to scrape emails into `data/partners.json` |
-| `common.sh` | Shared env vars sourced by all other scripts — do not run directly |
-| `gcp-functions.sh` | Shared GCP helper functions sourced by other scripts — do not run directly |
+| Script                 | Purpose                                                                                                                 |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `start.sh [port]`      | Serve the app locally via `server.py` and open the browser (default port 8080)                                          |
+| `deploy.sh`            | Build Docker image, push to Artifact Registry, deploy to Cloud Run                                                      |
+| `push-data-secrets.sh` | Push `data/partners.json` and `data/lead-developers.json` to GCP Secret Manager                                         |
+| `tf-local-init.sh`     | Initialize Terraform locally with the GCS backend bucket                                                                |
+| `check.sh`             | Run TFLint, `terraform validate`, `terraform fmt`, and Checkov locally                                                  |
+| `set-gh-secrets.sh`    | Push GitHub Actions secrets from 1Password to the repo                                                                  |
+| `scrape-sop.js`        | DevTools console snippet — paste into browser on the SOP partner search page to scrape emails into `data/partners.json` |
+| `common.sh`            | Shared env vars sourced by all other scripts — do not run directly                                                      |
+| `gcp-functions.sh`     | Shared GCP helper functions sourced by other scripts — do not run directly                                              |
 
 ---
 
@@ -24,13 +24,13 @@ All scripts are local-only — they are never run by CI. Some scripts require `g
 
 All bash scripts should `source common.sh` (non-bash scripts such as `scrape-sop.js` are excluded). It reads the GCP resource postfix from 1Password and derives:
 
-| Variable | Value pattern |
-|---|---|
-| `GCP_PROJECT` | `wheel-of-meeting-<postfix>` |
-| `TF_STATE_BUCKET_NAME` | `wheel-of-meeting-<postfix>-tf-state` |
-| `REGION` | `europe-west3` |
-| `AR_REPO` | `europe-west3-docker.pkg.dev/platform-<postfix>/docker-<postfix>` |
-| `AR_IMAGE` | `<AR_REPO>/wheel-of-meeting:<git-sha>` |
+| Variable               | Value pattern                                                     |
+| ---------------------- | ----------------------------------------------------------------- |
+| `GCP_PROJECT`          | `wheel-of-meeting-<postfix>`                                      |
+| `TF_STATE_BUCKET_NAME` | `wheel-of-meeting-<postfix>-tf-state`                             |
+| `REGION`               | `europe-west3`                                                    |
+| `AR_REPO`              | `europe-west3-docker.pkg.dev/platform-<postfix>/docker-<postfix>` |
+| `AR_IMAGE`             | `<AR_REPO>/wheel-of-meeting:<git-sha>`                            |
 
 ---
 

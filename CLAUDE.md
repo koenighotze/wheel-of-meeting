@@ -95,12 +95,14 @@ Helpers live in `tests/support/helpers.js`. Add shared utilities there, not inli
 A task is complete only when:
 
 **Application changes (`src/` or `app.js`):**
+
 ```bash
 npm run check  # lint + format + audit
 npm test       # full Playwright suite
 ```
 
 **Infrastructure changes (`infra/`):**
+
 ```bash
 terraform fmt -recursive   # format
 terraform validate         # validate config

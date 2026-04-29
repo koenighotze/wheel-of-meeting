@@ -10,12 +10,12 @@ Google Cloud infrastructure for the `wheel-of-meeting` Cloud Run service: the se
 
 ## Stack
 
-| Thing | Value |
-|---|---|
-| Terraform | `~> 1.14.0` (see `providers.tf`) |
-| Google provider | `~> 7` |
-| Backend | GCS — bucket passed via `-backend-config` at init time |
-| Default region | `europe-west3` |
+| Thing           | Value                                                  |
+| --------------- | ------------------------------------------------------ |
+| Terraform       | `~> 1.14.0` (see `providers.tf`)                       |
+| Google provider | `~> 7`                                                 |
+| Backend         | GCS — bucket passed via `-backend-config` at init time |
+| Default region  | `europe-west3`                                         |
 
 ---
 
@@ -49,9 +49,9 @@ CI enforces all three (`plan.yml` → `qa` job). A PR that fails format or valid
 
 ## CI Workflow Summary
 
-| Workflow | Trigger | Purpose |
-|---|---|---|
-| `plan.yml` | Push to `main` touching `infra/**` | Compliance scan (Checkov), TFLint, fmt check, validate, plan |
-| `apply.yml` | `workflow_dispatch` only | Apply — never triggered automatically |
+| Workflow    | Trigger                            | Purpose                                                      |
+| ----------- | ---------------------------------- | ------------------------------------------------------------ |
+| `plan.yml`  | Push to `main` touching `infra/**` | Compliance scan (Checkov), TFLint, fmt check, validate, plan |
+| `apply.yml` | `workflow_dispatch` only           | Apply — never triggered automatically                        |
 
 Apply is intentionally manual. Do not add automatic apply triggers.
