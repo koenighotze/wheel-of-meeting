@@ -8,6 +8,7 @@ All scripts are local-only — they are never run by CI. Some scripts require `g
 
 | Script                 | Purpose                                                                                                                 |
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `open.sh [port]`       | Start Cloud Run proxy for the deployed app and open the browser (default port 8080)                                     |
 | `start.sh [port]`      | Serve the app locally via `server.py` and open the browser (default port 8080)                                          |
 | `deploy.sh`            | Build Docker image, push to Artifact Registry, deploy to Cloud Run                                                      |
 | `push-data-secrets.sh` | Push `data/partners.json` and `data/lead-developers.json` to GCP Secret Manager                                         |
