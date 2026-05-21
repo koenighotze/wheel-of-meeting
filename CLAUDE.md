@@ -1,30 +1,24 @@
 # Wheel of Meeting — Claude Code Guidelines
 
-## Repository Ownership
+## Quick Reference
 
-- **[koenighotze/kh-gcp-seed](https://github.com/koenighotze/kh-gcp-seed)** — all IAM and service account management
-- **[koenighotze/wheel-of-meeting](https://github.com/koenighotze/wheel-of-meeting)** — application code and infrastructure (Cloud Run, secrets, etc.)
-
-Never add IAM bindings or service account changes here; those belong in kh-gcp-seed.
-
----
+- **[README.md](README.md)** — for project overview and `package.json` for available npm commands.
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** — system design, data flow, internals, event flow, and extension guides
+- **[TECH_STACK.md](TECH_STACK.md)** — technology choices, tooling reference, and npm scripts
+- **[tests/CLAUDE.md](tests/CLAUDE.md)** — testing helpers and patterns
 
 ## Project in One Sentence
 
-A zero-build, zero-framework browser app that spins a wheel to pick a meeting partner from a JSON-backed list, tracks history in localStorage, and proposes calendar slots.
+A zero-build, zero-framework browser app that spins a wheel to pick a meeting partner, tracks history, and proposes calendar slots.
 
-## Further Reading
+## Development Workflow
 
-- **[ARCHITECTURE.md](ARCHITECTURE.md)** — system design, data flow, `app.js` internals, event flow, and extension guides
-- **[TECH_STACK.md](TECH_STACK.md)** — technology choices, tooling reference, and npm scripts
+RULE 1: Always work on ONE SINGLE feature at a time — no exceptions.
+RULE 2: Always work on a branch from main, never directly from another branch or main — no exceptions.
+RULE 3: All new features must follow the following order — no exceptions.
 
----
-
-## Development Workflow: TDD / BDD
-
-All new features must follow this order — no exceptions:
-
-1. **Write a Gherkin feature file** in `tests/features/` describing the new behaviour
+0. **Check that everything works currently** (`npm test`) before touching any code. If it is broken, ask me before continuing with step 1.
+1. **Write a Gherkin feature file** in `tests/features/` describing the new behaviour and always have it reviewed before implementation.
 2. **Write the failing Playwright test(s)** in `tests/e2e/` that implement the scenarios
 3. **Verify the tests fail** (`npm test`) before touching any production code
 4. **Implement the feature** in production code until all new tests pass
@@ -32,13 +26,9 @@ All new features must follow this order — no exceptions:
 
 Never implement a feature before its test exists and has been seen to fail.
 
----
-
 ## Dependencies and Complexity
 
 Do not introduce new dependencies, tools, or abstractions without asking first. Prefer the simplest working solution.
-
----
 
 ## Core Constraints — Never Violate These
 
@@ -47,8 +37,6 @@ Do not introduce new dependencies, tools, or abstractions without asking first. 
 - **No ES modules in `app.js`.** It is a plain `<script>` tag. Do not add `import`/`export`.
 - **No frameworks.** No React, Vue, Alpine, etc. Vanilla JS and the DOM only.
 - **Single production JS file.** All logic lives in `app.js`. Do not split it.
-
----
 
 ## How to Add a Feature
 
@@ -71,25 +59,6 @@ Add read-only accessors to `window.__wheel` at the bottom of `boot()`. Never exp
 
 Use the existing CSS custom properties (`--bg`, `--surface`, `--surface2`, `--accent`, `--text`, `--text-muted`, `--radius`, `--gap`). Do not hardcode colours or spacing.
 
----
-
-## Testing Patterns
-
-| Need                    | How                                                                          |
-| ----------------------- | ---------------------------------------------------------------------------- |
-| Stub JSON data          | `stubPartners(page, { partners: [...], leads: [...] })` before `goto`        |
-| Pre-seed history        | `seedHistory(page, ids)` or `seedFullState(page, {...})` before `goto`       |
-| Seed both datasets      | `seedFullState(page, { partnerIds, leadIds })`                               |
-| Wait for winner dialog  | `waitForDialog(page)` (8 s timeout, handles 4.5 s animation)                 |
-| Handle `window.confirm` | `page.once('dialog', d => d.accept())` **before** clicking — not Promise.all |
-| Read internal state     | `page.evaluate(() => window.__wheel.getHistory())` etc.                      |
-| Verify canvas behaviour | Check the data that drives rendering via `window.__wheel`, not pixels        |
-| Capture ICS download    | `Promise.all([page.waitForEvent('download'), button.click()])`               |
-
-Helpers live in `tests/support/helpers.js`. Add shared utilities there, not inline in spec files.
-
----
-
 ## Definition of Done
 
 A task is complete only when:
@@ -109,8 +78,6 @@ terraform validate         # validate config
 terraform plan             # confirm no unintended changes
 ```
 
----
-
 ## Useful Scripts
 
 ```bash
@@ -118,8 +85,6 @@ npm run lint:fix   # auto-fix ESLint violations
 npm run format     # auto-format with Prettier
 npm run test:ui    # interactive Playwright UI — useful for debugging failures
 ```
-
----
 
 ## What NOT to Do
 

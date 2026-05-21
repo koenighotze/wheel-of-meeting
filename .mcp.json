@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "workiq": {
+      "command": "/Users/David.Schmitz/.nvm/versions/node/v24.13.0/bin/npx",
+      "args": ["-y", "@microsoft/workiq", "mcp"],
+      "env": {
+        "PATH": "/Users/David.Schmitz/.nvm/versions/node/v24.13.0/bin:/usr/local/bin:/usr/bin:/bin"
+      }
+    }
+  }
+}

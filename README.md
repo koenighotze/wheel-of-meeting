@@ -1,9 +1,10 @@
 # Wheel of Meeting
 
-A zero-build, zero-framework browser app that spins a wheel to pick a meeting partner, tracks history in localStorage, and proposes calendar slots.
+A zero-build, zero-framework browser app that spins a wheel to pick a meeting partner, tracks history, and proposes calendar slots.
 
 - **[ARCHITECTURE.md](ARCHITECTURE.md)** — system design, data flow, and extension guides
 - **[TECH_STACK.md](TECH_STACK.md)** — technology choices, tooling reference, and npm scripts
+- **[tests/CLAUDE.md](tests/CLAUDE.md)** — testing helpers and patterns
 
 ---
 
