@@ -4,7 +4,7 @@ description: Defines the conventions to follow when working with infrastructure 
 user-invocable: false
 ---
 
-When working with terraform code and infrastructure releated tasks, it's important to maintain a consistent style and structure. Here are some guidelines to help you achieve this.
+When working with terraform code and infrastructure related tasks, it's important to maintain a consistent style and structure. Here are some guidelines to help you achieve this.
 
 ## Repository setup
 
