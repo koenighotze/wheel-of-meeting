@@ -9,3 +9,4 @@ infra/terraform.tfvars
 infra/terraform.tfstate
 infra/terraform.tfstate.backup
 claude_home
+.mcp.json
