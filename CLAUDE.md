@@ -31,14 +31,6 @@ RULE 4: All new features must follow the following order 0-5 — no exceptions.
 
 Do not introduce new dependencies, tools, or abstractions without asking first. Prefer the simplest working solution.
 
-## Core Constraints — Never Violate These
-
-- **No build step.** No bundler, no transpiler, no TypeScript. The browser loads `app.js` directly.
-- **No npm runtime dependencies.** All devDependencies are tooling only. Nothing gets shipped.
-- **No ES modules in `app.js`.** It is a plain `<script>` tag. Do not add `import`/`export`.
-- **No frameworks.** No React, Vue, Alpine, etc. Vanilla JS and the DOM only.
-- **Single production JS file.** All logic lives in `app.js`. Do not split it.
-
 ## How to Add a Feature
 
 ### Adding logic
@@ -60,12 +52,6 @@ Add read-only accessors to `window.__wheel` at the bottom of `boot()`. Never exp
 
 Use the existing CSS custom properties (`--bg`, `--surface`, `--surface2`, `--accent`, `--text`, `--text-muted`, `--radius`, `--gap`). Do not hardcode colours or spacing.
 
-## What NOT to Do
+## Implementation Detail
 
-- Do not use `var` — use `const` and `let`.
-- Do not call `localStorage` directly outside `StateManager`.
-- Do not add `console.log` to production code (ESLint will flag it as `no-undef` in the browser script context anyway).
-- Do not add inline styles to HTML — use CSS classes.
-- Do not modify `data/partners.json` or `data/lead-developers.json` for tests — stub them with `page.route()`.
-- Do not write pixel-diffing tests for canvas — verify the data state that drives rendering instead.
-- Do not introduce a `package.json` `"type": "module"` — it would break the `app.js` script context.
+See **[src/CLAUDE.md](src/CLAUDE.md)** for hard constraints, code style, architecture reference, and what not to do.
