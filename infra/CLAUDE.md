@@ -53,6 +53,7 @@ A task is complete only when:
 **Infrastructure changes (`infra/`):**
 
 ```bash
+cd infra
 terraform fmt -recursive   # format
 terraform validate         # validate config
 terraform plan             # confirm no unintended changes
