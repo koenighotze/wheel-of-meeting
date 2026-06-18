@@ -16,13 +16,7 @@ Feature files and spec files are **paired by name** (`wheel_selection.feature` �
 
 ## Adding a Test
 
-1. Write the Gherkin scenario in `features/<name>.feature`
-2. Write the failing Playwright spec in `e2e/<name>.spec.js`
-3. Run `npm test` — confirm it fails before writing any production code
-4. Implement in `src/app.js` until the test passes
-5. Run `npm test` — confirm the full suite still passes
-
-Never write a spec without a corresponding feature file.
+Follow the TDD workflow in the root [CLAUDE.md](../CLAUDE.md). File naming rule: feature file and spec are **paired by name** — always create both together (`wheel_selection.feature` ↔ `wheel_selection.spec.js`). Never write a spec without a corresponding feature file.
 
 ---
 
