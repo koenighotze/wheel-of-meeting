@@ -16,7 +16,18 @@ Feature files and spec files are **paired by name** (`wheel_selection.feature` �
 
 ## Adding a Test
 
-Follow the TDD workflow in the root [CLAUDE.md](../CLAUDE.md). File naming rule: feature file and spec are **paired by name** — always create both together (`wheel_selection.feature` ↔ `wheel_selection.spec.js`). Never write a spec without a corresponding feature file.
+Follow the TDD workflow in the root [CLAUDE.md](../CLAUDE.md). Feature file and spec are **paired by name** — always create both together. Never write a spec without a corresponding feature file.
+
+---
+
+## Running Tests
+
+```bash
+npm test                                              # full suite
+npx playwright test tests/e2e/wheel_selection.spec.js # single spec file
+npx playwright test --grep "scenario name"            # match by name
+npm run test:ui                                       # interactive UI — useful for debugging failures
+```
 
 ---
 
