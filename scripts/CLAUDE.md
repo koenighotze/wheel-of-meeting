@@ -6,18 +6,18 @@ All scripts are local-only — they are never run by CI. Some scripts require `g
 
 ## Script Reference
 
-| Script                 | Purpose                                                                                                                 |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `open.sh [port]`       | Start Cloud Run proxy for the deployed app and open the browser (default port 8080)                                     |
-| `start.sh [port]`      | Serve the app locally via `server.py` and open the browser (default port 8080)                                          |
-| `deploy.sh`            | Build Docker image, push to Artifact Registry, deploy to Cloud Run                                                      |
-| `push-data-secrets.sh` | Push `data/partners.json` and `data/lead-developers.json` to GCP Secret Manager                                         |
-| `tf-local-init.sh`     | Initialize Terraform locally with the GCS backend bucket                                                                |
-| `check.sh`             | Run TFLint, `terraform validate`, `terraform fmt`, and Checkov locally                                                  |
-| `set-gh-secrets.sh`    | Push GitHub Actions secrets from 1Password to the repo                                                                  |
-| `scrape-sop.js`        | DevTools console snippet — paste into browser on the SOP partner search page to scrape emails into `data/partners.json` |
-| `common.sh`            | Shared env vars sourced by all other scripts — do not run directly                                                      |
-| `gcp-functions.sh`     | Shared GCP helper functions sourced by other scripts — do not run directly                                              |
+| Script                 | Purpose                                                                                                                                                                              |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `open.sh [port]`       | Start Cloud Run proxy for the deployed app and open the browser (default port 8080)                                                                                                  |
+| `start.sh [port]`      | Serve the app locally via `server.py` and open the browser (default port 8080)                                                                                                       |
+| `deploy.sh`            | Build Docker image, push to Artifact Registry, deploy to Cloud Run                                                                                                                   |
+| `push-data-secrets.sh` | Push `data/partners.json` and `data/lead-developers.json` to GCP Secret Manager                                                                                                      |
+| `tf-local-init.sh`     | Initialize Terraform locally with the GCS backend bucket                                                                                                                             |
+| `check.sh`             | Run TFLint, `terraform validate`, `terraform fmt`, and Checkov locally                                                                                                               |
+| `set-gh-secrets.sh`    | Push GitHub Actions secrets from 1Password to the repo                                                                                                                               |
+| `scrape-sop.js`        | **Browser DevTools only** — paste into the console on the SOP partner search page to scrape emails into `data/partners.json`. Not a Node script; `node scrape-sop.js` will not work. |
+| `common.sh`            | Shared env vars sourced by all other scripts — do not run directly                                                                                                                   |
+| `gcp-functions.sh`     | Shared GCP helper functions sourced by other scripts — do not run directly                                                                                                           |
 
 ---
 

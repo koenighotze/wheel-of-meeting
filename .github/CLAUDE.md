@@ -58,6 +58,13 @@ All sensitive values come from GitHub Actions secrets — never hardcode them in
 
 ## Before Editing a Workflow
 
-- Confirm the job still passes locally or in a draft PR before merging — broken CI blocks the whole team.
+There is no local runner configured. Validate via a draft PR:
+
+```bash
+gh pr create --draft --title "wip: test workflow change"
+# watch CI at: gh pr checks --watch
+```
+
+- Broken CI blocks the whole team — do not merge until the relevant job is green.
 - Prefer `workflow_dispatch` for any destructive or irreversible operation (apply, delete).
 - Keep each job's `working-directory` explicit when it differs from the repo root.
