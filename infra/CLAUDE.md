@@ -12,7 +12,7 @@ Google Cloud infrastructure for the `wheel-of-meeting` Cloud Run service: the se
 
 | Thing           | Value                                                  |
 | --------------- | ------------------------------------------------------ |
-| Terraform       | `~> 1.14.0` (see `providers.tf`)                       |
+| Terraform       | `~> 1.15.0` (see `providers.tf`)                       |
 | Google provider | `~> 7`                                                 |
 | Backend         | GCS — bucket passed via `-backend-config` at init time |
 | Default region  | `europe-west3`                                         |
