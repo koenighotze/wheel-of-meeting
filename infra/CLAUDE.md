@@ -6,8 +6,6 @@ Google Cloud infrastructure for the `wheel-of-meeting` Cloud Run service: the se
 
 **IAM and service accounts are NOT managed here.** They live in [koenighotze/kh-gcp-seed](https://github.com/koenighotze/kh-gcp-seed). Never add `google_project_iam_*` or `google_service_account` resources to this directory.
 
----
-
 ## Stack
 
 | Thing           | Value                                                  |
@@ -17,22 +15,16 @@ Google Cloud infrastructure for the `wheel-of-meeting` Cloud Run service: the se
 | Backend         | GCS — bucket passed via `-backend-config` at init time |
 | Default region  | `europe-west3`                                         |
 
----
-
 ## Variables
 
 All sensitive variables (`project_id`, `authorized_user_email`, `cloud_run_sa_email`) are fed from GitHub Actions secrets. Never hardcode them. The `terraform.tfvars.example` shows the expected shape for local use.
 
 `container_image` is a **bootstrap-only** variable. After first apply, image updates are done via `gcloud run deploy` (the deploy workflow), not Terraform. The Cloud Run resource has `lifecycle { ignore_changes = [template[0].containers[0].image] }` — do not remove this.
 
----
-
 ## Key Patterns
 
 - **Secret-to-Cloud-Run dependency:** Always add `depends_on` pointing at the `google_secret_manager_secret_iam_member` resources when a Cloud Run service mounts secrets. Without it, Terraform may create the service in parallel with the IAM binding, causing a `not found` race condition at deploy time.
 - **No SHA pinning** for trusted Terraform providers (for example, `hashicorp/google`).
-
----
 
 ## Before Every Commit
 
@@ -45,8 +37,6 @@ terraform plan             # confirm no unintended changes
 
 CI enforces all three (`plan.yml` → `qa` job). A PR that fails format or validate will not plan.
 
----
-
 ## CI Workflow Summary
 
 | Workflow    | Trigger                            | Purpose                                                      |
@@ -55,3 +45,17 @@ CI enforces all three (`plan.yml` → `qa` job). A PR that fails format or valid
 | `apply.yml` | `workflow_dispatch` only           | Apply — never triggered automatically                        |
 
 Apply is intentionally manual. Do not add automatic apply triggers.
+
+## Definition of Done
+
+A task is complete only when:
+
+**Infrastructure changes (`infra/`):**
+
+```bash
+terraform fmt -recursive   # format
+terraform validate         # validate config
+terraform plan             # confirm no unintended changes
+```
+
+`terraform plan` must show only the intended changes — no unexpected drift. CI (`plan.yml`) must pass before merging.
