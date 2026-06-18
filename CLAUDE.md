@@ -20,12 +20,12 @@ RULE 2: Always work on a branch from main, never directly from another branch or
 RULE 3: Never implement a feature before its test exists and has been seen to fail.
 RULE 4: All new features must follow the following order 0-5 — no exceptions.
 
-0. **Check that everything works currently** (`npm test`) before touching any code. If it is broken, ask me before continuing with step 1.
+0. **Check that everything works currently** (`npm run check && npm test`) before touching any code. If it is broken, ask me before continuing with step 1.
 1. **Write a Gherkin feature file** in `tests/features/` describing the new behaviour and always have it reviewed before implementation.
 2. **Write the failing Playwright test(s)** in `tests/e2e/` that implement the scenarios
 3. **Verify the tests fail** (`npm test`) before touching any production code
 4. **Implement the feature** in production code until all new tests pass
-5. **Confirm the full suite still passes** (`npm test`)
+5. **Confirm the full suite still passes** (`npm run check && npm test`)
 
 ## Dependencies and Complexity
 
