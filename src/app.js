@@ -8,7 +8,7 @@ function segmentColor(index, total, dimmed = false) {
 }
 
 function easeOutQuart(t) {
-  return 1 - Math.pow(1 - t, 4);
+  return 1 - (1 - t) ** 4;
 }
 
 function relativeTime(ts) {
@@ -134,7 +134,7 @@ function emailToDisplayName(email) {
 const EXCLUDED_DOMAINS = ['finanteq.com'];
 
 function isExcluded(name) {
-  return EXCLUDED_DOMAINS.some((domain) => name.endsWith('@' + domain));
+  return EXCLUDED_DOMAINS.some((domain) => name.endsWith(`@${domain}`));
 }
 
 // ─── Dataset config ──────────────────────────────────────────────────────────
@@ -342,7 +342,7 @@ const WheelRenderer = (() => {
         displayLabel = displayLabel.slice(0, -1);
       }
       if (displayLabel !== label)
-        displayLabel = displayLabel.slice(0, -1) + '…';
+        displayLabel = `${displayLabel.slice(0, -1)}…`;
 
       ctx.fillText(displayLabel, r - 10, 0);
       ctx.restore();
@@ -433,7 +433,10 @@ function renderPartnerList(partners, history, emptyText) {
   ul.innerHTML = '';
 
   if (partners.length === 0) {
-    ul.innerHTML = `<li class="empty-state">${emptyText}</li>`;
+    const li = document.createElement('li');
+    li.className = 'empty-state';
+    li.textContent = emptyText;
+    ul.appendChild(li);
     return;
   }
 
@@ -524,7 +527,7 @@ async function boot() {
     })
   );
 
-  let root = StateManager.load();
+  const root = StateManager.load();
 
   // Prune stale history only for datasets that loaded successfully.
   // Skipping failed datasets prevents wiping history when the server is offline.
@@ -587,9 +590,9 @@ async function boot() {
     if (key === root.activeDataset) return;
 
     StateManager.switchDataset(root, key);
-    tabsEl
-      .querySelectorAll('.tab-btn')
-      .forEach((b) => b.classList.toggle('active', b.dataset.dataset === key));
+    tabsEl.querySelectorAll('.tab-btn').forEach((b) => {
+      b.classList.toggle('active', b.dataset.dataset === key);
+    });
 
     WheelRenderer.stopIdleSpin();
     WheelRenderer.resetAngle();
@@ -686,11 +689,9 @@ async function boot() {
   });
 
   // Sync tab UI to persisted active dataset on load
-  tabsEl
-    .querySelectorAll('.tab-btn')
-    .forEach((b) =>
-      b.classList.toggle('active', b.dataset.dataset === root.activeDataset)
-    );
+  tabsEl.querySelectorAll('.tab-btn').forEach((b) => {
+    b.classList.toggle('active', b.dataset.dataset === root.activeDataset);
+  });
   updateScopeText();
 
   renderAll();

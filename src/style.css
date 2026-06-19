@@ -29,7 +29,7 @@ body {
 header {
   background: var(--surface2);
   padding: 1rem 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 40%);
 }
 
 header h1 {
@@ -75,13 +75,13 @@ main.layout {
   border-right: 14px solid transparent;
   border-top: 30px solid var(--accent);
   z-index: 10;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 2px 4px rgb(0 0 0 / 50%));
 }
 
 #wheel {
   display: block;
   border-radius: 50%;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 32px rgb(0 0 0 / 50%);
 }
 
 .spin-button {
@@ -98,12 +98,12 @@ main.layout {
     transform 0.1s,
     box-shadow 0.1s,
     opacity 0.2s;
-  box-shadow: 0 4px 16px rgba(233, 69, 96, 0.4);
+  box-shadow: 0 4px 16px rgb(233 69 96 / 40%);
 }
 
 .spin-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(233, 69, 96, 0.6);
+  box-shadow: 0 6px 20px rgb(233 69 96 / 60%);
 }
 
 .spin-button:active:not(:disabled) {
@@ -127,7 +127,7 @@ main.layout {
   background: var(--surface);
   border-radius: var(--radius);
   padding: 1.25rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 12px rgb(0 0 0 / 30%);
 }
 
 .partners-section h2,
@@ -268,13 +268,13 @@ dialog {
   border: none;
   border-radius: var(--radius);
   padding: 0;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 20px 60px rgb(0 0 0 / 60%);
   max-width: 360px;
   width: 90%;
 }
 
 dialog::backdrop {
-  background: rgba(0, 0, 0, 0.65);
+  background: rgb(0 0 0 / 65%);
   backdrop-filter: blur(3px);
 }
 
@@ -394,13 +394,14 @@ dialog::backdrop {
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #2a4080;
   border-radius: 3px;
 }
 
 /* Responsive */
-@media (max-width: 900px) {
+@media (width <= 900px) {
   main.layout {
     grid-template-columns: 1fr;
   }
@@ -412,7 +413,7 @@ dialog::backdrop {
   }
 }
 
-@media (max-width: 420px) {
+@media (width <= 420px) {
   .wheel-container,
   #wheel {
     width: 280px;
