@@ -123,7 +123,7 @@ test('downloaded ICS contains the correct SUMMARY line', async ({ page }) => {
     page.locator('.slot-btn').first().click(),
   ]);
   const content = await readFile(await download.path(), 'utf8');
-  expect(content).toContain('SUMMARY:1:1 with Alice');
+  expect(content).toContain('SUMMARY:1:1 with David Schmitz');
 });
 
 // ---------------------------------------------------------------------------
