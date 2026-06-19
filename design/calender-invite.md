@@ -22,9 +22,9 @@ END:VCALENDAR
 
 I want several improvements.
 
-a) the invite should be from david.schmitz@senacor.com
+a) the invite should be from <david.schmitz@senacor.com>
 b) the description should be a longer text.
-"Hello <INVITED PERSONS FIRSTNAME>,
+"Hello `<INVITED PERSONS FIRSTNAME>`,
 diese Einladung kommt automatisch aus dem Wheel-of-Meeting.
 Keine Sorge. Das hier soll ein sorgenfreies 1:1 sein. Ein kleiner Austausch zu Projekt, Job, Firma, Kultur, Tech und was auch immer grad wichtig ist.
 
