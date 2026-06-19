@@ -73,7 +73,26 @@ function icsDate(d) {
   );
 }
 
+function foldICSLine(line) {
+  const chunks = [];
+  while (line.length > 75) {
+    chunks.push(line.slice(0, 75));
+    line = ' ' + line.slice(75);
+  }
+  chunks.push(line);
+  return chunks.join('\r\n');
+}
+
 function generateICS(displayName, email, start, end) {
+  const firstName = displayName.split(' ')[0];
+  const description =
+    `Hallo ${firstName}\\,\\n` +
+    'diese Einladung kommt automatisch aus dem Wheel-of-Meeting.\\n' +
+    'Keine Sorge. Das hier soll ein sorgenfreies 1:1 sein. Ein kleiner Austausch zu Projekt\\, Job\\, Firma\\, Kultur\\, Tech und was auch immer grad wichtig ist.\\n\\n' +
+    'Schieb gerne\\, falls der Slot nicht passt.\\n' +
+    'Wir werden MS Teams nutzen.\\n\\n' +
+    'Liebe Grüße\\,\\n' +
+    'David Schmitz';
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
@@ -89,7 +108,7 @@ function generateICS(displayName, email, start, end) {
     'SUMMARY:1:1 with David Schmitz',
     `ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION:mailto:${email}`,
     'ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED:mailto:david.schmitz@senacor.com',
-    'DESCRIPTION:Scheduled via Wheel of Meeting',
+    foldICSLine(`DESCRIPTION:${description}`),
     'END:VEVENT',
     'END:VCALENDAR',
   ];
