@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-"""
-Dev server that mirrors app.yaml routing:
-  /data/*  → served from <project-root>/data/
-  /*       → served from <project-root>/src/
+"""Dev server that mirrors app.yaml routing.
+
+Serves /data/* from <project-root>/data/ and /* from <project-root>/src/.
 """
 import http.server
 import os
