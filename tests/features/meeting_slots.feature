@@ -38,11 +38,11 @@ Feature: Meeting slot proposals and ICS download
 
   Scenario: Downloaded ICS contains the correct start time
     When I click the first proposed slot
-    Then the ICS file DTSTART matches the displayed start time of that slot
+    Then the ICS file DTSTART matches the displayed start time of that slot in Europe/Berlin
 
   Scenario: Downloaded ICS contains the correct end time
     When I click the first proposed slot
-    Then the ICS file DTEND is 30 minutes after the displayed start time of that slot
+    Then the ICS file DTEND is 30 minutes after the displayed start time of that slot in Europe/Berlin
 
   Scenario: Skipping closes the dialog
     When I click "Skip"
