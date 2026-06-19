@@ -138,7 +138,7 @@ test('downloaded ICS DTSTART matches the displayed start time of the first slot'
     page.locator('.slot-btn').first().click(),
   ]);
   const content = await readFile(await download.path(), 'utf8');
-  const dtstart = content.match(/DTSTART:(\d{8}T\d{6})/)[1];
+  const dtstart = content.match(/DTSTART;TZID=Europe\/Berlin:(\d{8}T\d{6})/)[1];
   expect(dtstart).toBe(isoToIcsDate(slots[0].start));
 });
 
@@ -154,7 +154,7 @@ test('downloaded ICS DTEND is 30 minutes after the displayed start time', async 
     page.locator('.slot-btn').first().click(),
   ]);
   const content = await readFile(await download.path(), 'utf8');
-  const dtend = content.match(/DTEND:(\d{8}T\d{6})/)[1];
+  const dtend = content.match(/DTEND;TZID=Europe\/Berlin:(\d{8}T\d{6})/)[1];
   expect(dtend).toBe(isoToIcsDate(slots[0].end));
 });
 
