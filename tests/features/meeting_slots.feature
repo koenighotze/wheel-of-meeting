@@ -34,7 +34,7 @@ Feature: Meeting slot proposals and ICS download
 
   Scenario: Downloaded ICS contains the correct summary
     When I click a proposed meeting slot
-    Then the ICS file contains "SUMMARY:1:1 with Alice"
+    Then the ICS file contains "SUMMARY:1:1 with David Schmitz"
 
   Scenario: Downloaded ICS contains the correct start time
     When I click the first proposed slot

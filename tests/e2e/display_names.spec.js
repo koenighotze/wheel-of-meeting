@@ -52,5 +52,5 @@ test('ICS attendee uses email and summary uses display name', async ({
   ]);
   const content = await readFile(await download.path(), 'utf8');
   expect(content).toContain('mailto:markus.dobel@senacor.com');
-  expect(content).toContain('1:1 with Markus Dobel');
+  expect(content).toContain('1:1 with David Schmitz');
 });

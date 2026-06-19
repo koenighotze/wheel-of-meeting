@@ -25,4 +25,4 @@ Feature: Display names derived from email addresses
     Given a partner "markus.dobel@senacor.com"
     When a meeting slot is downloaded
     Then the ICS file contains "mailto:markus.dobel@senacor.com"
-    And the ICS summary contains "Markus Dobel"
+    And the ICS summary is "1:1 with David Schmitz"

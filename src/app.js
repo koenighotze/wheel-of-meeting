@@ -85,7 +85,7 @@ function generateICS(displayName, email, start, end) {
     `DTSTAMP:${icsDate(new Date())}`,
     `DTSTART:${icsDate(start)}`,
     `DTEND:${icsDate(end)}`,
-    `SUMMARY:1:1 with ${displayName}`,
+    'SUMMARY:1:1 with David Schmitz',
     `ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION:mailto:${email}`,
     'DESCRIPTION:Scheduled via Wheel of Meeting',
     'END:VEVENT',
