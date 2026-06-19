@@ -13,3 +13,11 @@ Feature: Winner added as attendee to the calendar invite
   Scenario: Downloaded ICS uses REQUEST method when an attendee is present
     When I click a proposed meeting slot
     Then the ICS file contains "METHOD:REQUEST"
+
+  Scenario: Downloaded ICS includes David Schmitz as ORGANIZER
+    When I click a proposed meeting slot
+    Then the ICS file contains "ORGANIZER" with "mailto:david.schmitz@senacor.com"
+
+  Scenario: Downloaded ICS includes David Schmitz as an ATTENDEE
+    When I click a proposed meeting slot
+    Then the ICS file contains "ATTENDEE" with "mailto:david.schmitz@senacor.com"
