@@ -38,3 +38,35 @@ test('downloaded ICS uses METHOD:REQUEST when an attendee is present', async ({
   const content = await readFile(await download.path(), 'utf8');
   expect(content).toContain('METHOD:REQUEST');
 });
+
+// ---------------------------------------------------------------------------
+// Scenario: Downloaded ICS includes David Schmitz as ORGANIZER
+// ---------------------------------------------------------------------------
+test('downloaded ICS includes David Schmitz as ORGANIZER', async ({ page }) => {
+  const [download] = await Promise.all([
+    page.waitForEvent('download'),
+    page.locator('.slot-btn').first().click(),
+  ]);
+  const content = await readFile(await download.path(), 'utf8');
+  expect(content).toContain('ORGANIZER');
+  expect(content).toContain('mailto:david.schmitz@senacor.com');
+});
+
+// ---------------------------------------------------------------------------
+// Scenario: Downloaded ICS includes David Schmitz as an ATTENDEE
+// ---------------------------------------------------------------------------
+test('downloaded ICS includes David Schmitz as an ATTENDEE', async ({
+  page,
+}) => {
+  const [download] = await Promise.all([
+    page.waitForEvent('download'),
+    page.locator('.slot-btn').first().click(),
+  ]);
+  const content = await readFile(await download.path(), 'utf8');
+  const attendeeLines = content
+    .split(/\r?\n/)
+    .filter((l) => l.startsWith('ATTENDEE'));
+  expect(
+    attendeeLines.some((l) => l.includes('mailto:david.schmitz@senacor.com'))
+  ).toBe(true);
+});
