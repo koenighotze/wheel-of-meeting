@@ -14,9 +14,10 @@ A zero-build, zero-framework browser app that spins a wheel to pick a meeting pa
 scripts/start.sh        # start local server at http://localhost:8081
 npm test                # run all E2E tests (Playwright)
 npm run check           # lint + format + audit
+npm run lint:fix   # auto-fix ESLint violations
+npm run format     # auto-format with Prettier
+npm run test:ui    # interactive Playwright UI — useful for debugging failures
 ```
-
----
 
 ## Deployment
 
@@ -68,3 +69,8 @@ gcloud run services describe wheel-of-meeting \
   --project <your-project-id> \
   --format='value(status.url)'
 ```
+
+## Things I want to work on
+
+- agent for codacy
+- loop agent for ci
