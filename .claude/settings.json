@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npm run format",
+            "timeout": 60,
+            "statusMessage": "Formatting source (prettier)…"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npm run check && npm test",
+            "timeout": 300,
+            "statusMessage": "Running full CI suite (lint, format check, audit, tests)…"
+          }
+        ]
+      }
+    ]
+  }
+}
