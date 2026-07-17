@@ -43,7 +43,7 @@ All sensitive values come from GitHub Actions secrets — never hardcode them in
 
 ## Runtime Versions
 
-- Node: `22` (CI)
+- Node: `22` — pinned via the `volta` field in `package.json`; CI installs it with `volta-cli/action`, local dev picks it up automatically once `~/.volta/bin` is on `PATH`
 - OS: `ubuntu-24.04` (infra jobs), `ubuntu-latest` (app jobs)
 - Terraform: installed via `hashicorp/setup-terraform@v4` using the version in `infra/.terraform-version`; this must stay aligned with `infra/providers.tf` `required_version`
 - TFLint: `v0.56.0` (pinned in `plan.yml`)

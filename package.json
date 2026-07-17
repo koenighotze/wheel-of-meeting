@@ -18,5 +18,9 @@
     "format": "prettier --write .",
     "audit": "npm audit --audit-level=moderate",
     "check": "npm run lint && npm run format:check && npm run audit"
+  },
+  "volta": {
+    "node": "22.23.1",
+    "npm": "12.0.1"
   }
 }
