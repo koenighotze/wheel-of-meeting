@@ -213,7 +213,7 @@ Interview held on 2026-10-06, at the level of requirements and goals. Format per
 
 ### Round 4: follow-ups
 
-**Q16a. GitHub Actions conflict with the inner-loop scope**
+**Q16a. Do GitHub Actions conflict with the inner-loop scope?**
 
 - Discussion: step one excludes CI, but Q16 named GitHub Actions as a metrics source. The options were local sources only (A) or a narrow exception that reads Actions results (B).
 - Answer: not answered directly. Option A was assumed, and the author confirmed the decision summary.
@@ -296,10 +296,10 @@ Local copies of the sources are in [references/](references/) (PDFs) and [refere
 
 Web:
 
-- https://docs.factory.com/
-- https://www.thoughtworks.com/en-us/perspectives/edition39-agentic-ready-data-strategy
-- https://github.com/humanlayer/12-factor-agents
-- https://simonwillison.net/guides/agentic-engineering-patterns
+- <https://docs.factory.com/>
+- <https://www.thoughtworks.com/en-us/perspectives/edition39-agentic-ready-data-strategy>
+- <https://github.com/humanlayer/12-factor-agents>
+- <https://simonwillison.net/guides/agentic-engineering-patterns>
 
 PDFs in `references/`:
 
