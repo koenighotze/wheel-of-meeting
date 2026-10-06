@@ -1,0 +1,460 @@
+Search⌘K
+
+Log in / Sign up
+
+factory.com
+
+# Hooks
+
+Copy page
+
+Run deterministic shell commands at Droid lifecycle events for validation, policy, context injection, and automation.
+
+Hooks are shell commands that run at defined points in a Droid
+session. Use them for deterministic behavior that should happen every time, such as
+validating tool calls, formatting changed files, injecting local context, logging activity,
+or enforcing team policy.
+
+Warning
+
+Hooks run automatically with your local environment and credentials. Review every hook command before registering it, use absolute script paths, and test in a safe environment first.
+
+## Configuration#
+
+Hooks live alongside settings at each scope:
+
+ScopeFileNotes
+
+User~/.factory/hooks.jsonApplies across your projects.
+
+Project.factory/hooks.jsonCommit to share with teammates.
+
+EnterpriseOrg-managed settingsLoaded from Enterprise Controls and managed settings.
+
+Legacy.factory/hooks/hooks.jsonStill loads. The next save writes .factory/hooks.json and archives the old file as hooks/hooks.migrated.json.
+
+If hooks.json is absent, Droid also reads hook declarations from the hooks key in the matching settings.json.
+
+Note
+
+Always use absolute paths in hook commands. Hooks execute from Droid's current working directory, which can differ from your repository root. Use "$FACTORY_PROJECT_DIR"/path/to/script.sh for project scripts or a full path such as /usr/local/bin/script.sh for global scripts.
+
+### Structure#
+
+Standalone hooks.json files are keyed directly by event name. Each event contains matcher groups, and each group contains one or more shell commands.
+
+~/.factory/hooks.json
+
+{
+ "PreToolUse": [
+ {
+ "matcher": "Execute",
+ "commandRegex": "^git ",
+ "hooks": [
+ {
+ "type": "command",
+ "command": "/usr/local/bin/audit-git-command.sh",
+ "timeout": 30
+ }
+ ]
+ }
+ ]
+}
+
+When you declare hooks inside settings.json instead, wrap the same event map in a
+top-level hooks key:
+
+~/.factory/settings.json
+
+{
+ "hooks": {
+ "PreToolUse": [
+ {
+ "matcher": "Execute",
+ "commandRegex": "^git ",
+ "hooks": [
+ {
+ "type": "command",
+ "command": "/usr/local/bin/audit-git-command.sh",
+ "timeout": 30
+ }
+ ]
+ }
+ ]
+ }
+}
+
+FieldRequiredSource-validated behavior
+
+matcherNoEmpty, omitted, or * matches everything. Exact strings match one tool or lifecycle matcher. Regex patterns are supported and are case-sensitive.
+
+commandRegexNoAdditional regex filter for Execute commands. It matches the actual shell command string when Droid has one. Invalid regex values are skipped.
+
+hooksYesArray of hook commands for the matcher group.
+
+typeYesCurrently only "command" is supported.
+
+commandYesShell command executed with JSON hook input on stdin.
+
+timeoutNoPer-command timeout in seconds. Defaults to 60.
+
+Common tool matchers include Execute, Read, Edit, Create, ApplyPatch, LS, Glob, Grep, Task, FetchUrl, and WebSearch. MCP tools use the mcp__<server>__<tool> naming pattern, so mcp__.* matches all MCP tools.
+
+## Quickstart#
+
+This example logs every shell command Droid runs.
+
+- 1
+
+Open the hooks manager
+
+In Droid, run:
+
+/hooks
+
+The manager opens with User, Project, Plugins, and Effective tabs.
+
+- 2
+
+Choose a scope
+
+Select User to save the hook in ~/.factory/hooks.json, or Project to save it
+in .factory/hooks.json. The Plugins and Effective tabs are read-only.
+
+- 3
+
+Add the hook
+
+Select Add hook command, choose the PreToolUse event, and set the matcher to
+Execute. Enter this command:
+
+Bash
+
+jq -r '.tool_input.command' >> ~/.factory/bash-command-log.txt
+
+- 4
+
+Save and verify
+
+Save the hook, ask Droid to run a simple command, then inspect the log:
+
+Bash
+
+cat ~/.factory/bash-command-log.txt
+
+The saved configuration looks like this:
+
+~/.factory/hooks.json
+
+{
+ "PreToolUse": [
+ {
+ "matcher": "Execute",
+ "hooks": [
+ {
+ "type": "command",
+ "command": "jq -r '.tool_input.command' >> ~/.factory/bash-command-log.txt"
+ }
+ ]
+ }
+ ]
+}
+
+If you chose the Project tab, the same unwrapped structure is saved to
+.factory/hooks.json.
+
+Event reference
+
+## Hook events#
+
+EventRuns whenMatcher or key fieldsCommon use
+
+PreToolUseAfter Droid builds tool parameters and before the tool runs.tool_name, tool_input; matcher usually targets a tool such as Execute or Edit.Block risky operations, approve safe tools, rewrite tool input.
+
+PostToolUseImmediately after a tool completes.tool_name, tool_input, tool_response; same tool matchers as PreToolUse.Format files, run validation, add feedback after an edit.
+
+UserPromptSubmitBefore Droid processes a submitted user prompt.prompt, has_images.Validate prompts or inject extra context.
+
+NotificationWhen Droid sends a notification.message, notification_type (permission_prompt, idle_prompt, auth_success, elicitation_dialog).Desktop alerts or compliance logging.
+
+StopWhen the main Droid is about to finish responding.stop_hook_active, tool_execution_count, elapsed_time.Require final checks or continue with follow-up instructions.
+
+SubagentStopWhen a Task-launched sub-droid finishes.task_name, task_result, task_error, stop_hook_active.Validate subagent output or request more work.
+
+PreCompactBefore manual or automatic compaction.trigger (manual or auto), custom_instructions, message_count, estimated_tokens.Save context or add compaction guidance.
+
+SessionStartWhen Droid starts, resumes, clears, or starts after compaction.source (startup, resume, clear, compact), plus optional prior session IDs.Load local context at session start.
+
+SessionEndWhen a Droid session ends.reason (clear, logout, prompt_input_exit, other), session_duration_ms, message_count.Cleanup, audit logs, session summaries.
+
+### Notification types#
+
+TypeSent when
+
+permission_promptDroid is waiting for permission to run an action.
+
+idle_promptDroid is waiting for user input, including immediately after the user cancels a turn.
+
+auth_successAn authentication flow succeeds.
+
+elicitation_dialogDroid needs structured input in an elicitation dialog.
+
+Cancellation emits the informational Notification hook instead of Stop, so a hook
+cannot override the user's decision to stop the turn.
+
+## Hook input#
+
+Every hook receives JSON on stdin. Common fields are also exposed as environment variables when their values are strings, booleans, or numbers.
+
+TypeScript
+
+{
+ session_id: string
+ transcript_path: string
+ cwd: string
+ permission_mode: "off" | "spec" | "auto-low" | "auto-medium" | "auto-high"
+ hook_event_name: string
+ message_id?: string
+}
+
+Tool hooks add tool-specific fields:
+
+JSON
+
+{
+ "session_id": "abc123",
+ "transcript_path": "/Users/.../.factory/projects/.../session.jsonl",
+ "cwd": "/Users/me/project",
+ "permission_mode": "off",
+ "hook_event_name": "PreToolUse",
+ "tool_name": "Create",
+ "tool_input": {
+ "file_path": "/Users/me/project/file.txt",
+ "content": "file content"
+ }
+}
+
+PostToolUse includes tool_response as well. The exact shape of tool_input and tool_response depends on the tool.
+
+## Hook output#
+
+Hooks communicate through exit codes, stderr, stdout, and optional JSON emitted on stdout.
+
+OutputEffect
+
+Exit code 0Success. For UserPromptSubmit and SessionStart, stdout can add context. For other events, stdout is visible in transcript views.
+
+Exit code 2Blocking or corrective feedback. PreToolUse blocks the tool call, PostToolUse and Stop feed stderr back to Droid, and UserPromptSubmit blocks prompt processing. Other lifecycle events surface stderr to the user.
+
+Any other non-zero exitNon-blocking error. Droid records stderr and continues where the event permits.
+
+JSON continue: falseStops processing after the hook. stopReason can explain why to the user.
+
+JSON suppressOutput: trueHides successful hook output from the main chat view while preserving it in the detailed transcript.
+
+### PreToolUse control#
+
+Use hookSpecificOutput.permissionDecision for tool-call control:
+
+JSON
+
+{
+ "hookSpecificOutput": {
+ "hookEventName": "PreToolUse",
+ "permissionDecision": "allow",
+ "permissionDecisionReason": "Documentation reads are safe",
+ "updatedInput": {
+ "file_path": "/Users/me/project/README.md"
+ }
+ }
+}
+
+DecisionEffect
+
+allowAllows the tool call and can bypass the normal permission prompt.
+
+denyBlocks the tool call and sends the reason to Droid.
+
+askForces a user confirmation prompt.
+
+updatedInput can modify tool parameters before execution. Use it carefully and only for fields you understand.
+
+### PostToolUse, prompt, and stop control#
+
+EventJSON fields
+
+PostToolUsedecision: "block" sends reason back to Droid after the tool ran. hookSpecificOutput.additionalContext adds more context.
+
+UserPromptSubmitdecision: "block" prevents the prompt from being processed and shows reason to the user. additionalContext is appended when not blocked.
+
+Stop and SubagentStopdecision: "block" prevents stopping. Include reason so Droid knows what to do next.
+
+SessionStarthookSpecificOutput.additionalContext is appended to the new session context.
+
+SessionEndCannot block session termination. Use it for cleanup and logging.
+
+Plugins and policy
+
+## Plugin hooks#
+
+Installed plugins can provide hooks. Droid loads hooks from hooks/hooks.json in the plugin root and merges them with user, project, and managed hooks when the plugin is enabled.
+
+my-plugin/
+├── .factory-plugin/
+│ └── plugin.json
+├── hooks/
+│ ├── hooks.json
+│ └── format.sh
+└── ...
+
+JSON
+
+{
+ "PostToolUse": [
+ {
+ "matcher": "Create|Edit|ApplyPatch",
+ "hooks": [
+ {
+ "type": "command",
+ "command": "${DROID_PLUGIN_ROOT}/hooks/format.sh",
+ "timeout": 30
+ }
+ ]
+ }
+ ]
+}
+
+Plugin hook commands may use ${DROID_PLUGIN_ROOT}, $DROID_PLUGIN_ROOT, ${CLAUDE_PLUGIN_ROOT}, or $CLAUDE_PLUGIN_ROOT. Droid expands those variables to the installed plugin cache path when loading plugin hooks. Outside plugins, use $FACTORY_PROJECT_DIR or an absolute path.
+
+## Org-managed hooks#
+
+Organizations can define authoritative hooks in Enterprise Controls through managed settings. Org hooks always load unless hooks are globally disabled, and lower levels cannot remove them.
+
+FieldDescription
+
+hooksOrg-defined hook settings keyed by event name, using the same structure as hooks.json.
+
+allowManagedHooksOnlyWhen true, only org-managed hooks and hooks from org-enabled plugins load. User and project hooks are ignored.
+
+JSON
+
+{
+ "allowManagedHooksOnly": true,
+ "hooks": {
+ "PreToolUse": [
+ {
+ "matcher": "Execute",
+ "hooks": [
+ {
+ "type": "command",
+ "command": "/usr/local/bin/audit-command.sh",
+ "timeout": 30
+ }
+ ]
+ }
+ ]
+ }
+}
+
+See Enterprise Controls & Managed Settings for how org, project, folder, and user settings merge.
+
+In practice
+
+## Examples#
+
+### Format changed TypeScript files#
+
+JSON
+
+{
+ "PostToolUse": [
+ {
+ "matcher": "Create|Edit|ApplyPatch",
+ "hooks": [
+ {
+ "type": "command",
+ "command": "python3 \"$FACTORY_PROJECT_DIR\"/.factory/hooks/format_changed_file.py"
+ }
+ ]
+ }
+ ]
+}
+
+### Block edits to sensitive files#
+
+JSON
+
+{
+ "PreToolUse": [
+ {
+ "matcher": "Create|Edit|ApplyPatch",
+ "hooks": [
+ {
+ "type": "command",
+ "command": "python3 \"$FACTORY_PROJECT_DIR\"/.factory/hooks/protect_paths.py"
+ }
+ ]
+ }
+ ]
+}
+
+A blocking script exits 2 and writes the reason to stderr.
+
+### Add context before each prompt#
+
+JSON
+
+{
+ "UserPromptSubmit": [
+ {
+ "hooks": [
+ {
+ "type": "command",
+ "command": "python3 \"$FACTORY_PROJECT_DIR\"/.factory/hooks/add_ticket_context.py"
+ }
+ ]
+ }
+ ]
+}
+
+## Security considerations#
+
+- Treat hook input as untrusted JSON. Validate and sanitize paths, prompts, and command strings.
+
+- Quote shell variables, for example "$FACTORY_PROJECT_DIR", to avoid word splitting.
+
+- Block path traversal and sensitive paths such as .env, .git/, credentials, and deployment secrets.
+
+- Prefer small scripts checked into .factory/hooks/ over long inline one-liners.
+
+- Test hooks manually before enabling them for a team or organization.
+
+- Remember that hooks inherit your local environment. Avoid commands that exfiltrate data or mutate systems unexpectedly.
+
+Droid snapshots hooks at startup and warns when hooks are modified externally. Review changes in the /hooks UI before relying on them in the current session.
+
+## Debugging#
+
+SymptomWhat to check
+
+Hook does not runConfirm the event key, matcher casing, and that hooks are not disabled. Use /hooks to inspect the active configuration.
+
+Hook runs for the wrong toolMatchers are case-sensitive and can be regexes. Use exact names like Execute, or a narrow regex.
+
+Script cannot be foundUse an absolute path or "$FACTORY_PROJECT_DIR"/relative/path. Do not rely on the shell's current directory.
+
+JSON parsing failsRemember that hook input arrives on stdin. Test with sample JSON before registering the command.
+
+Hook hangsSet a shorter timeout, inspect external network or process calls, and test the script outside Droid.
+
+Run droid --debug to inspect hook matching and execution details.
+
+Related resources
+
+Custom droids (subagents)
+
+Fire hooks on Task-launched subagent lifecycle events.
+
+Autonomy Level
+
+Combine hooks with autonomy levels for layered safety controls.

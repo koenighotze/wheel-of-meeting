@@ -1,0 +1,87 @@
+Search⌘K
+
+Log in / Sign up
+
+factory.com
+
+# Welcome to Factory
+
+Install Droid, delegate your first task, and scale from a single session to an automated SDLC.
+
+Quickstart Guide
+
+Create an Account
+
+## Choose a path#
+
+Start with a coding task, automate a workflow, or research the platform. Pick the outcome that aligns with your goals.
+
+Ship Code Faster
+
+Delegate a task, review the diff, and merge from the App or your terminal.
+
+Run the quickstartShip Code Faster
+
+Automate the Full SDLC
+
+Put code review, QA, and documentation on autopilot across your repos.
+
+Explore Software FactoryAutomate the Full SDLC
+
+Plan an Enterprise Rollout
+
+Deploy, secure, govern, and observe Droid across your organization.
+
+Review the architecturePlan an Enterprise Rollout
+
+## Start with a surface#
+
+Droid runs the same everywhere. Pick a surface, install it, and start your first session.
+
+Factory AppDroid CLIWeb & Mobile
+
+Download the desktop app, sign in, and connect it to your codebase.
+
+Downloads
+
+Mac (Apple Silicon)Download for M-series MacsMac (Intel)Download for Intel MacsWindows (x64)Download for Intel and AMD PCsWindows (ARM64)Download for Snapdragon and ARM PCs
+
+Tip
+
+Follow the Factory App quickstart to install the app, connect a repository, and run your first reviewable session.
+
+Run one command, then start droid in any repository.
+
+macOS/Linux
+
+Homebrew
+
+Windows
+
+npm
+
+> 
+
+Tip
+
+Follow the Droid CLI quickstart to install the CLI, authenticate, and delegate your first task from the terminal.
+
+Nothing to install: cloud session sync and Droid Computers make your sessions available from any browser at app.factory.ai.
+
+Tip
+
+The Factory App quickstart covers the same session flow across desktop, web, and mobile.
+
+## Explore the docs#
+
+- Product Surfaces: run Droid in the Factory App, the CLI, headless exec, and cloud computers.
+
+- Software Factory: automate triage, code review, QA, docs, and incident response.
+
+- Platform Capabilities: Missions, model independence, autonomy controls, and harness customization.
+
+- Factory Enterprise: deployment patterns, security, identity, and telemetry for a managed fleet.
+
+- API Reference: drive sessions, computers, wikis, and analytics programmatically.
+
+- Changelog: release notes and feature maturity.

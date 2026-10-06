@@ -1,0 +1,156 @@
+Search⌘K
+
+Log in / Sign up
+
+factory.com
+
+# Software Factory
+Private Preview
+
+Copy page
+
+Use Software Factory to manage the automations that cover your software delivery lifecycle.
+
+Software Factory is a 24/7 autonomous system that connects AI agents across the software development lifecycle, from intake and triage through planning, execution, validation, shipping, monitoring, and recurring automation.
+
+Info
+
+Software Factory is in Private Preview. To request access, fill out the form at factory.com/contact or contact your Factory account team.
+
+To delegate work directly from Linear or Jira, follow the Remote Delegations guide for that app. You do not need to create a Software Factory automation for these workflows.
+
+Software Factory overview dashboard
+
+Illustrative dashboard values; your numbers reflect your own connected automations.
+
+## What Software Factory is#
+
+In the Factory App, Software Factory gives teams one place to track that system: live metrics, connected integrations, repository coverage, stage health, and persistent automations.
+
+StageWhat it covers
+
+TriageClassify inbound work, reduce duplicates, and route items.
+
+Code-genConnect requests from Slack or issue trackers to implementation sessions.
+
+ValidateRun code review, security review, and QA before merge.
+
+ReleaseTrack deployment gates, release checks, and ship workflows.
+
+DocumentKeep repository knowledge current with AutoWiki.
+
+MonitorConnect incidents, alerts, and agent effectiveness back to engineering work.
+
+### When to use Software Factory#
+
+Use Software Factory as a centralized view into product health across your software delivery lifecycle:
+
+- Which SDLC stages already have automation coverage.
+
+- Which repositories, integrations, or stages need setup.
+
+- Whether review, QA, docs, triage, and incident workflows are healthy.
+
+- How much work Factory processed over time.
+
+## Manage coverage across the SDLC#
+
+Open Software Factory to see your delivery lifecycle as an automation coverage map. Each stage shows what is already connected, what is healthy, and where to add coverage next.
+
+Use the dashboard to:
+
+- Switch between different time ranges.
+
+- Scan impact metrics and stage health.
+
+- Filter by integration, including GitHub, Slack, Linear, and GitLab.
+
+- Open a stage to review templates, automations, and covered repositories.
+
+- Create missing automations from the stage detail page or the Automations page.
+
+Repo-backed stages show repository coverage, so you can see which repos are covered by workflows like Code Review, QA, Security Audit, and AutoWiki.
+
+StageTemplates and setupCoverage shown
+
+TriageTriageIntake automation coverage
+
+Code-genSlack and Linear delegationIntegration coverage
+
+ValidateCode Review, QA, Security AuditRepository coverage
+
+ReleaseRelease checks and deployment gatesRelease status and gate coverage
+
+DocumentAutoWikiRepository coverage
+
+MonitorIncident Response, Agent EffectivenessIncident and efficiency coverage
+
+## Metrics and coverage#
+
+### Automation metrics#
+
+Software Factory gives you a live view of automation impact across the SDLC with metrics such as:
+
+Software Factory automation metrics
+
+MetricDashboard tagWhat it indicates
+
+Tickets TriagedQueue burnTickets classified, deduplicated, or routed by triage workflows.
+
+PR ValidationsMerge gateQA, security, and code-review checks run against pull requests.
+
+PRs MergedShip ratePull requests merged in the selected time range.
+
+Incidents ProcessedReliabilityIncidents, errors, or alerts handled by incident-response workflows.
+
+Use these metrics to see where automation is moving work forward and where your team may need more coverage.
+
+### Stage metrics#
+
+Use stage metrics to spot which parts of the Software Factory are moving work, waiting for setup, or blocked by handoffs.
+
+StageExample metricWhat it answers
+
+TriageThroughput and backlogAre incoming requests being classified and routed quickly?
+
+Code-genLines changed and session outputHow much implementation work is flowing through Droid?
+
+ValidatePass rate and review volumeAre QA, security, and code-review gates healthy?
+
+ReleaseDeployments and cycle timeIs validated work reaching users on schedule?
+
+DocumentDocs updated and repository coverageIs AutoWiki keeping knowledge current?
+
+MonitorIncident response and token efficiencyAre incidents and agent effectiveness improving?
+
+### Health and coverage#
+
+Health and coverage show where Software Factory is ready to run and where setup is missing.
+
+SignalMeaning
+
+Stage healthWhether the stage has the integrations and automations it needs.
+
+Repository coverageWhich repositories are covered for Validate, Release, and Document workflows.
+
+Integration coverageWhich intake systems, channels, and deployment tools are connected.
+
+Setup gapsThe repos, channels, or gates that still need an automation or integration.
+
+- Stage metrics show throughput, pass rate, queue depth, and cycle time for each SDLC stage.
+
+- Health shows whether a stage has the integrations and automations it needs.
+
+- Coverage shows where those automations apply, such as which repositories are covered for Validate, Release, or Document.
+
+If something is missing, open the stage to connect the integration, add the repo or channel, or create the expected automation.
+
+Related resources
+
+Custom Automations
+
+Create and manage automations that run across your SDLC stages.
+
+Triage
+
+Classify and route inbound work into the right workflow.

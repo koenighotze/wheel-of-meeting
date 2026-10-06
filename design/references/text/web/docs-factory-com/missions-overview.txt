@@ -1,0 +1,147 @@
+Search⌘K
+
+Log in / Sign up
+
+factory.com
+
+# Factory Missions
+
+Copy page
+
+Use Factory Missions to plan and execute large, multi-feature projects with structured orchestration. Describe your goal, collaborate on the plan, and let Droid manage the work.
+
+Mission Control orchestration view
+
+## What Missions do#
+
+Factory Missions are structured workflows for taking on large, multi-feature work with Droid. Instead of tackling everything in a single session, you collaborate with Droid upfront to build a plan (features, milestones, and the skills needed to accomplish each part), then hand off execution to an orchestration layer that manages the work.
+
+Access Missions with the /missions command (also available via /mission).
+
+Factory Missions are the orchestration feature. Mission Mode is the session state Droid enters after you approve a mission plan; see Interaction Modes for how Mission Mode relates to Normal and Spec modes.
+
+## When to use Missions#
+
+Missions are best for bounded, multi-feature efforts that benefit from upfront planning, milestones, and ongoing validation. As a rough guide, the sweet spot is about 1–500 features:
+
+- A small number of features: Use a normal session when the work is straightforward and can be completed without a separate planning and orchestration phase.
+
+- About 1–500 features: Start a new Mission so Droid can decompose the work into milestones, coordinate workers, and validate progress as it goes.
+
+- More than 500 features: Split the work into multiple Missions, or use a longer-term operating workflow instead of treating it as one Mission.
+
+These numbers are a planning heuristic, not a hard limit. The more important question is whether the work has a clear outcome and can be divided into meaningful milestones.
+
+Start a Mission when you recognize that the work needs this structure. Do not run a normal session for a long time and then convert it into a Mission. Starting a new Mission preserves the upfront planning, feature breakdown, validation strategy, and orchestration context that Missions are designed to provide.
+
+Collaborative Planning
+
+Work with Droid to define features, milestones, and success criteria before any code is written.
+
+Skill-Aware Execution
+
+Droid reuses your existing skills and develops new specialized skills for each part of the work.
+
+Structured Orchestration
+
+Mission Control manages execution across agents, tracking progress through your plan.
+
+Your Config Carries Over
+
+MCP integrations, skills, hooks, and custom droids all work inside Missions.
+
+## For optimal outcomes#
+
+Warning
+
+For the best results, your repository should be at Agent Readiness Level 4 (Optimized) or above.
+
+As a mission works, it runs user-facing QA testing against your application to validate each feature and self-correct as it goes. For this to work in an existing project, your codebase needs an automated, scriptable way to exercise the app the way a user would (for example, a script to stand up or mock all dependencies of the app to simulate all potential user flows). Without it, the mission cannot reliably verify its own work.
+
+Not there yet? Re-run your readiness evaluation with /readiness-report, then close the gaps with /readiness-fix.
+
+## How it works#
+
+- 1
+
+Enter Missions
+
+Start by running /missions in any Droid session.
+
+- 2
+
+Collaborate on the plan
+
+Droid interacts with you back and forth to understand your goal. It asks clarifying questions, probes for constraints, and works with you to define what you actually want built. This is a conversation, not a one-shot prompt.
+
+- 3
+
+Build features and milestones
+
+Based on the conversation, Droid constructs a structured plan: a set of features organized into milestones. Each milestone represents a meaningful checkpoint in the work.
+
+- 4
+
+Skills are reused or developed
+
+Droid pulls in your existing skills where they apply, and develops specialized skills for parts of the work that need them. This means the execution is tailored to your project and workflow, not generic.
+
+- 5
+
+Enter Mission Control
+
+Once the plan is approved, Droid enters Mission Control, the Missions orchestration view that manages execution of the plan. You can monitor progress, see which features are being worked on, and intervene when needed.
+
+For details on getting the plan right, see Planning & Validation. To run and steer an approved mission, see Running in the CLI or Running in the Factory App.
+
+## What Missions are good for#
+
+We have built and tested Missions across a range of work:
+
+- Full-stack development: Building complete applications with frontend, backend, database, and deployment.
+
+- Research: Deep investigation tasks that require exploring multiple approaches, synthesizing findings, and producing structured output.
+
+- Brownfield migrations: Modernizing existing codebases, swapping frameworks, or restructuring large projects while preserving existing behavior.
+
+- Ambitious prototypes: Product experiments that need to be functional, not just sketched out.
+
+The common thread: work that benefits from upfront planning and structured decomposition rather than ad-hoc prompting.
+
+## Open questions#
+
+Missions are still evolving. There are fundamental questions we are working through:
+
+- Is parallelization necessary? Running multiple agents in parallel sounds good in theory, but does it actually produce better results than sequential execution? We are testing this.
+
+- How do you maximize correctness? Long-running plans accumulate errors. What validation and correction strategies work best at each stage?
+
+- Cost vs. quality tradeoffs: How aggressive should the orchestrator be? More planning and validation means higher cost but potentially better output. Where is the right balance?
+
+We want your feedback on these. Use Missions, push the workflow hard, and tell us what works and what does not.
+
+## Troubleshooting#
+
+Missions are not fire-and-forget. The orchestrator is an agent, and you can talk to it. When something goes wrong, pause the orchestrator, describe what you are seeing in plain language, and ask it to recover.
+
+### The mission freezes or stops making progress+
+
+### A worker is taking too long on one item+
+
+### The mission is stuck on a milestone+
+
+### You need to change direction mid-mission+
+
+### A feature retry limit warning appears+
+
+### Validation keeps failing or QA cannot run+
+
+Related resources
+
+Planning & Validation
+
+Scope features, milestones, and validation frequency before execution begins.
+
+Running in the CLI
+
+Monitor and steer an approved mission from the terminal.
