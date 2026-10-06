@@ -36,15 +36,15 @@ Custom droids and skills both package reusable work, but they solve different pr
 
 Custom droids vs skills
 
-Reach for a custom droid whenReach for a skill when
+Reach for a custom droid when | Reach for a skill when
 
-You want work to run in a fresh context window.You want a workflow to run inline in the current session.
+You want work to run in a fresh context window. | You want a workflow to run inline in the current session.
 
-You need a different model than the parent session.The current model is fine.
+You need a different model than the parent session. | The current model is fine.
 
-You need a stricter, enforced tool policy.You only need to document intended tools.
+You need a stricter, enforced tool policy. | You only need to document intended tools.
 
-The task is a complex checklist best encoded in a system prompt.The task is a lightweight, reusable procedure.
+The task is a complex checklist best encoded in a system prompt. | The task is a lightweight, reusable procedure.
 
 A custom droid is a runtime tool boundary and a separate agent. A skill is a discoverable instruction set. See Skills for skill mechanics, frontmatter, and slash invocation.
 
@@ -119,19 +119,19 @@ tools: ["Read", "Grep", "Glob", "WebSearch"]
 
 Perform deep analysis of the code or problem presented.
 
-FieldNotes
+Field | Notes
 
-nameRequired. Lowercase letters, digits, -, _ (^[a-z0-9-_]+$). Drives the subagent_type value and filename.
+name | Required. Lowercase letters, digits, -, _ (^[a-z0-9-_]+$). Drives the subagent_type value and filename.
 
-descriptionOptional but recommended. Shown in the /droids list. A description over 500 characters raises a validation warning.
+description | Optional but recommended. Shown in the /droids list. A description over 500 characters raises a validation warning.
 
-modelinherit (default) uses the parent session's model. Otherwise use a public model ID from Models, for example claude-sonnet-4-5-20250929. For BYOK custom models, use custom: plus the model field from your config (for example custom:gpt-4o-mini), not the display name.
+model | inherit (default) uses the parent session's model. Otherwise use a public model ID from Models, for example claude-sonnet-4-5-20250929. For BYOK custom models, use custom: plus the model field from your config (for example custom:gpt-4o-mini), not the display name.
 
-reasoningEffortOptional. low, medium, or high for models that support it. Ignored when model is inherit, and must be compatible with the selected model.
+reasoningEffort | Optional. low, medium, or high for models that support it. Ignored when model is inherit, and must be compatible with the selected model.
 
-toolsOmit to allow all tools, use a category string (for example read-only), or pass an array of tool IDs. Tool IDs are case-sensitive.
+tools | Omit to allow all tools, use a category string (for example read-only), or pass an array of tool IDs. Tool IDs are case-sensitive.
 
-mcpServersOptional. Array of MCP server names whose tools are exposed to the droid. See Selecting MCP servers.
+mcpServers | Optional. Array of MCP server names whose tools are exposed to the droid. See Selecting MCP servers.
 
 The body after the frontmatter is the system prompt and cannot be empty. DroidValidator reports errors (invalid names, unknown models, unknown or forbidden tools) and warnings (missing description, duplicate tools) when a file loads. Three tool-policy rules are enforced at load time:
 
@@ -145,17 +145,17 @@ The body after the frontmatter is the system prompt and cannot be empty. DroidVa
 
 Use a category name as the tools value (for example tools: read-only) or list individual tool IDs in an array.
 
-CategoryIncluded toolsPurpose
+Category | Included tools | Purpose
 
-read-onlyTools in read-only modeAnalysis and file exploration
+read-only | Tools in read-only mode | Analysis and file exploration
 
-editCreate, Edit, ApplyPatchCode generation and modification
+edit | Create, Edit, ApplyPatch | Code generation and modification
 
-executeExecuteShell command execution
+execute | Execute | Shell command execution
 
-webWebSearch, FetchUrlInternet research and content
+web | WebSearch, FetchUrl | Internet research and content
 
-mcpDynamically populatedModel Context Protocol tools
+mcp | Dynamically populated | Model Context Protocol tools
 
 Arrays must use valid IDs from this table or exact registered MCP tool IDs. Unknown IDs cause a validation error.
 
@@ -194,11 +194,11 @@ selected MCP servers, then summarize findings and propose next steps.
 
 Two droids ship with Droid and need no definition. Use them directly as subagent_type values.
 
-DroidToolsDefault complexityUse for
+Droid | Tools | Default complexity | Use for
 
-workerAll toolsmediumGeneral-purpose, multi-step tasks including edits and commands.
+worker | All tools | medium | General-purpose, multi-step tasks including edits and commands.
 
-explorerRead-onlylightFast codebase exploration, search, and structure questions.
+explorer | Read-only | light | Fast codebase exploration, search, and structure questions.
 
 When you invoke a built-in droid without setting complexity, it uses its default tier above.
 
@@ -252,17 +252,17 @@ To run subagents concurrently, the parent issues multiple Task tool calls in the
 
 Subagents run at an autonomy level, just like the main session (Off, Low, Medium, High; see Autonomy Levels). Control it with the Subagent autonomy level setting in /settings under Subagents.
 
-ValueBehavior
+Value | Behavior
 
-inherit (default)The subagent runs at the parent session's current autonomy level.
+inherit (default) | The subagent runs at the parent session's current autonomy level.
 
-offRead tools and commands allowed by command policy.
+off | Read tools and commands allowed by command policy.
 
-lowFile edits plus low-risk commands and MCP tools.
+low | File edits plus low-risk commands and MCP tools.
 
-mediumAdds reversible workspace changes (installs, local commits, builds).
+medium | Adds reversible workspace changes (installs, local commits, builds).
 
-highAdds high-risk actions unless safety checks require approval.
+high | Adds high-risk actions unless safety checks require approval.
 
 - The resolved level is always clamped to the organization's Maximum Autonomy Level, so an explicit setting can never exceed the enterprise cap. Subagents configured with tools: read-only never run above Low.
 

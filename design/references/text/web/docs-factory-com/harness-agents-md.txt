@@ -82,23 +82,23 @@ Keep human onboarding, screenshots, and contributor background in README.md. Put
 
 ## What to include#
 
-SectionWhat good looks like
+Section | What good looks like
 
-Project overviewOne short paragraph explaining the product, architecture, or package.
+Project overview | One short paragraph explaining the product, architecture, or package.
 
-CommandsExact install, local run, test, lint, type check, build, and regeneration commands.
+Commands | Exact install, local run, test, lint, type check, build, and regeneration commands.
 
-Repository mapDirectories Droid must understand before editing.
+Repository map | Directories Droid must understand before editing.
 
-ConventionsProject-specific patterns that are not obvious from code.
+Conventions | Project-specific patterns that are not obvious from code.
 
-Testing rulesFocused test commands, full gate commands, and when to add tests.
+Testing rules | Focused test commands, full gate commands, and when to add tests.
 
-Generated filesWhich files are generated, what source to edit, and how to regenerate.
+Generated files | Which files are generated, what source to edit, and how to regenerate.
 
-Security rulesSecret handling, production boundaries, approval rules, and migration safety.
+Security rules | Secret handling, production boundaries, approval rules, and migration safety.
 
-PR expectationsRequired evidence, screenshots, changelog notes, or review checks.
+PR expectations | Required evidence, screenshots, changelog notes, or review checks.
 
 Prefer concrete rules that change how Droid works:
 
@@ -123,17 +123,17 @@ Markdown
 
 Use the narrowest durable surface for the job.
 
-SurfaceUse forHow Droid treats it
+Surface | Use for | How Droid treats it
 
-AGENTS.md and compatible namesAlways-on coding instructions, commands, repository conventions, and safety rules.Loaded as coding guidelines at startup and during dynamic discovery.
+AGENTS.md and compatible names | Always-on coding instructions, commands, repository conventions, and safety rules. | Loaded as coding guidelines at startup and during dynamic discovery.
 
-DESIGN.md, Design.md, and design.mdAlways-on design-system, UX, visual, and interaction guidance.Loaded separately as design guidelines.
+DESIGN.md, Design.md, and design.md | Always-on design-system, UX, visual, and interaction guidance. | Loaded separately as design guidelines.
 
-SKILL.mdReusable workflows, checklists, or domain expertise that should load only when relevant.Discovered as a skill. The full body loads when invoked.
+SKILL.md | Reusable workflows, checklists, or domain expertise that should load only when relevant. | Discovered as a skill. The full body loads when invoked.
 
-.factory/commands/*Simple user-invoked prompt or executable shortcuts.Exposed as custom slash commands.
+.factory/commands/* | Simple user-invoked prompt or executable shortcuts. | Exposed as custom slash commands.
 
-.factory/settings.jsonDroid preferences, defaults, and policy settings.Parsed as configuration, not as prose instructions.
+.factory/settings.json | Droid preferences, defaults, and policy settings. | Parsed as configuration, not as prose instructions.
 
 Warning
 
@@ -143,23 +143,23 @@ Do not paste long run books into AGENTS.md. Link to the source of truth, or move
 
 When a git root is present, Droid searches from the current working directory up to the git root. At each level, it checks the directory itself and these context directories:
 
-Context directoryCommon use
+Context directory | Common use
 
-.factory/Factory-specific project instructions.
+.factory/ | Factory-specific project instructions.
 
-.agents/Compatibility with shared agent folder conventions.
+.agents/ | Compatibility with shared agent folder conventions.
 
-.agent/Compatibility with singular agent folder conventions.
+.agent/ | Compatibility with singular agent folder conventions.
 
 Droid also checks personal instruction directories in your home folder:
 
-Personal directoryCommon use
+Personal directory | Common use
 
-~/.factory/Your default Droid preferences across projects.
+~/.factory/ | Your default Droid preferences across projects.
 
-~/.agents/Compatible personal instructions.
+~/.agents/ | Compatible personal instructions.
 
-~/.agent/Compatible personal instructions.
+~/.agent/ | Compatible personal instructions.
 
 When multiple instruction files apply, use this mental model:
 
@@ -175,17 +175,17 @@ When multiple instruction files apply, use this mental model:
 
 Use AGENTS.md for new guidance. Droid also reads compatible filenames so existing instruction files from other coding tools keep working.
 
-FilenameUse it when
+Filename | Use it when
 
-AGENTS.mdRecommended for new project guidance.
+AGENTS.md | Recommended for new project guidance.
 
-agents.mdLowercase compatibility variant.
+agents.md | Lowercase compatibility variant.
 
-Agents.mdTitle-case compatibility variant.
+Agents.md | Title-case compatibility variant.
 
-CLAUDE.mdCompatibility with existing Claude-oriented instructions.
+CLAUDE.md | Compatibility with existing Claude-oriented instructions.
 
-Claude.mdTitle-case compatibility variant.
+Claude.md | Title-case compatibility variant.
 
 This is a compatibility set, not a setup checklist. Do not create every file. Duplicating rules across supported filenames spends context without adding signal.
 
@@ -219,11 +219,11 @@ Do not use nested files to repeat root rules.
 
 Instruction files count against the session context. Keep the top of each file dense with the rules Droid most needs.
 
-Load phaseLimit
+Load phase | Limit
 
-Initial AGENTS-style guideline load80,000 characters
+Initial AGENTS-style guideline load | 80,000 characters
 
-Dynamic Read-path guideline discovery40,000 characters
+Dynamic Read-path guideline discovery | 40,000 characters
 
 These are caps, not targets. Smaller files are usually better.
 

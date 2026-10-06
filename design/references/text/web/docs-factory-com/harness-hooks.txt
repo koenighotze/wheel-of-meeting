@@ -23,15 +23,15 @@ Hooks run automatically with your local environment and credentials. Review ever
 
 Hooks live alongside settings at each scope:
 
-ScopeFileNotes
+Scope | File | Notes
 
-User~/.factory/hooks.jsonApplies across your projects.
+User | ~/.factory/hooks.json | Applies across your projects.
 
-Project.factory/hooks.jsonCommit to share with teammates.
+Project | .factory/hooks.json | Commit to share with teammates.
 
-EnterpriseOrg-managed settingsLoaded from Enterprise Controls and managed settings.
+Enterprise | Org-managed settings | Loaded from Enterprise Controls and managed settings.
 
-Legacy.factory/hooks/hooks.jsonStill loads. The next save writes .factory/hooks.json and archives the old file as hooks/hooks.migrated.json.
+Legacy | .factory/hooks/hooks.json | Still loads. The next save writes .factory/hooks.json and archives the old file as hooks/hooks.migrated.json.
 
 If hooks.json is absent, Droid also reads hook declarations from the hooks key in the matching settings.json.
 
@@ -84,19 +84,19 @@ top-level hooks key:
  }
 }
 
-FieldRequiredSource-validated behavior
+Field | Required | Source-validated behavior
 
-matcherNoEmpty, omitted, or * matches everything. Exact strings match one tool or lifecycle matcher. Regex patterns are supported and are case-sensitive.
+matcher | No | Empty, omitted, or * matches everything. Exact strings match one tool or lifecycle matcher. Regex patterns are supported and are case-sensitive.
 
-commandRegexNoAdditional regex filter for Execute commands. It matches the actual shell command string when Droid has one. Invalid regex values are skipped.
+commandRegex | No | Additional regex filter for Execute commands. It matches the actual shell command string when Droid has one. Invalid regex values are skipped.
 
-hooksYesArray of hook commands for the matcher group.
+hooks | Yes | Array of hook commands for the matcher group.
 
-typeYesCurrently only "command" is supported.
+type | Yes | Currently only "command" is supported.
 
-commandYesShell command executed with JSON hook input on stdin.
+command | Yes | Shell command executed with JSON hook input on stdin.
 
-timeoutNoPer-command timeout in seconds. Defaults to 60.
+timeout | No | Per-command timeout in seconds. Defaults to 60.
 
 Common tool matchers include Execute, Read, Edit, Create, ApplyPatch, LS, Glob, Grep, Task, FetchUrl, and WebSearch. MCP tools use the mcp__<server>__<tool> naming pattern, so mcp__.* matches all MCP tools.
 
@@ -167,37 +167,37 @@ Event reference
 
 ## Hook events#
 
-EventRuns whenMatcher or key fieldsCommon use
+Event | Runs when | Matcher or key fields | Common use
 
-PreToolUseAfter Droid builds tool parameters and before the tool runs.tool_name, tool_input; matcher usually targets a tool such as Execute or Edit.Block risky operations, approve safe tools, rewrite tool input.
+PreToolUse | After Droid builds tool parameters and before the tool runs. | tool_name, tool_input; matcher usually targets a tool such as Execute or Edit. | Block risky operations, approve safe tools, rewrite tool input.
 
-PostToolUseImmediately after a tool completes.tool_name, tool_input, tool_response; same tool matchers as PreToolUse.Format files, run validation, add feedback after an edit.
+PostToolUse | Immediately after a tool completes. | tool_name, tool_input, tool_response; same tool matchers as PreToolUse. | Format files, run validation, add feedback after an edit.
 
-UserPromptSubmitBefore Droid processes a submitted user prompt.prompt, has_images.Validate prompts or inject extra context.
+UserPromptSubmit | Before Droid processes a submitted user prompt. | prompt, has_images. | Validate prompts or inject extra context.
 
-NotificationWhen Droid sends a notification.message, notification_type (permission_prompt, idle_prompt, auth_success, elicitation_dialog).Desktop alerts or compliance logging.
+Notification | When Droid sends a notification. | message, notification_type (permission_prompt, idle_prompt, auth_success, elicitation_dialog). | Desktop alerts or compliance logging.
 
-StopWhen the main Droid is about to finish responding.stop_hook_active, tool_execution_count, elapsed_time.Require final checks or continue with follow-up instructions.
+Stop | When the main Droid is about to finish responding. | stop_hook_active, tool_execution_count, elapsed_time. | Require final checks or continue with follow-up instructions.
 
-SubagentStopWhen a Task-launched sub-droid finishes.task_name, task_result, task_error, stop_hook_active.Validate subagent output or request more work.
+SubagentStop | When a Task-launched sub-droid finishes. | task_name, task_result, task_error, stop_hook_active. | Validate subagent output or request more work.
 
-PreCompactBefore manual or automatic compaction.trigger (manual or auto), custom_instructions, message_count, estimated_tokens.Save context or add compaction guidance.
+PreCompact | Before manual or automatic compaction. | trigger (manual or auto), custom_instructions, message_count, estimated_tokens. | Save context or add compaction guidance.
 
-SessionStartWhen Droid starts, resumes, clears, or starts after compaction.source (startup, resume, clear, compact), plus optional prior session IDs.Load local context at session start.
+SessionStart | When Droid starts, resumes, clears, or starts after compaction. | source (startup, resume, clear, compact), plus optional prior session IDs. | Load local context at session start.
 
-SessionEndWhen a Droid session ends.reason (clear, logout, prompt_input_exit, other), session_duration_ms, message_count.Cleanup, audit logs, session summaries.
+SessionEnd | When a Droid session ends. | reason (clear, logout, prompt_input_exit, other), session_duration_ms, message_count. | Cleanup, audit logs, session summaries.
 
 ### Notification types#
 
-TypeSent when
+Type | Sent when
 
-permission_promptDroid is waiting for permission to run an action.
+permission_prompt | Droid is waiting for permission to run an action.
 
-idle_promptDroid is waiting for user input, including immediately after the user cancels a turn.
+idle_prompt | Droid is waiting for user input, including immediately after the user cancels a turn.
 
-auth_successAn authentication flow succeeds.
+auth_success | An authentication flow succeeds.
 
-elicitation_dialogDroid needs structured input in an elicitation dialog.
+elicitation_dialog | Droid needs structured input in an elicitation dialog.
 
 Cancellation emits the informational Notification hook instead of Stop, so a hook
 cannot override the user's decision to stop the turn.
@@ -240,17 +240,17 @@ PostToolUse includes tool_response as well. The exact shape of tool_input and to
 
 Hooks communicate through exit codes, stderr, stdout, and optional JSON emitted on stdout.
 
-OutputEffect
+Output | Effect
 
-Exit code 0Success. For UserPromptSubmit and SessionStart, stdout can add context. For other events, stdout is visible in transcript views.
+Exit code 0 | Success. For UserPromptSubmit and SessionStart, stdout can add context. For other events, stdout is visible in transcript views.
 
-Exit code 2Blocking or corrective feedback. PreToolUse blocks the tool call, PostToolUse and Stop feed stderr back to Droid, and UserPromptSubmit blocks prompt processing. Other lifecycle events surface stderr to the user.
+Exit code 2 | Blocking or corrective feedback. PreToolUse blocks the tool call, PostToolUse and Stop feed stderr back to Droid, and UserPromptSubmit blocks prompt processing. Other lifecycle events surface stderr to the user.
 
-Any other non-zero exitNon-blocking error. Droid records stderr and continues where the event permits.
+Any other non-zero exit | Non-blocking error. Droid records stderr and continues where the event permits.
 
-JSON continue: falseStops processing after the hook. stopReason can explain why to the user.
+JSON continue: false | Stops processing after the hook. stopReason can explain why to the user.
 
-JSON suppressOutput: trueHides successful hook output from the main chat view while preserving it in the detailed transcript.
+JSON suppressOutput: true | Hides successful hook output from the main chat view while preserving it in the detailed transcript.
 
 ### PreToolUse control#
 
@@ -269,29 +269,29 @@ JSON
  }
 }
 
-DecisionEffect
+Decision | Effect
 
-allowAllows the tool call and can bypass the normal permission prompt.
+allow | Allows the tool call and can bypass the normal permission prompt.
 
-denyBlocks the tool call and sends the reason to Droid.
+deny | Blocks the tool call and sends the reason to Droid.
 
-askForces a user confirmation prompt.
+ask | Forces a user confirmation prompt.
 
 updatedInput can modify tool parameters before execution. Use it carefully and only for fields you understand.
 
 ### PostToolUse, prompt, and stop control#
 
-EventJSON fields
+Event | JSON fields
 
-PostToolUsedecision: "block" sends reason back to Droid after the tool ran. hookSpecificOutput.additionalContext adds more context.
+PostToolUse | decision: "block" sends reason back to Droid after the tool ran. hookSpecificOutput.additionalContext adds more context.
 
-UserPromptSubmitdecision: "block" prevents the prompt from being processed and shows reason to the user. additionalContext is appended when not blocked.
+UserPromptSubmit | decision: "block" prevents the prompt from being processed and shows reason to the user. additionalContext is appended when not blocked.
 
-Stop and SubagentStopdecision: "block" prevents stopping. Include reason so Droid knows what to do next.
+Stop and SubagentStop | decision: "block" prevents stopping. Include reason so Droid knows what to do next.
 
-SessionStarthookSpecificOutput.additionalContext is appended to the new session context.
+SessionStart | hookSpecificOutput.additionalContext is appended to the new session context.
 
-SessionEndCannot block session termination. Use it for cleanup and logging.
+SessionEnd | Cannot block session termination. Use it for cleanup and logging.
 
 Plugins and policy
 
@@ -330,11 +330,11 @@ Plugin hook commands may use ${DROID_PLUGIN_ROOT}, $DROID_PLUGIN_ROOT, ${CLAUDE_
 
 Organizations can define authoritative hooks in Enterprise Controls through managed settings. Org hooks always load unless hooks are globally disabled, and lower levels cannot remove them.
 
-FieldDescription
+Field | Description
 
-hooksOrg-defined hook settings keyed by event name, using the same structure as hooks.json.
+hooks | Org-defined hook settings keyed by event name, using the same structure as hooks.json.
 
-allowManagedHooksOnlyWhen true, only org-managed hooks and hooks from org-enabled plugins load. User and project hooks are ignored.
+allowManagedHooksOnly | When true, only org-managed hooks and hooks from org-enabled plugins load. User and project hooks are ignored.
 
 JSON
 
@@ -435,17 +435,17 @@ Droid snapshots hooks at startup and warns when hooks are modified externally. R
 
 ## Debugging#
 
-SymptomWhat to check
+Symptom | What to check
 
-Hook does not runConfirm the event key, matcher casing, and that hooks are not disabled. Use /hooks to inspect the active configuration.
+Hook does not run | Confirm the event key, matcher casing, and that hooks are not disabled. Use /hooks to inspect the active configuration.
 
-Hook runs for the wrong toolMatchers are case-sensitive and can be regexes. Use exact names like Execute, or a narrow regex.
+Hook runs for the wrong tool | Matchers are case-sensitive and can be regexes. Use exact names like Execute, or a narrow regex.
 
-Script cannot be foundUse an absolute path or "$FACTORY_PROJECT_DIR"/relative/path. Do not rely on the shell's current directory.
+Script cannot be found | Use an absolute path or "$FACTORY_PROJECT_DIR"/relative/path. Do not rely on the shell's current directory.
 
-JSON parsing failsRemember that hook input arrives on stdin. Test with sample JSON before registering the command.
+JSON parsing fails | Remember that hook input arrives on stdin. Test with sample JSON before registering the command.
 
-Hook hangsSet a shorter timeout, inspect external network or process calls, and test the script outside Droid.
+Hook hangs | Set a shorter timeout, inspect external network or process calls, and test the script outside Droid.
 
 Run droid --debug to inspect hook matching and execution details.
 

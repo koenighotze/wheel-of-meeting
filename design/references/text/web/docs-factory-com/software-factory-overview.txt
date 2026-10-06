@@ -27,19 +27,19 @@ Illustrative dashboard values; your numbers reflect your own connected automatio
 
 In the Factory App, Software Factory gives teams one place to track that system: live metrics, connected integrations, repository coverage, stage health, and persistent automations.
 
-StageWhat it covers
+Stage | What it covers
 
-TriageClassify inbound work, reduce duplicates, and route items.
+Triage | Classify inbound work, reduce duplicates, and route items.
 
-Code-genConnect requests from Slack or issue trackers to implementation sessions.
+Code-gen | Connect requests from Slack or issue trackers to implementation sessions.
 
-ValidateRun code review, security review, and QA before merge.
+Validate | Run code review, security review, and QA before merge.
 
-ReleaseTrack deployment gates, release checks, and ship workflows.
+Release | Track deployment gates, release checks, and ship workflows.
 
-DocumentKeep repository knowledge current with AutoWiki.
+Document | Keep repository knowledge current with AutoWiki.
 
-MonitorConnect incidents, alerts, and agent effectiveness back to engineering work.
+Monitor | Connect incidents, alerts, and agent effectiveness back to engineering work.
 
 ### When to use Software Factory#
 
@@ -71,19 +71,19 @@ Use the dashboard to:
 
 Repo-backed stages show repository coverage, so you can see which repos are covered by workflows like Code Review, QA, Security Audit, and AutoWiki.
 
-StageTemplates and setupCoverage shown
+Stage | Templates and setup | Coverage shown
 
-TriageTriageIntake automation coverage
+Triage | Triage | Intake automation coverage
 
-Code-genSlack and Linear delegationIntegration coverage
+Code-gen | Slack and Linear delegation | Integration coverage
 
-ValidateCode Review, QA, Security AuditRepository coverage
+Validate | Code Review, QA, Security Audit | Repository coverage
 
-ReleaseRelease checks and deployment gatesRelease status and gate coverage
+Release | Release checks and deployment gates | Release status and gate coverage
 
-DocumentAutoWikiRepository coverage
+Document | AutoWiki | Repository coverage
 
-MonitorIncident Response, Agent EffectivenessIncident and efficiency coverage
+Monitor | Incident Response, Agent Effectiveness | Incident and efficiency coverage
 
 ## Metrics and coverage#
 
@@ -93,15 +93,15 @@ Software Factory gives you a live view of automation impact across the SDLC with
 
 Software Factory automation metrics
 
-MetricDashboard tagWhat it indicates
+Metric | Dashboard tag | What it indicates
 
-Tickets TriagedQueue burnTickets classified, deduplicated, or routed by triage workflows.
+Tickets Triaged | Queue burn | Tickets classified, deduplicated, or routed by triage workflows.
 
-PR ValidationsMerge gateQA, security, and code-review checks run against pull requests.
+PR Validations | Merge gate | QA, security, and code-review checks run against pull requests.
 
-PRs MergedShip ratePull requests merged in the selected time range.
+PRs Merged | Ship rate | Pull requests merged in the selected time range.
 
-Incidents ProcessedReliabilityIncidents, errors, or alerts handled by incident-response workflows.
+Incidents Processed | Reliability | Incidents, errors, or alerts handled by incident-response workflows.
 
 Use these metrics to see where automation is moving work forward and where your team may need more coverage.
 
@@ -109,33 +109,33 @@ Use these metrics to see where automation is moving work forward and where your 
 
 Use stage metrics to spot which parts of the Software Factory are moving work, waiting for setup, or blocked by handoffs.
 
-StageExample metricWhat it answers
+Stage | Example metric | What it answers
 
-TriageThroughput and backlogAre incoming requests being classified and routed quickly?
+Triage | Throughput and backlog | Are incoming requests being classified and routed quickly?
 
-Code-genLines changed and session outputHow much implementation work is flowing through Droid?
+Code-gen | Lines changed and session output | How much implementation work is flowing through Droid?
 
-ValidatePass rate and review volumeAre QA, security, and code-review gates healthy?
+Validate | Pass rate and review volume | Are QA, security, and code-review gates healthy?
 
-ReleaseDeployments and cycle timeIs validated work reaching users on schedule?
+Release | Deployments and cycle time | Is validated work reaching users on schedule?
 
-DocumentDocs updated and repository coverageIs AutoWiki keeping knowledge current?
+Document | Docs updated and repository coverage | Is AutoWiki keeping knowledge current?
 
-MonitorIncident response and token efficiencyAre incidents and agent effectiveness improving?
+Monitor | Incident response and token efficiency | Are incidents and agent effectiveness improving?
 
 ### Health and coverage#
 
 Health and coverage show where Software Factory is ready to run and where setup is missing.
 
-SignalMeaning
+Signal | Meaning
 
-Stage healthWhether the stage has the integrations and automations it needs.
+Stage health | Whether the stage has the integrations and automations it needs.
 
-Repository coverageWhich repositories are covered for Validate, Release, and Document workflows.
+Repository coverage | Which repositories are covered for Validate, Release, and Document workflows.
 
-Integration coverageWhich intake systems, channels, and deployment tools are connected.
+Integration coverage | Which intake systems, channels, and deployment tools are connected.
 
-Setup gapsThe repos, channels, or gates that still need an automation or integration.
+Setup gaps | The repos, channels, or gates that still need an automation or integration.
 
 - Stage metrics show throughput, pass rate, queue depth, and cycle time for each SDLC stage.
 
