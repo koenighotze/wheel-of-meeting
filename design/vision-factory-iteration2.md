@@ -35,8 +35,8 @@ This file collects what was deliberately left out of step one, see [vision-facto
 
 ## Extended dashboard
 
-- **Goal:** extend the initial set of containers with more metrics, longer history, and richer views, including the metrics that need CI data.
-- **Why deferred:** step one delivers a small set of clear metrics (R18) as a first version.
+- **Goal:** extend the initial dashboard (see [Dashboard and metrics agent](#dashboard-and-metrics-agent)) with more metrics, longer history, and richer views, including the metrics that need CI data.
+- **Why deferred:** the initial dashboard with its small set of metrics (R18) is itself part of this iteration. Step one ships no dashboard and only collects raw JSONL events (R19).
 
 ## Orchestration of the roles
 
