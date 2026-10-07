@@ -1,0 +1,179 @@
+# Simon Willison’s Weblog
+
+ Subscribe
+
+ Sponsored by: Deepgram — Flux TTS remembers the conversation, so your agent sounds right on reply 20. Hear the demo
+
+Guides > Agentic Engineering Patterns
+
+## Anti-patterns: things to avoid
+
+There are some behaviors that are anti-patterns in our weird new world of agentic engineering.
+
+## Inflicting unreviewed code on collaborators
+
+This anti-pattern is common and deeply frustrating.
+
+Don't file pull requests with code you haven't reviewed yourself.
+
+If you open a PR with hundreds (or thousands) of lines of code that an agent produced for you, and you haven't done the work to ensure that code is functional yourself, you are delegating the actual work to other people.
+
+They could have prompted an agent themselves. What value are you even providing?
+
+If you put code up for review you need to be confident that it's ready for other people to spend their time on it. The initial review pass is your responsibility, not something you should farm out to others.
+
+A good agentic engineering pull request has the following characteristics:
+
+- The code works, and you are confident that it works. Your job is to deliver code that works.
+
+- The change is small enough to be reviewed efficiently without inflicting too much additional cognitive load on the reviewer. Several small PRs beats one big one, and splitting code into separate commits is easy with a coding agent to do the Git finagling for you.
+
+- The PR includes additional context to help explain the change. What's the higher level goal that the change serves? Linking to relevant issues or specifications is useful here.
+
+- Agents write convincing looking pull request descriptions. You need to review these too! It's rude to expect someone else to read text that you haven't read and validated yourself.
+
+Given how easy it is to dump unreviewed code on other people, I recommend including some form of evidence that you've put that extra work in yourself. Notes on how you manually tested it, comments on specific implementation choices or even screenshots and video of the feature working go a long way to demonstrating that a reviewer's time will not be wasted digging into the details.
+
+ ← AI should help us produce better code
+
+ How coding agents work →
+
+This is a chapter from the guide Agentic Engineering Patterns.
+
+Chapters in this guide
+
+- 
+ Principles
+
+- What is agentic engineering?
+
+- Writing code is cheap now
+
+- Hoard things you know how to do
+
+- AI should help us produce better code
+
+- Anti-patterns: things to avoid
+
+- 
+ Working with coding agents
+
+- How coding agents work
+
+- Using Git with coding agents
+
+- Subagents
+
+- 
+ Testing and QA
+
+- Red/green TDD
+
+- First run the tests
+
+- Agentic manual testing
+
+- 
+ Understanding code
+
+- Linear walkthroughs
+
+- Interactive explanations
+
+- 
+ Annotated prompts
+
+- GIF optimization tool using WebAssembly and Gifsicle
+
+- Adding a new content type to my blog-to-newsletter tool
+
+- 
+ Appendix
+
+- Prompts I use
+
+ ai
+ 2,261
+
+ llms
+ 1,971
+
+ ai-ethics
+ 343
+
+ coding-agents
+ 254
+
+ ai-assisted-programming
+ 407
+
+ generative-ai
+ 2,004
+
+ agentic-engineering
+ 64
+
+ code-review
+ 16
+
+Previous: AI should help us produce better code
+
+Next: How coding agents work
+
+- Disclosures
+
+- Colophon
+
+- ©
+
+- 2002
+
+- 2003
+
+- 2004
+
+- 2005
+
+- 2006
+
+- 2007
+
+- 2008
+
+- 2009
+
+- 2010
+
+- 2011
+
+- 2012
+
+- 2013
+
+- 2014
+
+- 2015
+
+- 2016
+
+- 2017
+
+- 2018
+
+- 2019
+
+- 2020
+
+- 2021
+
+- 2022
+
+- 2023
+
+- 2024
+
+- 2025
+
+- 2026
+
+-

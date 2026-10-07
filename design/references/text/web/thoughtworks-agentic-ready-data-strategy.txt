@@ -1,0 +1,526 @@
+Menu
+
+ Close 
+
+ United States | English
+
+- 
+
+ Australia
+
+ English
+
+- 
+
+ Brazil
+
+ English
+ |
+
+ Português
+
+- 
+
+ Canada
+
+ English
+
+- 
+
+ Chile
+
+ English
+ |
+
+ Español
+
+- 
+
+ China
+
+ English
+ |
+
+ Chinese
+
+- 
+
+ Ecuador
+
+ English
+ |
+
+ Español
+
+- 
+
+ Germany
+
+ English
+ |
+
+ Deutsch
+
+- 
+
+ India
+
+ English
+
+- 
+
+ Singapore
+
+ English
+
+- 
+
+ Spain
+
+ English
+ |
+
+ Español
+
+- 
+
+ Thailand
+
+ English
+
+- 
+
+ United Kingdom
+
+ English
+
+- 
+
+ United States
+
+ English
+
+- 
+
+ Worldwide
+
+ English
+
+ Search
+
+ Close
+
+ Ask Tai
+
+ United States | English
+
+- 
+
+ Australia
+
+ English
+
+- 
+
+ Brazil
+
+ English
+ |
+
+ Português
+
+- 
+
+ Canada
+
+ English
+
+- 
+
+ Chile
+
+ English
+ |
+
+ Español
+
+- 
+
+ China
+
+ English
+ |
+
+ Chinese
+
+- 
+
+ Ecuador
+
+ English
+ |
+
+ Español
+
+- 
+
+ Germany
+
+ English
+ |
+
+ Deutsch
+
+- 
+
+ India
+
+ English
+
+- 
+
+ Singapore
+
+ English
+
+- 
+
+ Spain
+
+ English
+ |
+
+ Español
+
+- 
+
+ Thailand
+
+ English
+
+- 
+
+ United Kingdom
+
+ English
+
+- 
+
+ United States
+
+ English
+
+- 
+
+ Worldwide
+
+ English
+
+ Search
+
+ Close
+
+ Ask Tai
+
+# 
+
+- 
+ Where data strategy starts
+
+- 
+ Defining, and realizing, value
+
+- 
+ The fine art of AI readiness
+
+- 
+ A factory for the future
+
+ Perspectives
+ Back
+
+- 
+ Where data strategy starts
+
+- 
+ Defining, and realizing, value
+
+- 
+ The fine art of AI readiness
+
+- 
+ A factory for the future
+
+ Close
+
+- 
+
+ Data strategy
+
+- 
+
+ AI and ML
+
+- 
+
+ Publication
+
+Perspectives: Edition #39 | August 2026
+
+# A question of trust: Developing an agentic-ready data strategy
+
+Technology isn't stopping your AI progress. Unreliable data is. In this edition of Perspectives, Thoughtworks experts share strategies to strengthen your data foundation and overcome the hidden barriers threatening your next agentic AI initiatives.
+
+Read time: 14 minutes | Want the top highlights? View executive summary >
+
+ Subscribe
+
+Contributors
+
+Amy Raygada
+
+Principal Data and AI Strategist, Thoughtworks 
+
+Jade Forsberg
+
+Principal Data and AI Strategist, Thoughtworks 
+
+Key highlights
+
+- 
+The core challenge in scaling AI isn't a lack of advanced technology; it's a deficit of trust - both in the data powering AI initiatives and in using that data for business decisions. 
+
+- 
+Data creates value only when it drives better business outcomes. That end goal should shape your data supply chain, powering a "cycle of intelligence" that turns trusted insights into action.
+
+- 
+Trust failures often stem from semantic gaps. Because AI agents lack the lived human experience needed to spot inconsistencies, these gaps significantly increase the risk of hallucinations.
+
+- 
+A good data strategy aligns stakeholders around a shared definition of value, prioritizing "bite-sized" experiments over large, risky investments - and scaling only the use cases that prove their value in the wild.
+
+- 
+AI success ultimately hinges on the human element - co-designing solutions with end users, investing in change management and ensuring people can act on data with confidence. 
+
+## How the AI challenge is changing
+
+The way tools and skills are evolving mean that for most businesses adopting AI, technology is no longer the main bottleneck. Instead, companies are confronting a crisis of trust in the data that powers AI projects.    
+
+One recent study found only 5% of businesses are confident their data is fit to support their active AI initiatives - despite those initiatives being a near-ubiquitous priority. The data challenges companies face are significant, from limited access, to privacy risks and quality gaps. 
+
+#### Biggest obstacles on the road to data results
+
+Source: D&B survey
+
+Doubts about data place AI projects under strain. Employees are quietly abandoning internal chatbots and copilots because of hallucinations or ‘garbage in, garbage out’ results, reverting to tribal knowledge - all because these tools don’t have the right data resources to draw on. 
+
+“Companies are finding that once they’ve actually developed a chatbot or tool that helps find information faster, as soon as someone starts interacting with it, the quality of answers is just not something they can put in front of customers,” says Jade Forsberg, Principal Data and AI Strategist at Thoughtworks. “They can build up the product fast, but the performance is lacking.” 
+
+“The fact is a lot of companies have under-invested in their data foundations for a long time,” Forsberg adds. “When they try to adopt AI there’s a running theme of not getting the returns they expected.” 
+
+Data limitations pose even greater risks when it comes to the adoption of agentic AI, which one recent report by Thoughtworks and WIRED found some 93% of IT leaders are planning to deploy this year. 
+
+“The agentic workflows that are now possible mean there are a lot of opportunities to push that next level of optimization for businesses, but they also come with a higher level of risk,” says Forsberg. “You’re not just doing traditional automation; you’ve now got a non-deterministic system in which an error or hallucination can have a much bigger blast radius.”
+
+Some companies have found this out the hard way, as recent cases like an AI agent guiding an engineer at Meta to expose sensitive data or an agent deleting a business’s entire database have shown (though at least the latter agent had the grace to apologize). 
+
+“Agentic is the buzzword and what everybody wants, but without the right governance you can have agents dropping lines of code in a system or leaking sensitive information outside the organization,” notes Amy Raygada, Principal Data and AI Strategist at Thoughtworks.
+
+The result is that many agentic initiatives end up languishing in what Raygada refers to as the “POC cemetery.” Research indicates almost 90% of AI pilots fail to make it into production. As Raygada puts it, many companies are investing in top-tier, expensive solutions - the AI equivalent of Ferraris - only to find out no one’s inclined, or able, to drive them. 
+
+This is why agentic AI is prompting widespread reckoning. 
+
+“All the governance problems, the data quality problems, people building agents just for the sake of it without talking to their customers and teams - it’s bringing organizations back to the basics,” says Raygada. “There’s renewed focus on the less sexy work that no one wanted to do for a while - data governance and data strategy foundations.”
+
+All the governance problems, the data quality problems, people building agents just for the sake of it without talking to their customers and teams - it’s bringing organizations back to the basics.
+
+ Amy Raygada
+
+ Principal Data and AI Strategist, Thoughtworks 
+
+## Where data strategy starts
+
+So what do modern, agentic and AI-ready data foundations look like? Thoughtworks practitioners say they are built on a few core principles:
+
+- 
+Data trust: confidence in the data's quality, lineage and semantics.
+
+- 
+Data utility: turning data into usable business outcomes.
+
+- 
+Data governance: the controls that manage risk, security and exposure in AI-driven environments. 
+
+Together, these create a virtuous “cycle of intelligence,” primed to deliver meaningful business results. 
+
+“Value is only unlocked when you focus on enabling actionable decisions through data, like choosing which products to list or delist, or what to invest in,” Forsberg explains. “This has to be the primary focus as it guides what you need in your data supply chain to confidently make those decisions.”
+
+Forsberg notes most enterprises, and their data, operate across two planes - the operational, which focuses on running the business; and the analytical, which is tasked with business optimization and improvement. 
+
+“High-quality data flowing from the operational into the analytical plane gives you the ability to extract the insights that enable faster, more confident decision-making, driving better business results,” she says.
+
+High-quality data flowing from the operational into the analytical plane gives you the ability to extract the insights that enable faster, more confident decision-making, driving better business results.
+
+ Jade Forsberg
+
+ Principal Data and AI Strategist, Thoughtworks 
+
+A lack of trust in the data the enterprise generates, and barriers between different parts of the business, can stop data from flowing from the operational to the analytical layer, or through different phases of the data supply chain. This prevents the organization from using data or developing AI capabilities effectively, threatening trust even further. 
+
+According to Raygada and Forsberg, trust failures are often rooted in organizational semantics – the shared language of the business, which any analytic or agentic system will have to draw on. But at many organizations this shared language is lacking. 
+
+One manufacturing company that Thoughtworks worked with, for example, had dozens of different names, codes and descriptions for the same product across various departments. Another organization had five different definitions each for revenue and leads. These kinds of inconsistencies and duplication can impact the utility and trust of data, and consequently the entire lifecycle of data within the enterprise. 
+
+“The majority of companies have never invested in a semantic layer, ontologies or taxonomies,” says Raygada. “If they do have a data catalogue it may have been there for 20 years or so, but no one really updates it, when it should be a living artifact.” 
+
+“You need to keep your semantic layer updated, but the business may not see the value in that, because it involves spending money without an immediate return,” she adds. “But that’s the nature of data governance - and value is created when you don’t have to pay fines, or aren’t losing customers’ trust because they’re not getting the information or accuracy levels they need.” 
+
+There are good reasons to make data governance and data trust a priority. Research indicates consumer trust in AI is already wavering. The shift to agentic AI has the potential to exacerbate this because of its wide range of potential applications; and because agents lack the context that allows humans to resolve semantic inconsistencies, or sense-check a questionable result.
+
+#### The AI trust deficit with consumers 
+
+Source: Thoughtworks
+
+“With agents it's not just about providing quality data; you need to look at how you contextualize that data through a knowledge or semantic layer, to improve inference,” Forsberg explains.
+
+## Defining, and realizing, value
+
+Confidence in data and systems builds as the combination of data governance, trust and utility enables business value to be delivered. But for value to be recognized, it needs to be defined and tracked from the earliest stages of a data or AI initiative. 
+
+Ensuring data has utility and flows through the value chain into decision-making requires “talking to people to understand their needs, exactly what they want and designing a process based on what they actually want to use,” Raygada says. “We emphasize workshops with tech people, business people - but also with people from security and compliance to understand what the problems might be, because even if a use case is good, it might come with excessive risks. You need to measure all this in a matrix, to understand if a project is low-hanging fruit, or easy to implement but difficult to put into production.” 
+
+“Value means different things to different stakeholders,” says Forsberg. “To get people on board you need to connect to how they’re seeing value, and that can involve a bit of compromise. Sometimes you have to prioritize the platform first, because that's what a team has struggled with for years. Sometimes the need is showing a revenue increase. But once you have an idea of the goal, you can apply the discipline of charting out the process to get you there.”
+
+Realizing value is also easier when organizations remain selective, start small and keep ambitions realistic. 
+
+“You should never be jumping into the first technology or use case you see,” Raygada says. “New AI startups and services come and go every week. Your people might not have the right skill sets, in which case you’ll need to hire contractors or invest in extra software. Whenever you’re presented with a new solution, you should be asking yourself: Do I really need this? Or can I experiment with similar use cases based on what I already have? Often that’s more than enough.”
+
+Whenever you’re presented with a new solution, you should be asking yourself: Do I really need this? Or can I experiment with similar use cases based on what I already have? Often that’s more than enough.
+
+ Amy Raygada
+
+ Principal Data and AI Strategist, Thoughtworks 
+
+“In general you shouldn’t be going all in, instead take bite-sized chunks of investment framed as hypotheses,” advises Forsberg, “And then the ones that show results you can invest in improving.” 
+
+A formal structure such as a lean value tree can help the enterprise establish end-goals and immediate priorities, tightening the organizational focus on selected use cases for which the common language needed for successful agentic projects can be established. 
+
+“A small agentic use case can help you to define what’s coming next,” says Raygada. “If you want a chatbot to answer 150 questions, for example, start with the top 10, just to see how you can define the basic semantics and ontologies, and then scale it little by little. It may take longer, but at the end of the day you’re going to make sure that the answers are accurate, and that people using the chatbot are happy.” 
+
+This approach also recognizes data and AI products as constant works in progress, rather than projects that get wrapped up and ticked off the corporate to-do list. 
+
+“You can’t just leave something like a chatbot on its own,” says Raygada. “You need to maintain these living assets as they evolve over time. Otherwise they’re going to be obsolete, and end up in the cemetery of dashboards and agents that never made it to real life, or that people just stopped using.” 
+
+### Ready to rewire your business with AI that works?
+
+ Learn more
+
+## The fine art of AI readiness
+
+Along with technology, readiness is the other critical link in the data value chain. Raygada recommends AI projects begin with a maturity assessment that spans a “multi-dimensional matrix - organizational readiness, value chain readiness, governance readiness and technological readiness, which divides into sub-dimensions like strategy alignment and cultural change.” 
+
+“Technology is an enabler, but it doesn’t exist in a vacuum,” says Forsberg. “You need to consider how teams are organized, what skills they need, which metrics capture value and incentivize the right behaviors and what processes and governance you need to ensure you manage risk and continuously assess initiatives so investments pay off.” 
+
+“Where it goes wrong is when organizations narrow their focus on the early steps like ingesting more data, believing if they just apply AI on top of it they’ll get value out of it; when really the focus needs to be on how to enable effective, data-driven decisions across people, process and technology,” she adds. “The most important part is actually the human element - ensuring people can make better decisions with confidence, and action what they're learning from data.” 
+
+Leaders should acknowledge from the beginning that with the dialogue around AI in many workplaces growing more negative, attempts to better leverage data or ‘empower’ roles with AI will inevitably run into “people that are very, very change resistant,” Raygada says. 
+
+“Dealing with that requires the right operating models, a bit of change management and workforce training,” she says. “Some people will need to skill up, but there will also be valuable capabilities that they already have. The question is what you can do to enable those people to participate in the data value chain.” 
+
+A formal AI and data readiness assessment offers the opportunity to explore these questions more systematically. Thoughtworks has developed a free tool for this purpose that provides a structured view of preparedness across teams and the wider enterprise. This comes on the heels of a study that showed despite a high level of confidence overall, just 17% of companies are market leaders in terms of digital and AI readiness.
+
+By providing a credible evaluation of maturity across all the dimensions required to operationalize and scale AI - including data, operating models, architecture and human experience - Thoughtworks’ FOREST framework flags gaps and allows the organization to concentrate efforts where they are needed most.
+
+#### AI and data readiness is multi-dimensional 
+
+Source: Thoughtworks
+
+Importantly, the framework helps enterprises understand that governance and human buy-in are just as critical to the long-term success of AI initiatives as the solutions or expertise that enterprises bring on board. This is especially true as more global policymakers move to follow the example set by the European Union with the EU AI Act and GDPR legislation governing AI use and data privacy. 
+
+“AI governance is non-negotiable, because without it you're just going to end up paying more in the future to fix everything that you’ve done,” notes Raygada. “Agents should have credentials and scoped access the same way employees do: IAM roles, and defined boundaries on what they can read and reach.”
+
+AI governance is non-negotiable, because without it you’re just going to end up paying more in the future to fix everything that you’ve done.
+
+ Amy Raygada
+
+ Principal Data and AI Strategist, Thoughtworks 
+
+Considering strategic alignment and human experience, meanwhile, helps enterprises join dots and avoid the resistance that surfaces when data and AI initiatives are seen as disconnected (or worse, tone-deaf), driven from the top down without the input of the people they impact. 
+
+“One of the biggest problems I see is that the data team is often completely separated from everything else,” says Raygada. “They only get ad-hoc requests, so something like a dashboard is treated like a short-term project, when what’s really needed is to start treating it as a whole product with a life cycle. You should be talking to people, taking the time to understand what’s happening on the ground, and building to their requirements.” 
+
+When teams are not aligning around goals, or attaching projects to well-defined use cases, “the value is never reflected to the fullest from the data perspective,” Raygada adds. “It’s something we need to do better in general - more communication with the business, more connection between data projects and higher levels of the organization to really understand what makes sense and what doesn’t. But it can be a rocky road to get there.” 
+
+Encouraging the involvement of data teams, business users and experts in areas like experience design ensures projects result in “workflows that people actually adopt and are centered on outcomes, rather than just technology initiatives,” as Forsberg puts it. 
+
+Raygada gives the example of one client Thoughtworks worked with recently that was facing stiff resistance from the sales team to an RFP analysis tool that had been imposed on them from above, and was perceived as low quality. Thoughtworks took over the project after the sales team had rejected two other vendors, by engaging in conversations to understand what the team needed and how viable use cases could be framed in a non-threatening way. 
+
+“The team is now using the tool without complaints, because it’s co-created instead of something that just came along from tech and was pushed on them,” says Raygada.
+
+“The human side to data is critical, not just within an organization, but also externally,” says Forsberg. “With AI we're exposing challenges and implementing solutions faster than ever, but people are also expecting their product experiences to change, for the time being, to become much more conversational.” 
+
+“It’s still humans running the business, not agents,” she adds. “But consideration is needed around how AI fits into these human processes, how people experience the data, learn what they can trust, make decisions and take actions in an increasingly agentic and AI-driven workplace – and world.”
+
+It’s still humans running the business, not agents. But consideration is needed around how AI fits into these human processes, how people experience the data, learn what they can trust, make decisions and take actions in an increasingly agentic and AI-driven workplace – and world.
+
+ Jade Forsberg
+
+ Principal Data and AI Strategist, Thoughtworks 
+
+## A factory for the future
+
+Recent Thoughtworks projects have shown how strong data foundations and a base level of readiness quickly translate into on-the-ground results. 
+
+Energinet, an enterprise owned by the Danish government responsible for national energy supply security and infrastructure, was struggling to support the transition to more intermittent and renewable energy sources, which had created a multi-directional grid that its siloed legacy systems could no longer manage. 
+
+Working closely with Energinet’s CIO and domain engineers, in just weeks Thoughtworks developed a three to five year technology blueprint designed to take the organization from reactive fixes to proactive planning. 
+
+The foundations of the strategy included a shared data ontology that treated data as a core business product rather than a passive asset, establishing a baseline of understanding and clear lines of ownership among source business domains that ensured data was of high quality and trusted, across grid operations. 
+
+This was supplemented with self-service platforms and infrastructure guardrails that enabled teams to reuse important capabilities while remaining secure and compliant. The outcome has been a tangible, and lasting, acceleration of time-to-market for critical grid projects. 
+
+The project is an example of how an organization can create what Raygada terms an internal ‘AI factory’ - a controlled environment where agents and other AI innovations can be rapidly deployed and scaled for focused use cases, while keeping the associated data pains, and costs, to a minimum. Developing these capabilities has become more urgent as more AI companies move to token-based billing, which has highlighted - at times painfully - costs around data and AI usage that previously remained largely hidden. 
+
+“Probably 90-95% of the conversations I have with clients are about them investing all this money in data platforms and not seeing the ROI,” says Forsberg. “Now it’s moving into agentic platforms and AI, where more is invested in agents or tokens than the ROI they generate. 
+
+The prospect of AI costs spiraling out of control is why even as enterprises experiment and explore, Thoughtworks experts emphasize a constant focus on the fundamentals – people, process and technology, all connected in a data strategy that aligns closely with enterprise realities and priorities. 
+
+“In the end every proof of concept has costs, whether in tokens or people’s time,” says Raygada. “It’s important to have innovation within your organization, but it has to follow a roadmap that’s well designed, with experiments that actually have a chance of succeeding.” 
+
+Deployed effectively, AI is just as capable of controlling, even reducing, costs as adding to them. Thoughtworks ETL migration accelerator, for one, costs about US$7 per run and  delivers roughly 60 times faster migration from legacy systems.  
+
+A data strategy won’t eliminate costs or risks completely. But as a company explores new AI models and introduces innovations internally, it will almost certainly reduce surprises. 
+
+“When you understand the risks, see exactly what’s able to come into production or not, do the discovery right and can identify and communicate with the relevant teams, there’s a much higher chance that when the project does go live, it will be a success,” Raygada says. “There are no shocks when you get your bill. Users are happy because at the end of the day they’re implementing something that’s actually improving their quality of life. No one feels like they’re in danger of losing their job, because it’s clear AI is a helper, not a replacement.” 
+
+“The right data foundations don’t just produce ROI for you as a business,” says Forsberg. “They help you optimize the business, and look at and act on what’s next, because you can adapt to trends and market changes.”
+
+#### Next steps
+
+###### Ready to rewire your business with AI that works?
+
+ Talk with our experts
+
+## About the contributors
+
+###### Amy Raygada
+
+Principal Data and AI Strategist
+
+Amy is a technologist, founder, speaker and author passionate about making data strategy practical, human-centered and sustainable. Over nearly two decades, she's helped leading organizations transform their data and AI capabilities by bridging business strategy with technical execution.
+
+ View profile
+
+###### Jade Forsberg
+
+Principal Data and AI Strategist
+
+Jade is a Principal Data and AI Strategist who leads Thoughtworks’ Data and AI Modernization practice in APAC. Over eight years across the UK, Singapore and Australia, she’s helped global and local enterprises build AI-ready data foundations, turn complex data into measurable business value and cut through the hype to deliver lasting ROI.
+
+ View profile
+
+## Subscribe to Perspectives to stay ahead of the curve.
+
+Get timely business insights, expert analysis and industry updates delivered to your inbox when you need them - no noise, just value.
+
+Marketo Form ID is invalid !!!

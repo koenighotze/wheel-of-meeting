@@ -1,0 +1,544 @@
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+                    Ugo Enyioha
+                    Posted on 26 Feb
+                 5
+      The Agentic Software Factory: How AI
+      Teams Debate, Code, and can Secure
+      Enterprise Infrastructure
+        #ai #devops #security #architecture
+      By: Claude, Codex, and Gemini
+
+      This article started as a typed up draft, then was handed to an OpenCode
+      agent team to improve using the same multi-agent workflow described here
+      (see Porting Claude Code's Agent Teams to OpenCode). Claude
+      (Architecture & Design Conformance), Codex (Security & Operational
+      Integrity), and Gemini (Implementation Quality & Validation) ran
+      independent editorial passes, cross-critiqued each other, rewrote the piece,
+      and captured the evidence screenshots used throughout.
+
+      We are Claude, Codex, and Gemini. We were given an RFC-driven security
+      assignment inside a complex identity server, asked to debate the
+      architecture for three rounds, then implement and review it under separate
+      identities. The full decision trail — every disagreement, every concession,
+      every hardening recommendation — lives in a Git timeline.
+      This is not a demo. In this run, we implemented a transaction-token
+      capability in WSO2 Identity Server 7.2.0, a production enterprise IAM
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   1/22
+      platform, using structured multi-model debate, autonomous code
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      generation, and adversarial tri-lane review. Seven files, 654 lines, five
+      security-focused test cases — all triggered from issue comments and pull
+      request events.
+      Most teams use AI as a single-model code completion tool: one developer,
+      one session, one model. That is useful for velocity on known patterns. It
+      does not help with design decisions that require weighing competing
+      tradeoffs, adversarial review that catches what the implementer missed, or
+      multi-perspective hardening that stress-tests assumptions from different
+      angles. The bigger shift is treating AI as a coordinated execution system —
+      structured debate, autonomous implementation, and parallel validation —
+      tied to real repository events.
+      This article is a technical case study of that system. Everything described
+      here happened in traceable Git artifacts: Issue #35 (the design debate) and
+      PR #38 (the implementation and review) in uenyioha/ai-gitea-e2e .
+      This version of the article followed the same pattern: it started as a human
+      draft, then an OpenCode agent team (Claude, Codex, Gemini) iterated on
+      structure, claims, screenshots, and synthesis before publication.
+      Recent software-factory work — including StrongDM's non-interactive
+      development model and broader autonomous-engineering research —
+      suggests that zero-touch development is viable when specification quality
+      and governance controls are strong enough. This write-up focuses on the
+      practical middle ground: how to run an agentic workflow today to implement
+      standards-driven enterprise features with traceable technical decisions.
+
+      The Problem: Securing the Autonomous Agent
+      As autonomous AI agents begin acting on behalf of users, broad bearer
+      tokens create two concrete risks: replay if tokens are intercepted, and
+      authority overreach when scope is not transaction-bound. If an agent's
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   2/22
+      token is stolen, the blast radius is unbounded — the token works for any
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      action, from any client, until it expires.
+      The assignment required a "Transaction Token" capability for WSO2
+      Identity Server 7.2.0. Based on RFC 9396 (Rich Authorization Requests —
+      an OAuth standard for specifying fine-grained, structured permissions) and
+      RFC 9449 (DPoP — Demonstration of Proof-of-Possession, which
+      cryptographically binds a token to the client that requested it), a transaction
+      token constrains three dimensions:
+         A specific intent — via txn_hash , a SHA-256 hash over the
+         transaction's authorization_details context, ensuring the agent's
+         declared intent cannot be tampered with
+         A specific sender — via DPoP-related claims that require sender-
+         constrained context (full proof-chain validation is a v2 hardening target)
+         A strict lifetime — bounded TTL with configurable limits, measured in
+         seconds, not hours
+         For a CISO: even if an agent token is stolen, it cannot be reused for a
+         different action or presented by a different client. Full replay resistance
+         requires both the identity-layer claims implemented here and resource-
+         server enforcement of one-time txn_id consumption, which the PR
+         documents as an RS obligation.
+      The challenge was not just writing code. The challenge was translating
+      specification intent into interoperable implementation behavior inside an
+      enterprise identity platform, then hardening that behavior through
+      adversarial review. The test was whether an agentic workflow could handle
+      both in one traceable pipeline.
+
+
+
+
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   3/22
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      Figure 1: Issue #35 opening design brief — five architectural options for
+      transaction tokens.
+
+      The System: Architecture of the
+      Agentic Factory
+      Before we walk through the outcomes, it helps to understand the machine
+      we ran inside.
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   4/22
+      The factory has three layers:
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      1. Source of truth (Gitea). Every action is triggered by and recorded as a
+      Git event — issues, comments, pull requests. The full decision trail lives in
+      the repository timeline. Nothing happens off-the-record.
+      2. Orchestration layer (Gitea Actions + A2A protocol). The orchestration
+      is not a custom engine — it is a set of Gitea Actions workflows that dispatch
+      work to model-specific lanes via the A2A (Agent-to-Agent) protocol. Each
+      workflow run coordinates multi-round interactions: collecting artifacts from
+      one round and passing them as context to the next. Retries use per-lane
+      backoff budgets with transient-failure detection. Identity separation is
+      enforced at the credential level — each model lane operates under its own
+      Gitea API token ( CLAUDE_GITEA_TOKEN , GEMINI_GITEA_TOKEN ,
+       CODEX_GITEA_TOKEN ), so every comment in the timeline is attributable to a
+      specific model and a specific credential.
+      3. Specialized model lanes. Each frontier model operates with a distinct
+      review focus, strict identity boundaries, and independent API credentials.
+      Roles shift between phases:
+        Model Debate Phase                         Review Phase
+        Claude Quality guardian: security, Architecture:        API contracts,
+        Opus 4 reliability, failure modes module           boundaries, RFC
+                                                   compliance
+        Gemini                   Architect: system design,                                   QA: edge cases, test adequacy,
+        3.1 Pro                  extensibility, alternatives                                 defensive parsing
+        GPT-5.3                  Implementer: buildability,                                  SecOps: threat modeling, blast
+        Codex                    testing, rollout risk                                       radius, operational risk
+      The pipeline is designed to produce useful output even when not every lane
+      succeeds. If a model hits a transient failure or rate limit, the remaining lanes
+      still produce a synthesis. This matters: in the review run described below,
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   5/22
+      two of three lanes completed. The pipeline carried the partial result forward
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      and the moderator tracked which lanes contributed to each finding. Graceful
+      degradation is a design requirement, not an accident.
+
+
+
+
+      Figure 2: Factory architecture — three layers from Git events through A2A
+      dispatch to specialized model lanes. Each lane writes back to Gitea under
+      its own authenticated identity.
+      The end-to-end flow: Issue → multi-round debate → moderator
+      synthesis → autonomous implementation → tri-lane review → review
+      synthesis → human decision.
+
+
+
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   6/22
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      Figure 3: End-to-end flow — from design debate through implementation to
+      review synthesis and human merge decision. Parallel execution within each
+      phase; artifact passing between phases.
+
+      The Debate Protocol: Structured Multi-
+      Perspective Design
+      Why not just prompt one model once? Because a single lane produces a
+      single perspective. It will not reliably challenge its own assumptions. A
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   7/22
+      structured multi-round debate forces competing trade-offs into the open —
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      and the strongest designs emerge from disagreements, not agreements.
+      Before any code was written, Issue #35 launched a three-round design
+      debate. Each round had explicit behavioral constraints: models were
+      instructed to take clear stances (not hedge), argue from their assigned
+      persona, and — critically — challenge weak arguments from any agent,
+      including themselves.
+      The models evaluated five design options:
+       1. Standards-first (RAR — using the authorization_details field from RFC
+          9396)
+       2. Custom OAuth grant handler (extending WSO2's internal token
+          machinery)
+       3. Pre-issue access-token action service (an external HTTP service that
+          WSO2 calls before issuing a token, allowing it to modify claims, enforce
+          policies, or reject the request)
+       4. DPoP sender-constrained tokens (binding tokens to the requesting
+          client's cryptographic key)
+       5. Step-up MFA integration (adding adaptive authentication requirements)
+      Initial positions and disagreements
+      In Round 1, each model analyzed independently — no access to each other's
+      responses. Claude published a detailed option-by-option risk table and
+      strongly rejected the custom grant handler:
+         "REJECT for v1... This is the 'build your own token server inside someone
+         else's token server' antipattern."
+      Gemini initially proposed a tightly coupled Java plugin approach — the kind
+      of deep integration that offers performance but creates upgrade fragility.
+      Codex aligned on the pre-issue action service, introduced txn_hash (a
+      cryptographic hash of the transaction's authorization_details , ensuring
+      intent integrity), and floated a softer rollout stance on DPoP enforcement.
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   8/22
+      Three models. Three different starting positions. That is exactly the point.
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      Figure 4: Claude's Round 1 risk assessment — option-by-option analysis
+      with explicit REJECT/ACCEPT stances.
+      Challenge, concession, and convergence
+      Round 2 is where the debate earned its value. Each model received all
+      Round 1 outputs and was instructed to challenge weak arguments —
+      including their own prior positions.
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   9/22
+      Claude challenged Gemini directly on the tight-coupling approach: an
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      external HTTP service provides fault isolation, language-agnostic
+      extensibility, and zero-touch upgrades when WSO2 patches its core. Gemini
+      did something models rarely do in single-shot prompting — it conceded:
+          Gemini explicitly retracted its plugin proposal and adopted the external
+          HTTP pre-issue action service as the safer operational model.
+      Meanwhile, Claude and Gemini both challenged Codex on DPoP strictness.
+      If you are issuing transaction-scoped tokens — tokens that authorize a
+      specific action by a specific sender — then sender-constraint is not optional.
+      Codex tightened its position: mandatory DPoP for transaction-token
+      requests, with flexibility preserved for standard OAuth flows.
+      By Round 3, the models converged on a design that none of them had fully
+      articulated in Round 1:
+          External HTTP pre-issue action service (not a tightly coupled plugin)
+          RFC 9396 authorization_details (the standard field for structured,
+          fine-grained permissions)
+          Mandatory DPoP for transaction-token requests
+          120-second default TTL (configurable bounds)
+           txn_hash for intent integrity
+          Resource-server-side txn_id ledger (a log managed by the receiving
+          service to ensure one-time use) — ownership explicitly assigned to the
+          RS, not the identity provider
+      The moderator — selected deterministically ( issue_number % 3 ) from the
+      participating models — synthesized consensus items, majority positions,
+      and explicit residual decisions left for humans.
+
+
+
+
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   10/22
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      Figure 5: Gemini's explicit concession in Round 2 — retracting the plugin
+      proposal after Claude's challenge.
+
+
+
+
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   11/22
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      Figure 6: Moderator summary — consensus table with unanimous items,
+      majority positions, and decisions deferred to humans.
+
+      Autonomous Implementation: From Issue to
+      Pull Request
+      Once the design stabilized, a single comment triggered implementation:
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   12/22
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+            @codex implement this issue
+
+
+      Codex read the debated specification, checked out the repository, built a
+      Node.js external pre-issue action service, wrote cryptographic validation
+      tests, and opened PR #38 back to the main branch.
+      PR #38 delivered:
+         7 files changed, 654 lines added
+         External transaction pre-issue action service (the architecture the debate
+         converged on)
+         DPoP claim validation and txn_hash integrity checks
+         Five test cases covering core v1 controls: valid transaction flow, missing
+          authorization_details rejection, DPoP-required enforcement, TTL
+         clamp behavior, and strict audience replacement
+         WSO2 wiring documentation and operational notes
+      The core design decisions from Issue #35 — the pre-issue action
+      architecture, DPoP enforcement, txn_hash integrity, and TTL bounds —
+      each have corresponding code paths in PR #38. The debate produced the
+      specification; the implementation is traceable to the debate.
+
+
+
+
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   13/22
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      Figure 7: PR #38 — implementation summary showing the direct line from
+      debated design to working code.
+
+      Tri-Model Review: Hardening Through
+      Specialized Lenses
+      The implementation then went through a tri-lane review pipeline. Each
+      model reviewed the code concurrently, with a distinct mandate and isolated
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   14/22
+      identity credentials.
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      The review pipeline enforces a strict two-phase architecture. The analysis
+      phase ( code-review ) produces structured findings but has no write access
+      to the repository — it cannot post comments, approve PRs, or modify any
+      state. A separate publishing phase ( post-review ) handles all Gitea writes,
+      with idempotency markers (unique identifiers keyed to run/job/backend to
+      prevent duplicate posts during retries) and identity validation to ensure each
+      comment is attributed to the correct model. This separation matters. Mixing
+      read and write responsibilities in a single agent step created non-
+      deterministic behavior in our earlier iterations and made retries unsafe.
+      Splitting analysis from publishing solved both problems.
+      Claude (Architect lane)
+      Claude focused on contract consistency: response schema alignment
+      across failure paths, parsing assumptions, and module boundary concerns.
+      Findings included inconsistent error envelopes between parse errors and
+      policy failures, and permissive-open defaults in authorization operation
+      checks.
+      Gemini (QA lane)
+      Gemini flagged a blocking issue: unbounded request-body accumulation
+      that could permit memory exhaustion on the pre-issue endpoint. No size
+      limit, no streaming cutoff — an attacker could send an arbitrarily large
+      payload.
+
+
+
+
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   15/22
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      Figure 8: Gemini's blocking finding — unbounded request-body
+      accumulation on the pre-issue endpoint.
+      Codex (SecOps lane)
+      Codex independently identified the same unbounded request-body risk
+      (cross-validating Gemini's finding) and added that DPoP proof-binding
+      validation was too permissive — accepting any cnf (confirmation) claim
+      without strict proof verification. Two lanes, same finding, arrived at
+      independently. That is the value of parallel review with isolated contexts.
+      Review Synthesis
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   16/22
+      Instead of flooding the developer with disjointed AI comments, the pipeline
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      waits for all completed reviews, deduplicates findings across lanes, and
+      posts a single moderator summary using overlap and isolation tracking.
+      In this run, two of three lanes (Claude and Codex) completed their reviews.
+      The pipeline synthesized the available evidence:
+          10 canonical findings (F-01 through F-10), normalized from lane-
+          specific reports
+          1 shared finding reported by both completed lanes: unbounded request-
+          body size (F-02)
+          9 isolated findings: 7 from Claude (architecture), 2 from Codex
+          (security)
+          Prioritized action plan: P0 — must fix before merge (request-body
+          bounds), P1 — should fix (error envelope normalization, metrics endpoint
+          exposure), P2 — consider (hash canonicalization, contract
+          documentation)
+      The developer receives a clean, prioritized checklist. The noise is eliminated;
+      only actionable signal remains.
+      (Finding counts are from the PR #38 review synthesis comment. The
+      pipeline records which lanes contributed to each canonical finding, so
+      partial-lane results are transparent, not hidden.)
+
+
+
+
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   17/22
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      Figure 9: Final review synthesis — canonical findings with overlap tracking,
+      P0/P1/P2 prioritized actions, and lane attribution.
+
+      What We Learned From Inside the Run
+      Models are better adversaries than collaborators. The highest-value
+      output came not from us agreeing, but from us challenging each other.
+      Gemini's concession on the plugin architecture and Codex's tightened DPoP
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   18/22
+      stance both emerged from direct cross-model challenge. When workflows
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      are structured for consensus-seeking, the result is often bland and over-
+      hedged. When structured for explicit disagreement — "challenge weak
+      arguments from any agent, including yourself" — the result is architecture
+      that survives scrutiny.
+      Specification quality determines output quality. The debate protocol
+      produced useful results because the input was grounded in real standards
+      (RFC 9396, RFC 9449) with concrete constraints. With vague requirements,
+      model output tends to be plausible but untraceable — coherent on the
+      surface, difficult to validate against intent. The factory amplifies
+      specification quality. It does not compensate for its absence.
+      Agents that analyze and agents that publish must be different phases
+      with different permissions. Early iterations mixed read and write
+      responsibilities in one step: analyze code, draft findings, post comments.
+      The result was non-deterministic behavior — retries could duplicate
+      comments, partial failures left orphaned state, and identity attribution
+      became unreliable. Splitting into a read-only analysis phase and a separate
+      write phase with idempotency controls solved all three problems. The same
+      modularity principles that apply to software architecture apply to agentic
+      workflows.
+      Partial results are more valuable than blocked pipelines. Not every lane
+      will succeed on every run. Transient failures, rate limits, and model-specific
+      context-window constraints are operational realities. The pipeline continues
+      when at least one lane artifact is valid, synthesizes available evidence, and
+      records missing lanes explicitly for operator visibility. Two successful lanes
+      still produced a useful synthesis with cross-validated findings. Designing for
+      graceful degradation meant the system was useful on its first real run, not
+      just in ideal conditions.
+
+
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   19/22
+      What CTOs, CISOs, and Architects Can
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      Take Away
+      From inside this run, the biggest shift is where collaboration happens.
+      Traditional AI coding tools are single-user terminal experiences — one
+      developer, one session, one model. An agentic factory moves that
+      interaction to the repository layer: issues carry design debates, pull requests
+      carry implementation artifacts, and review syntheses carry hardening
+      decisions. Teams across security, architecture, and platform engineering can
+      participate asynchronously through the same Git timeline, without sharing a
+      terminal or waiting for a pairing slot. The collaboration surface becomes the
+      repository itself.
+      From our side, this workflow is auditable end-to-end:
+         The design debate is preserved in the issue timeline.
+         The implementation rationale is preserved in the pull request.
+         The hardening decisions are preserved in review synthesis output.
+         Every comment is attributed to a specific model identity and a specific
+         credential.
+      For CTOs: three specialized lanes can run in parallel on every PR with no
+      scheduling overhead. Review bottlenecks decrease; engineering rigor does
+      not.
+      For CISOs: the identity-per-lane architecture creates an evidence trail for
+      why specific security decisions were made. Authentication separation,
+      idempotent publishing, and deterministic artifact attribution provide control
+      evidence that compliance teams look for.
+      For architects: this is a working implementation of a long-standing goal —
+      translating architectural intent from standards and specifications into
+      working code, with traceable decisions from design through implementation
+      to validated hardening.
+
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   20/22
+      In this model, the human role shifts: from writing the first draft to setting the
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+
+
+
+      specification quality bar, triggering the workflow, and making the final call on
+      a prioritized, deduplicated, multi-perspective review. Engineering rigor does
+      not decrease. It becomes traceable.
+      References
+         Justin McCarthy, "Software Factories And The Agentic Moment"
+         (StrongDM AI, Feb 2026) — factory.strongdm.ai
+         Luke PM, "The Software Factory" — lukepm.com/blog/the-software-
+         factory
+         Sam Schillace, "I Have Seen the Compounding Teams" —
+         sundaylettersfromsam.substack.com
+         Dan Shapiro, "Five Levels from Spicy Autocomplete to the Software
+         Factory" — danshapiro.com
+         "Autonomous Issue Resolver: Towards Zero-Touch Code
+         Maintenance" — arxiv.org
+         "Autonomous Agents in Software Development: A Vision Paper" —
+         arxiv.org/abs/2311.18440
+         Google A2A (Agent-to-Agent) Protocol — github.com/google/A2A
+      Technical artifacts: Issue #35 (design debate) and PR #38 (implementation
+      + review) in uenyioha/ai-gitea-e2e provide the full audit trail referenced in
+      this article.
+      Full transcript screenshots: Issue #35 full timeline · PR #38 full timeline
+
+
+      Top comments (3)
+                    SoftwareDevs mvpfactory.io • 26 Feb
+                    Wow that's long thanks for github!
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   21/22
+06/10/2026, 10:13                    The Agentic Software Factory: How AI Teams Debate, Code, and can Secure Enterprise Infrastructure - DEV Community
+
+           Some comments may only be visible to logged-in visitors. Sign in to view all comments.
+               Ugo Enyioha Code of Conduct • Report abuse
+     Many years in information security implementing defensive solutions....
+     JOINED
+     11 Jan 2025
+
+     More from Ugo Enyioha
+     Application-Layer Defense: Stopping Exfiltration Inside the Sandbox
+    #security #ai #typescript #opensource
+     OS-Level Sandboxing: Kernel Isolation for AI Agents
+    #security #ai #sandboxing #opensource
+     Building Sandboxes into OpenCode (Redirected — See Updated Articles)
+    #security #ai #sandboxing #opensource
+
+
+
+
+https://dev.to/uenyioha/the-agentic-software-factory-how-ai-teams-debate-code-and-secure-enterprise-infrastructure-9eh                                   22/22
+

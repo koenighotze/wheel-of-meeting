@@ -1,0 +1,369 @@
+Search⌘K
+
+Log in / Sign up
+
+factory.com
+
+# Skills
+
+Copy page
+
+Create reusable SKILL.md workflows that Droid can discover, invoke, and share across projects.
+
+Skills package reusable workflows for Droid. A skill is a
+directory that contains a SKILL.md entry point, optional supporting files, and
+frontmatter that tells Droid when the workflow applies.
+
+Use skills when instructions are too specific for always-on AGENTS.md, too structured for a one-off prompt, and useful enough to reuse.
+
+## Create your first skill#
+
+- 1
+
+Create a skill directory
+
+Put team-shared skills under .factory/skills/ in your repository:
+
+Bash
+
+mkdir -p .factory/skills/summarize-diff
+
+- 2
+
+Add SKILL.md
+
+Add required name and description frontmatter, then write the workflow Droid should follow.
+
+- 3
+
+Invoke it
+
+Start a new Droid session if the skill is not already visible. Ask naturally for a matching task, or run /summarize-diff when the skill is user-invocable.
+
+.factory/skills/summarize-diff/SKILL.md
+
+---
+name: summarize-diff
+description: Summarize the staged git diff in 3-5 bullets. Use when the user asks for a summary of pending changes.
+---
+
+# Summarize Diff
+
+## Instructions
+
+1. Run `git diff --staged`.
+2. Summarize the changes in 3-5 bullets.
+3. Call out migrations, risky areas, and suggested validation commands.
+
+Note
+
+The skill entry point must be named SKILL.md. Do not use skill.mdx for Droid skills.
+
+## When to use a skill#
+
+Skills work best for repeatable procedures with a clear trigger and completion criteria:
+
+- Reviewing an API change against a team checklist.
+
+- Summarizing a staged diff in a consistent format.
+
+- Applying project-specific frontend conventions.
+
+- Running a validation workflow with known commands.
+
+- Producing a standard report, ticket, or handoff format.
+
+Use a different surface when the guidance has another shape:
+
+Surface | Best for
+
+AGENTS.md | Always-on repository instructions, commands, conventions, and safety rules.
+
+Skill | Reusable workflow Droid can choose or the user can invoke.
+
+Custom slash command | Simple user-invoked prompt or executable shortcut.
+
+Custom droid | Specialized subagent with its own prompt, model, and tool policy.
+
+MCP server | External tools and services Droid can call.
+
+## Skill anatomy#
+
+Only SKILL.md is required. Keep supporting files beside it when they make the workflow clearer, safer, or easier to validate.
+
+.factory/skills/review-api-change/
+ SKILL.md
+ checklists.md
+ schemas/
+ ship-check.schema.json
+ scripts/
+ verify-api-change.sh
+
+Good supporting files include:
+
+- Checklists for review, shipping, or validation.
+
+- Schemas that describe expected inputs or outputs.
+
+- Small support scripts the skill can call.
+
+- Reference files that point to existing modules, API surfaces, or run books.
+
+Supporting files are not loaded automatically. Mention them from SKILL.md so Droid knows when to read or run them.
+
+Warning
+
+Do not copy production code, secrets, customer data, or private host names into a skill folder. Link to the source of truth instead.
+
+## Discovery and loading#
+
+Droid uses progressive disclosure so skill bodies stay out of context until needed:
+
+- 1
+
+Discovery: Droid finds SKILL.md files and reads each skill's name and description.
+
+- 2
+
+Selection: Droid compares the user request to the available skill descriptions.
+
+- 3
+
+Invocation: When a skill applies, Droid loads the full SKILL.md body and follows the workflow.
+
+The description is the routing surface. Write it for model matching: name the action, trigger, and boundary in one or two sentences.
+
+Tip
+
+A good description says what the skill does and when to use it. Example: Review API changes for backward compatibility. Use when a user edits public routes, schemas, or SDK-facing types.
+
+## Manage skills#
+
+Run /skills to inspect the skills Droid discovered and the version that is active.
+The manager separates skills into Effective, User, Project, Plugins,
+Built-in, and Import tabs.
+
+The Effective tab groups every discovered skill by status:
+
+Status | Meaning
+
+Enabled | This is the active version Droid can invoke.
+
+Disabled | The skill is turned off by SKILL.md frontmatter or a settings ledger.
+
+Overridden | A higher-priority skill with the same name is active instead.
+
+Invalid | Droid found the skill, but its name, frontmatter, or prompt is invalid.
+
+Select a skill and press Space to toggle it. The User tab writes the
+choice to disabledSkills in ~/.factory/settings.json; the Project tab writes to
+<project>/.factory/settings.json. If another scope or enabled: false frontmatter
+disabled the skill, the manager identifies that source instead of changing the wrong
+configuration.
+
+.factory/settings.json
+
+{
+ "disabledSkills": ["deploy-production", "summarize-diff"]
+}
+
+disabledSkills stores sanitized skill names. User and project arrays are combined, so
+a disable at either level wins. Removing a name re-enables the skill unless another
+settings level or its frontmatter still disables it. Names for skills that are not
+currently installed have no effect.
+
+## Where skills live#
+
+Droid can load skills from several scopes. A skill is any directory under a skills/ folder that contains SKILL.md.
+
+Scope | Location | Purpose
+
+Project | <repo>/.factory/skills/<skill-name>/SKILL.md | Team-shared workflows checked into a repository.
+
+Folder-specific | <repo>/<project-area>/.factory/skills/<skill-name>/SKILL.md | Workflows that apply only after Droid inspects a deeper project area.
+
+Personal | ~/.factory/skills/<skill-name>/SKILL.md | Private workflows available across projects on your machine.
+
+Compatibility | <repo>/.agents/skills/**/SKILL.md, <repo>/.agent/skills/**/SKILL.md | Repository skills from compatible folder conventions.
+
+Personal compatibility | ~/.agents/skills/**/SKILL.md, ~/.agent/skills/**/SKILL.md | Personal skills from compatible folder conventions.
+
+Mission | {missionDir}/skills/**/SKILL.md | Skills scoped to a mission session.
+
+Automation | skills/<skill-name>/SKILL.md inside an automation's folder, such as ~/.factory/automations/<automation>/ | Skills scoped to one automation. They load in that automation's runs and in sessions whose working directory is inside the automation folder.
+
+Plugin | skills/<skill-name>/SKILL.md inside an installed plugin | Shared skills distributed with plugin packages.
+
+Built-in | Shipped with Droid | Product-provided skills available in supported sessions.
+
+Droid searches skill folders recursively. The first directory that contains SKILL.md is treated as a skill directory.
+
+### Resolution precedence#
+
+When multiple sources provide the same sanitized skill name, Droid keeps one effective
+version and shows the others as overridden. Outside mission and automation sessions, the
+main user-facing precedence is:
+
+- 1
+
+Folder-specific and project skills.
+
+- 2
+
+Project plugin skills.
+
+- 3
+
+Personal skills.
+
+- 4
+
+User plugin skills.
+
+- 5
+
+Built-in skills.
+
+In a mission session, mission skills can take precedence. In an automation's sessions,
+the automation's own skills override every source in this list. Organization-managed and
+command-line settings can take precedence when those scopes are active, including over an
+automation's own skills. Open the Effective tab to see the winning source and the
+reason each other copy was overridden.
+
+Within one source bucket, duplicate names are invalid configuration. Rename or remove
+the duplicate, then run /diagnostics to confirm that the collision is resolved.
+
+## Frontmatter reference#
+
+YAML
+
+---
+name: my-skill
+description: What this skill does and when to use it. Use when the user asks to ...
+allowed-tools:
+ - Read
+ - Grep
+ - Glob
+enabled: true
+user-invocable: true
+disable-model-invocation: false
+license: MIT
+compatibility: droid
+version: 1.0.0
+metadata:
+ owner: platform-team
+---
+
+Field | Required | Default | Description
+
+name | Yes | None | Skill identifier. Use lowercase letters, numbers, and hyphens.
+
+description | Yes | None | Short routing description. Include what the skill does and when to use it.
+
+allowed-tools | No | None | Declares the tools the skill is designed to use. It is metadata for review, packaging, and UI display; it does not add tools or sandbox standard skill invocation.
+
+enabled | No | true | Set to false to keep the skill on disk but disable it.
+
+user-invocable | No | true | Set to false to hide the skill from /skill-name slash invocation.
+
+disable-model-invocation | No | false | Set to true to prevent Droid from invoking the skill automatically. Users can still invoke it directly.
+
+license | No | None | Optional license metadata for shared skills.
+
+compatibility | No | None | Optional compatibility metadata for catalogs, plugins, or team tooling.
+
+metadata | No | None | Optional structured metadata for your own tooling. Do not put secrets here.
+
+version | No | None | Optional version string for shared or packaged skills.
+
+Note
+
+Older skill files may contain a tools field. Treat tools as deprecated legacy metadata and use allowed-tools for tool restrictions.
+
+## Control who invokes a skill#
+
+By default, both you and Droid can invoke a valid enabled skill.
+
+Configuration | User slash invocation | Droid invocation | Use when
+
+Default | Yes | Yes | The skill is safe for direct and automatic use.
+
+disable-model-invocation: true | Yes | No | The skill should run only when the user explicitly asks for it.
+
+user-invocable: false | No | Yes | The skill is background guidance or support workflow users should not call directly.
+
+enabled: false | No | No | Keep the skill on disk but turn it off.
+
+Use disable-model-invocation: true for manual workflows with side effects, such as deployment. Use user-invocable: false for background guidance where a slash command would not be meaningful.
+
+## Declare intended tools#
+
+allowed-tools records the tools the skill is designed to use. Droid stores it as skill metadata and shows it in skill surfaces, but standard skill invocation is not a runtime sandbox. A skill cannot add tools that are unavailable in the current session.
+
+YAML
+
+allowed-tools:
+ - Read
+ - Grep
+ - Glob
+
+Use allowed-tools when it makes the skill easier to review:
+
+- Read-only audit skills.
+
+- Workflows that should not edit files.
+
+- Workflows that should not call external systems.
+
+- Team-shared skills that need a narrow, reviewable capability set.
+
+Do not rely on allowed-tools as a security boundary for skills. To enforce tool access, use a custom droid with a tool policy or run the workflow in a restricted subagent.
+
+## Skills as slash commands#
+
+A valid enabled skill with user-invocable enabled appears as /skill-name. Use it at the start of a prompt or anywhere inside one, and name as many skills as you need:
+
+/summarize-diff focus on migration risk
+review this branch with /review-api-change, then /summarize-diff
+
+Droid sends your prompt exactly as typed and attaches each named skill's instructions after it, so the text around the tokens is the request. A skill named more than once loads once.
+
+Typing / after a space opens a skills-only menu; press Tab or Enter to complete the token in place. Recognized skill tokens are highlighted in the input and in the sent message.
+
+A token activates a skill only when it is a whole word that matches a skill name, so paths like /tmp stay plain text. If the prompt starts with a slash command that is not a skill, that command owns the rest of the line and later tokens do not activate skills.
+
+If a custom slash command already uses the same name, the custom command keeps that slash command and the skill remains available for automatic selection by Droid.
+
+## Best practices#
+
+Practice | Guidance
+
+Keep each skill narrow | A good skill has one job. Prefer review-api-change, summarize-diff, or prepare-ship-notes over one large skill that tries to handle every engineering workflow.
+
+Make the description precise | Droid sees the description before it sees the full skill. Include the action, trigger, and boundary. Avoid generic names like review when the workflow is actually review-api-change or review-security-diff.
+
+Write down success criteria | Include the commands, checks, or evidence Droid should collect before calling the workflow done. If a skill can change files, say how to validate the change and what to do when validation fails.
+
+Use supporting files deliberately | Put checklists, schemas, examples, and small support scripts beside SKILL.md when they make the skill easier to execute. Keep source-of-truth product code in its normal project location.
+
+Avoid secrets and private values | Skills are often shared through repositories or plugins. Do not store API keys, private host names, customer data, or internal-only identifiers in SKILL.md or supporting files.
+
+## Troubleshooting#
+
+### Skill does not appear as a slash command+
+
+### Droid is not invoking the skill automatically+
+
+### A needed tool is unavailable inside the skill+
+
+### Wrong skill is selected+
+
+Related resources
+
+Settings
+
+Configure Droid behavior, model defaults, autonomy, and local preferences.
+
+AGENTS.md Guide
+
+Project-level instructions that complement skill-scoped workflows.
