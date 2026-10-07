@@ -11,3 +11,5 @@ infra/terraform.tfstate.backup
 claude_home
 .mcp.json
 worktrees
+.DS_Store
+.claude/settings.json.local.bak
