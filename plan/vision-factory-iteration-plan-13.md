@@ -9,7 +9,7 @@ One command ends the inner loop: it opens the PR with the verdict and the label 
 ## Behaviour
 
 - One command takes the branch and whatever exists of the floor result (11) and the reviewer verdict (12), and opens a PR.
-- The PR description contains: label, reasons, rules triggered, complexity.
+- The PR description contains: label, reasons, rules triggered, complexity (`not assessed` when there is no reviewer verdict).
 - The command applies the label, never the agent.
 - Nothing acts on the label yet.
 - With no floor result and no verdict, the label is `Human-approval-required` and the description says why.

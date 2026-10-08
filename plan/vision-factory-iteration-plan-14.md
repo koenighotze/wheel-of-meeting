@@ -9,7 +9,7 @@ An agent that loops or runs too long is stopped, explains where it is stuck, and
 ## Behaviour
 
 - Same-failure limit: the implementer is stopped after 3 consecutive failing runs of the same test (same title). The counter resets when the test passes or when the developer sends a message. The test author is exempt.
-- Time limit per role session, counting active agent time only: warning at 10 minutes, edits blocked at 30 minutes, hard stop 5 minutes later.
+- Time limit (deferred, see decisions G; the consecutive-failure rule ships first) per role session, counting active agent time only: warning at 10 minutes, edits blocked at 30 minutes, hard stop 5 minutes later.
 - When blocked, further edits are refused and the agent writes a short "what I tried and where I am blocked" note.
 - The change is marked `Human-approval-required`.
 
@@ -22,8 +22,8 @@ Yes. Can be split in two: same-failure limit first, time limit second.
 - [ ] A test that always fails is run 3 times in a row by the implementer: after the 3rd failure, edits are refused.
 - [ ] A passing run, or a developer message, resets the counter (2 failures, reset, 2 failures: not blocked).
 - [ ] The test author role can fail the same test 5 times without being blocked.
-- [ ] With the limits set to a few seconds (test setting), the warning, the block and the hard stop each happen in the right order.
-- [ ] A pause with no agent activity does not move the clock.
+- [ ] (Deferred with the time limit) With the limits set to a few seconds (test setting), the warning, the block and the hard stop each happen in the right order.
+- [ ] (Deferred with the time limit) A pause with no agent activity does not move the clock.
 - [ ] After a block, the note exists and the change is marked `Human-approval-required`.
 
 ## Q&A

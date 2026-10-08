@@ -84,4 +84,4 @@ None at the cross-cutting level.
 
 ## Per-plan questions still open
 
-All Q&A entries in plans 1-15 are `_open_`. They are answered plan by plan when the plan is picked up.
+Iteration 1 Q&A is answered (see plan 1; the split-off work is plan 1b). All Q&A entries in plans 2-15 are `_open_`. They are answered plan by plan when the plan is picked up.

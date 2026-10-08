@@ -8,10 +8,10 @@ The test-first rule is checked by the environment, not only written in prose.
 
 ## Behaviour
 
-- A commit that changes `src/` must also include a new or changed test, unless the human has set a refactor exemption.
+- A branch that changes `src/` must also contain a new or changed test (branch-level, not per commit; decisions D), unless the human has set a refactor exemption.
 - The human sets the exemption explicitly (for example a marker in the commit message). The agent never sets it.
-- Otherwise the commit is refused with a message saying a test is missing.
-- The check runs at commit time only, never on edits.
+- Otherwise the check fails with a message saying a test is missing.
+- The check runs when the PR is opened, never on edits.
 
 ## Skippable?
 
@@ -19,10 +19,10 @@ Yes. Independent. Pairs with 3 and 7.
 
 ## Definition of done
 
-- [ ] A commit changing only `src/app.js` is refused.
-- [ ] A commit changing `src/app.js` and a spec file is accepted.
-- [ ] A commit changing only `src/app.js` with the human's refactor exemption is accepted.
-- [ ] Docs-only and test-only commits are accepted.
+- [ ] A branch changing only `src/app.js` fails the check.
+- [ ] A branch changing `src/app.js` and a spec file (in the same or separate commits) passes.
+- [ ] A branch changing only `src/app.js` with the human's refactor exemption is accepted.
+- [ ] Docs-only and test-only branches pass.
 - [ ] The agent's instructions say it must not set the exemption on its own (full enforcement needs iteration 6; otherwise this is a documented gap).
 
 ## Q&A
@@ -46,5 +46,5 @@ Yes. Independent. Pairs with 3 and 7.
 
 - **Simplest:** branch-level check, not commit-level: "this branch changes `src/`, and also contains a changed test". Evaluated when the PR is opened.
 - **Alternative A: commit-level** (as planned). Stricter but conflicts with test-first ordering unless implementation and tests are committed together.
-- **Alternative B: merge iterations 7 and 8 into one "commit consistency" check:** production change requires approved spec and a test.
-- **Recommendation:** answer Q1 before building. If commit-level, the rule contradicts the workflow it enforces.
+- **Alternative B: merge iterations 7 and 8 into one "commit consistency" check:** a production change requires an approved spec and a test.
+- **Recommendation:** branch-level (decided, see decisions D). Commit-level would contradict the test-first workflow it enforces.

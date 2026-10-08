@@ -10,6 +10,7 @@ No test or code is committed for a feature whose Gherkin file the human has not 
 
 - The human approves a feature by adding the `@approved` tag to the `.feature` file.
 - At commit time: if the commit adds or changes `tests/e2e/<name>.spec.js` or production code for a feature, `tests/features/<name>.feature` must exist and carry `@approved`.
+- This is a guard rail, not proof of human approval (decisions B): the check sees the tag, not who added it. It is only meaningful together with iteration 6, which stops the agent from adding the tag.
 - Otherwise the commit is refused with a message naming the missing approval.
 - A commit that only touches the `.feature` file itself is allowed (that is the spec-writing step).
 
