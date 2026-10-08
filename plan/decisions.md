@@ -11,6 +11,7 @@ Status: themes A-G decided.
 **Decision:** Keep the first iteration as small and understandable as possible.
 
 - Iteration 1 (split audit from quick check) is the first slice.
+- Split applied 2026-10-08: iteration 1 keeps only the check/audit split. CI step, `--audit-level=high` and distinct offline result are in new plan 1b.
 - Later iterations are not committed to. Each is picked up one at a time, smallest useful slice first (CLAUDE.md RULE 1).
 - Plans 10, 12, 13, 15 recommend defer or merge. No work on them until a consumer exists.
 
