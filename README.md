@@ -10,8 +10,10 @@ A zero-build, zero-framework browser app that spins a wheel to pick a meeting pa
 
 ## Development
 
+`make help` lists every common task (start, test, verify, infra-check, release, ...) in one place. The raw commands:
+
 ```bash
-scripts/start.sh        # start local server at http://localhost:8081
+scripts/start.sh        # start local server at http://localhost:8080
 npm test                # run all E2E tests (Playwright)
 npm run check           # lint + format + audit
 npm run lint:fix   # auto-fix ESLint violations
