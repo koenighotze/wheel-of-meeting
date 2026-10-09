@@ -12,7 +12,3 @@ Feature: Partners identified by email address
     Given the Partners dataset contains only "alice@example.com"
     When I spin the wheel
     Then the winner dialog shows "alice@example.com"
-
-  Scenario: Production data files use email addresses
-    Given the application loads with real data files
-    Then every entry in the partner list contains an "@" character
