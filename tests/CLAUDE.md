@@ -1,63 +1,15 @@
 # tests/ — Test Guidelines
 
-## Structure
+Feature files (`features/`) and spec files (`e2e/`) are **paired by name** (`wheel_selection.feature` ↔ `wheel_selection.spec.js`). Always create both together. Never write a spec without a corresponding feature file. Follow the TDD workflow in the root [CLAUDE.md](../CLAUDE.md).
 
-```
-tests/
-  features/      # Gherkin .feature files — one per behaviour area
-  e2e/           # Playwright specs — one .spec.js per .feature file
-  support/       # helpers.js — shared Playwright utilities
-  fixtures/      # Static JSON stubs used by page.route() in tests
-```
-
-Feature files and spec files are **paired by name** (`wheel_selection.feature` ↔ `wheel_selection.spec.js`). Always create both together.
-
----
-
-## Adding a Test
-
-Follow the TDD workflow in the root [CLAUDE.md](../CLAUDE.md). Feature file and spec are **paired by name** — always create both together. Never write a spec without a corresponding feature file.
-
----
-
-## Running Tests
-
-```bash
-npm test                                              # full suite
-npx playwright test tests/e2e/wheel_selection.spec.js # single spec file
-npx playwright test --grep "scenario name"            # match by name
-npm run test:ui                                       # interactive UI — useful for debugging failures
-```
-
----
-
-## Helper Reference (`support/helpers.js`)
-
-Import helpers at the top of every spec:
-
-```js
-import {
-  stubPartners,
-  seedHistory,
-  seedFullState,
-  waitForDialog,
-} from '../support/helpers.js';
-```
-
-| Helper                                                         | When to use                                                             |
-| -------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| `stubPartners(page, { partners, leads })`                      | Intercept JSON fetches — call **before** `page.goto()`                  |
-| `seedHistory(page, ids, dataset?)`                             | Pre-seed history for one dataset — call **before** `page.goto()`        |
-| `seedFullState(page, { partnerIds, leadIds, activeDataset? })` | Pre-seed both datasets — call **before** `page.goto()`                  |
-| `waitForDialog(page)`                                          | Wait for winner dialog (8 s timeout, accounts for 4.5 s spin animation) |
-
-Add new shared utilities to `helpers.js` — not inline in spec files.
+Shared Playwright utilities live in `support/helpers.js` — add new ones there, not inline in spec files.
 
 ---
 
 ## Key Patterns
 
 - **Stub order matters:** `stubPartners` / `seedFullState` / `seedHistory` must be called _before_ `page.goto()`, not after.
+- **`waitForDialog(page)`:** 8 s timeout, accounts for the 4.5 s spin animation.
 - **`window.confirm` dialogs:** Use `page.once('dialog', d => d.accept())` _before_ the click that triggers the dialog — not wrapped in `Promise.all`.
 - **Canvas:** Do not pixel-diff canvas output. Verify the internal data state via `window.__wheel` accessors instead.
 - **ICS downloads:** `Promise.all([page.waitForEvent('download'), button.click()])` — both must be set up together.
