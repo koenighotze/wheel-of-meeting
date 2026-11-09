@@ -13,3 +13,4 @@ claude_home
 worktrees
 .DS_Store
 .claude/settings.json.local.bak
+*bak

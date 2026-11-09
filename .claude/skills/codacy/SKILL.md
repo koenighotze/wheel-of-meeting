@@ -1,6 +1,6 @@
 ---
 name: codacy
-description: Fetch Codacy findings and autonomously fix them. Works in two modes — pr (findings on the current open PR) and backlog (all open repository findings). Usage: /codacy [pr|backlog] [--categories all|quality|security-and-error-prone]
+description: 'Fetch Codacy findings and autonomously fix them. Works in two modes — pr (findings on the current open PR) and backlog (all open repository findings). Usage: /codacy [pr|backlog] [--categories all|quality|security-and-error-prone]'
 ---
 
 ## Parse arguments
