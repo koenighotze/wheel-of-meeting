@@ -14,13 +14,34 @@ Work silently and methodically. Do not ask for confirmation. Fix what you can; a
 
 ---
 
-## Step 1 — Fetch the API token
+## Step 1 — Resolve the API token
+
+Use the first source that yields a non-empty value. Never print the token.
+
+Shell variables do not persist between Bash calls. Run this snippet, and the coordinate snippets from Steps 2 and 3, in the same Bash call as every `curl` request in Step 4.
 
 ```bash
-TOKEN=$CODACY_API_TOKEN
+TOKEN=""
+if [ -n "${CODACY_API_TOKEN:-}" ]; then
+  TOKEN=$CODACY_API_TOKEN
+elif ! command -v op >/dev/null 2>&1; then
+  echo "The 1Password CLI op is not available and CODACY_API_TOKEN is not set. Export CODACY_API_TOKEN or install and sign in to op, then set CODACY_OP_REF." >&2
+  exit 1
+elif [ -z "${CODACY_OP_REF:-}" ]; then
+  echo "The 1Password CLI op is available but CODACY_OP_REF is not set. Set it to the op://vault/item/field URI of the Codacy token, or export CODACY_API_TOKEN." >&2
+  exit 1
+else
+  TOKEN=$(op read "$CODACY_OP_REF" 2>/dev/null)
+  if [ -z "$TOKEN" ]; then
+    echo "op read failed for CODACY_OP_REF. Run op signin or check the reference, or export CODACY_API_TOKEN." >&2
+    exit 1
+  fi
+fi
 ```
 
-If `CODACY_API_TOKEN` is empty or unset, halt immediately with a clear error message.
+1. `$CODACY_API_TOKEN` — used when set (e.g. in a sandbox without the `op` CLI).
+2. Otherwise 1Password — `op read "$CODACY_OP_REF"`, where `CODACY_OP_REF` is an `op://vault/item/field` URI. A failed or empty result counts as a failure.
+3. If the snippet exits non-zero, halt immediately and show the caller the message it printed, verbatim. Do not continue without a token.
 
 ---
 
