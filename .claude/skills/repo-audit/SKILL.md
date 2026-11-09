@@ -9,13 +9,13 @@ Run this on the repo the user points at: the current working directory, unless t
 
 ## Rules
 
-- Precondition: run `git branch --show-current`. If it is not `main` (or `master`), stop. Tell the user which branch is checked out and ask them to switch. Never switch branches during the audit.
+- Precondition: run `git branch --show-current`. If it is not `main`, stop. Tell the user which branch is checked out and ask them to switch. Never switch branches during the audit.
 - Read-only, with one exception: run the test suite, lint, and type check. Record `git status --short` before and after. New files after the run are evidence, not an error; report them under item 8. Never edit files, commit, push, or install.
 - Every mark needs evidence: a path, a command and its result, or a count. No evidence, no `YES`.
 - Marks: `YES` (fully met), `PARTIAL` (met in part: some modules, some paths, some of the time), `NO` (not met, or could not be verified). Never guess. Never write "unknown"; an unverifiable item is a `NO` with the note "not verified".
 - Judge the repo as it is today. Aspirational docs do not count.
 - Never open `.env*` file contents. Check existence and git tracking only.
-- Run only safe commands: test suite, lint, type check. Never run deploy, drop, delete, or force-push commands.
+- Run only read-only inspection commands (`git`, `wc`, `grep`, config reads), the test suite, lint, and type check. Never run deploy, drop, delete, or force-push commands.
 - Time-box: about twenty minutes. If a slow test suite or CI inspection eats the budget, mark what was seen and note what was skipped.
 
 ## Checklist
@@ -43,7 +43,7 @@ Run this on the repo the user points at: the current working directory, unless t
 ### D. Safety surface
 
 12. Destructive operations (drop, delete, force-push, production deploy) require explicit confirmation or sit behind a tool the agent lacks by default. Check agent permission settings (`.claude/settings*.json` allow/deny lists), hooks, Makefile and script targets, CI deploy triggers. Some guarded, some open: `PARTIAL`. Agent permissions may also live in user-level or managed settings, outside the repo. Do not read them. Ask the user whether they add or loosen guards, and mark on the answer.
-13. Secrets do not enter agent context. Typical secrets (`.env*`, `*.pem`, `*.key`, `id_rsa`, `credentials*`): run `git ls-files | grep -iE '\.env|\.pem|\.key|id_rsa|credentials'` for tracked files, then `git ls-files --others | grep -iE '\.env|\.pem|\.key|id_rsa|credentials'` for untracked and ignored files present on disk. List matches by name. Check `.claude/settings*.json` for `permissions.deny` rules covering these patterns. Deny rules present and nothing tracked: `YES`. Nothing present but no deny rule: `PARTIAL`. A typical secret tracked, or present and not denied: `NO`. User-level settings may add deny rules; do not read them, ask the user. Never open the files. Separately, read `.gitignore` and list ignored paths that exist on disk (`data/`, `*.tfvars`, `terraform.tfstate`) under "For your investigation". Report them whatever the mark. The user decides what they hold.
+13. Secrets do not enter agent context. Typical secrets (`.env*`, `*.pem`, `*.key`, `id_rsa`, `credentials*`): from the repository root (`cd "$(git rev-parse --show-toplevel)"`), run `git ls-files | grep -iE '\.env|\.pem|\.key|id_rsa|credentials'` for tracked files, then `git ls-files --others | grep -iE '\.env|\.pem|\.key|id_rsa|credentials'` for untracked and ignored files present on disk. List matches by name. Matches under dependency folders (`node_modules/`, `vendor/`) are often harmless fixtures: ask the user to classify ambiguous matches by name before assigning a mark. `git ls-files --others` does not descend into nested repositories or worktrees (for example an ignored `worktrees/`); run the same scans inside each, or note "nested worktrees not verified" in the details. Check `.claude/settings*.json` for `permissions.deny` rules covering these patterns. Deny rules present and nothing tracked: `YES`. Nothing present but no deny rule: `PARTIAL`. A typical secret tracked, or present and not denied: `NO`. User-level settings may add deny rules; do not read them, ask the user. Never open the files. Separately, read `.gitignore` and list ignored paths that exist on disk (`data/`, `*.tfvars`, `terraform.tfstate`) under "For your investigation". Report them whatever the mark. The user decides what they hold.
 
 ## Pick the cheapest to close
 
@@ -71,7 +71,7 @@ A. INSTRUCTION SURFACE
 | 4  | Scoped rules          | YES     | Nested src/CLAUDE.md and tests/CLAUDE.md.        |
 
 Details
-- 2. CLAUDE.md is current. The test command in the file was renamed in the
+- 2. CLAUDE.md is partially current. The test command in the file was renamed in the
   Makefile. The architecture section names a module that no longer exists.
 
 B. IMITATION SURFACE
