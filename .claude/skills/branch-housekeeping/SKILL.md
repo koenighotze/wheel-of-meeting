@@ -10,14 +10,14 @@ Audit branches, report, then clean up. Two phases. Never delete before the user 
 
 ## Phase 1: Audit (read-only)
 
-1. Sync: `git fetch --prune`.
+1. Sync: `git fetch`. Do not prune: pruning deletes remote-tracking refs. List stale refs with `git fetch --prune --dry-run`.
 2. Collect:
    - `git branch -a -vv --sort=-committerdate`
    - `git worktree list`
-   - `/opt/homebrew/bin/gh pr list --state all --limit 40 --json number,title,headRefName,state,mergeable` (plain `gh` needs 1Password and fails in the sandbox)
-3. Per branch (skip `main`): `git rev-list --left-right --count main...<branch>`, `git log main..<branch> --format='%h %s'`, `git diff --stat main...<branch>`.
-4. Squash-merge trap. Ahead-counts lie here: the repo squash-merges. A branch is dead when its PR state is `MERGED` or its content is already on `main`. Confirm with `git diff --stat main <branch>` against the PR title, and `git log main --oneline | grep <topic>`. Count only commits that are not in a merged PR as real work.
-5. For open PRs run `gh pr checks <n>`. Note failing checks and `CONFLICTING` mergeable state.
+   - `/opt/homebrew/bin/gh pr list --state all --limit 500 --json number,title,headRefName,state,mergeable` (plain `gh` needs 1Password and fails in the sandbox; the high limit avoids missing open PRs)
+3. Compare against `origin/main`, not local `main` (fetch does not move local `main`). Per branch (skip `main`): `git rev-list --left-right --count origin/main...<branch>`, `git log origin/main..<branch> --format='%h %s'`, `git diff --stat origin/main...<branch>`.
+4. Squash-merge trap. Ahead-counts lie here: the repo squash-merges. A branch is dead when its PR state is `MERGED`, or merging it changes nothing: `git merge-tree --write-tree origin/main <branch>` prints the tree of `origin/main` (compare with `git rev-parse origin/main^{tree}`). `git cherry origin/main <branch>` is a hint only: squash merges rewrite patches, so its `+` lines do not prove unique work. Count only commits outside a merged PR as real work.
+5. For open PRs run `/opt/homebrew/bin/gh pr checks <n>`. Note failing checks and `CONFLICTING` mergeable state.
 6. Remote-tracking refs with no matching remote in `git remote` (e.g. stale `httpsorigin/*`) are leftovers. Flag them.
 
 ## Report format
