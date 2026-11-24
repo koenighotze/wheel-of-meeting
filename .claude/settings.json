@@ -2,8 +2,8 @@
   "enabledPlugins": {
     "mattpocock-skills@mattpocock": true,
     "aiup-core@ai-unified-process-marketplace": true
- },
- "hooks": {
+  },
+  "hooks": {
     "Stop": [
       {
         "hooks": [
