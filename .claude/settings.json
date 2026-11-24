@@ -19,7 +19,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "export PATH=\"$HOME/.volta/bin:$PATH\"; npm run check && npm test",
+            "command": "export PATH=\"$HOME/.volta/bin:$PATH\"; [ -z \"$(git status --porcelain)\" ] && exit 0; npm run check && npm test || { echo 'CI gate failed: fix lint, format, audit or tests before stopping.' >&2; exit 2; }",
             "timeout": 300,
             "statusMessage": "Running full CI suite (lint, format check, audit, tests)…"
           }
