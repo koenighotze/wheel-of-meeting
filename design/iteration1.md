@@ -89,8 +89,8 @@ A zero-build, zero-framework browser app that spins a wheel to pick a meeting pa
 
 | Tool                          | Purpose                                                                            |
 | ----------------------------- | ---------------------------------------------------------------------------------- |
-| ESLint 9 (flat config)        | Linting — two environments: `app.js` (browser script) and `tests/**` (Node module) |
-| Prettier                      | Formatting — single quotes, semicolons, ES5 trailing commas                        |
+| Oxlint (via Vite+)            | Linting — two environments: `app.js` (browser script) and `tests/**` (Node module) |
+| Oxfmt (via Vite+)             | Formatting — single quotes, semicolons, ES5 trailing commas                        |
 | `npm audit`                   | Dependency vulnerability scanning                                                  |
 | `npm run check`               | Combined gate: lint + format:check + audit                                         |
 | `python3 -m http.server 8081` | Dev server (no build required)                                                     |

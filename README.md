@@ -16,8 +16,8 @@ A zero-build, zero-framework browser app that spins a wheel to pick a meeting pa
 scripts/start.sh        # start local server at http://localhost:8080
 npm test                # run all E2E tests (Playwright)
 npm run check           # lint + format + audit
-npm run lint:fix   # auto-fix ESLint violations
-npm run format     # auto-format with Prettier
+npm run lint:fix   # auto-fix lint violations (Oxlint via Vite+)
+npm run format     # auto-format (Oxfmt via Vite+)
 npm run test:ui    # interactive Playwright UI — useful for debugging failures
 ```
 

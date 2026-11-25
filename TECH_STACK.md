@@ -90,20 +90,27 @@ This project is intentionally minimal. Every technology choice has a specific re
 
 ## Code Quality
 
-### ESLint 9 (`eslint`, `@eslint/js`, `globals`)
+### Vite+ (`vite-plus`)
 
-- Flat config in `eslint.config.mjs`.
-- Two environments:
-  - `app.js` — browser globals, `sourceType: 'script'` (not ESM)
-  - `tests/**/*.js`, `playwright.config.js` — Node.js + browser globals, `sourceType: 'module'`
+One toolchain (`vp` CLI) for linting and formatting. Config lives in `vite.config.ts`. Vite+ is used only for these two jobs: there is no bundling, no dev server and no Vitest.
+
+**Lint — Oxlint (`lint` block)**
+
+- Two environments via `overrides`:
+  - `src/app.js` — browser globals (plain script, not ESM)
+  - `tests/**/*.js`, `playwright.config.js` — Node.js + browser globals
 - Browser globals are included in the test config because `page.evaluate()` callbacks run in the browser.
-- Ruleset: `eslint:recommended` — catches `no-undef`, `no-unused-vars`, and other real bugs.
+- Ruleset: the ESLint `recommended` rules, plus `no-undef` — catches undefined variables, unused variables, and other real bugs.
 - Run: `npm run lint` / auto-fix: `npm run lint:fix`
 
-### Prettier 3 (`prettier`)
+**Format — Oxfmt (`fmt` block)**
 
-- Config in `.prettierrc.json`: single quotes, semicolons, ES5 trailing commas.
+- Single quotes, semicolons, ES5 trailing commas, print width 80.
 - Run: `npm run format:check` (CI) / `npm run format` (auto-fix)
+
+**Runtime pins**
+
+- Node.js: `.node-version`. npm: `packageManager` in `package.json`. CI installs both with `voidzero-dev/setup-vp`. Change them with `vp env pin`.
 
 ### `npm audit`
 
@@ -126,10 +133,10 @@ npm test        # full Playwright suite
 | ---------------------- | ---------------------------------- | --------------------------- |
 | `npm test`             | `playwright test`                  | Run all E2E tests           |
 | `npm run test:ui`      | `playwright test --ui`             | Interactive visual debugger |
-| `npm run lint`         | `eslint .`                         | Check JS quality            |
-| `npm run lint:fix`     | `eslint . --fix`                   | Auto-fix JS issues          |
-| `npm run format:check` | `prettier --check .`               | Verify formatting (CI)      |
-| `npm run format`       | `prettier --write .`               | Auto-format everything      |
+| `npm run lint`         | `vp lint`                          | Check JS quality            |
+| `npm run lint:fix`     | `vp lint --fix`                    | Auto-fix JS issues          |
+| `npm run format:check` | `vp fmt --check .`                 | Verify formatting (CI)      |
+| `npm run format`       | `vp fmt .`                         | Auto-format everything      |
 | `npm run audit`        | `npm audit --audit-level=moderate` | Check for vulnerabilities   |
 | `npm run check`        | lint + format:check + audit        | Full pre-commit gate        |
 
@@ -137,12 +144,12 @@ npm test        # full Playwright suite
 
 ## What This Stack Deliberately Excludes
 
-| Excluded                 | Reason                                                                  |
-| ------------------------ | ----------------------------------------------------------------------- |
-| TypeScript               | No build step — adding TS would require a compiler                      |
-| React / Vue / Svelte     | Unnecessary complexity for a single interactive page                    |
-| Webpack / Vite / esbuild | No module system, no need to bundle                                     |
-| Jest / Vitest            | Logic is in closures; unit testing would require extracting modules     |
-| Cucumber / WebDriverIO   | Gherkin scenarios are mapped manually to Playwright — simpler toolchain |
-| Stylelint                | CSS is minimal and consistent; Prettier handles formatting              |
-| Husky / lint-staged      | Not added yet; `npm run check` is the manual gate                       |
+| Excluded                 | Reason                                                                   |
+| ------------------------ | ------------------------------------------------------------------------ |
+| TypeScript               | No build step — adding TS would require a compiler                       |
+| React / Vue / Svelte     | Unnecessary complexity for a single interactive page                     |
+| Webpack / Vite / esbuild | No module system, no need to bundle (Vite+ is used for lint/format only) |
+| Jest / Vitest            | Logic is in closures; unit testing would require extracting modules      |
+| Cucumber / WebDriverIO   | Gherkin scenarios are mapped manually to Playwright — simpler toolchain  |
+| Stylelint                | CSS is minimal and consistent; Oxfmt handles formatting                  |
+| Husky / lint-staged      | Not added yet; `npm run check` is the manual gate                        |

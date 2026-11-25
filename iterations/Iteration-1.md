@@ -140,7 +140,7 @@ All workflows use Workload Identity Federation — no static GCP credentials.
 | Secret Manager migration | Data files moved off the Docker image; served from GCP Secret Manager at runtime |
 | Deploy refactor          | Switched to `deploy-cloudrun` reusable action                                    |
 | Concurrency control      | Added concurrency groups to all workflows                                        |
-| Dependabot               | Routine dependency bumps (Playwright, ESLint, Prettier, Checkov action)          |
+| Dependabot               | Routine dependency bumps (Playwright, Vite+, Checkov action)                     |
 
 ---
 
