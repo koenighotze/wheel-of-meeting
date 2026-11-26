@@ -17,7 +17,7 @@ start: ## Serve the app locally (PORT=8080)
 test: ## Run Playwright E2E tests
 	npm test
 
-fix: ## Auto-fix ESLint and Prettier violations
+fix: ## Auto-fix lint and format violations (Vite+)
 	npm run lint:fix
 	npm run format
 

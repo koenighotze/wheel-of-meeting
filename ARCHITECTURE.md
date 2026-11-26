@@ -41,8 +41,8 @@ wheel-of-meeting/
 ├── ARCHITECTURE.md               This file
 ├── TECH_STACK.md                 Technology decisions and usage guide
 ├── playwright.config.js          Playwright configuration
-├── eslint.config.mjs             ESLint flat config (ESLint 9)
-└── .prettierrc.json              Prettier config
+├── vite.config.ts                Vite+ config: Oxlint rules (lint) and Oxfmt options (fmt)
+└── .node-version                 Pinned Node.js version
 ```
 
 ---
